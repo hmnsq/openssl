@@ -11,71 +11,71 @@
  * SHA-1 low level APIs are deprecated for public use, but still ok for
  * internal use.
  */
-#include "internal/deprecated.h"
+#ಅನ್ತರ್ಭಾವ "internal/deprecated.h"
 
-#include <stdio.h>
-#include <string.h>
-#include <openssl/crypto.h>
-#include <openssl/sha.h>
-#include <openssl/evp.h>
-#include "crypto/sha.h"
+#ಅನ್ತರ್ಭಾವ <stdio.h>
+#ಅನ್ತರ್ಭಾವ <string.h>
+#ಅನ್ತರ್ಭಾವ <openssl/crypto.h>
+#ಅನ್ತರ್ಭಾವ <openssl/sha.h>
+#ಅನ್ತರ್ಭಾವ <openssl/evp.h>
+#ಅನ್ತರ್ಭಾವ "crypto/sha.h"
 
-unsigned char *ossl_sha1(const unsigned char *d, size_t n, unsigned char *md)
+unsigned ವರ್ಣ *ossl_sha1(ಧ್ರುವ unsigned ವರ್ಣ *d, size_t n, unsigned ವರ್ಣ *md)
 {
     SHA_CTX c;
-    static unsigned char m[SHA_DIGEST_LENGTH];
+    ಸ್ಥಿರ unsigned ವರ್ಣ m[SHA_DIGEST_LENGTH];
 
-    if (md == NULL)
+    ಯದಿ (md == ರಿಕ್ತ)
         md = m;
-    if (!SHA1_Init(&c))
-        return NULL;
+    ಯದಿ (!SHA1_Init(&c))
+        ಪ್ರತ್ಯಾಗಮ ರಿಕ್ತ;
     SHA1_Update(&c, d, n);
     SHA1_Final(md, &c);
-    OPENSSL_cleanse(&c, sizeof(c));
-    return md;
+    OPENSSL_cleanse(&c, ಪರಿಮಾಣ(c));
+    ಪ್ರತ್ಯಾಗಮ md;
 }
 
-unsigned char *SHA1(const unsigned char *d, size_t n, unsigned char *md)
+unsigned ವರ್ಣ *SHA1(ಧ್ರುವ unsigned ವರ್ಣ *d, size_t n, unsigned ವರ್ಣ *md)
 {
-    static unsigned char m[SHA_DIGEST_LENGTH];
+    ಸ್ಥಿರ unsigned ವರ್ಣ m[SHA_DIGEST_LENGTH];
 
-    if (md == NULL)
+    ಯದಿ (md == ರಿಕ್ತ)
         md = m;
-    return EVP_Q_digest(NULL, "SHA1", NULL, d, n, md, NULL) ? md : NULL;
+    ಪ್ರತ್ಯಾಗಮ EVP_Q_digest(ರಿಕ್ತ, "SHA1", ರಿಕ್ತ, d, n, md, ರಿಕ್ತ) ? md : ರಿಕ್ತ;
 }
 
-unsigned char *SHA224(const unsigned char *d, size_t n, unsigned char *md)
+unsigned ವರ್ಣ *SHA224(ಧ್ರುವ unsigned ವರ್ಣ *d, size_t n, unsigned ವರ್ಣ *md)
 {
-    static unsigned char m[SHA224_DIGEST_LENGTH];
+    ಸ್ಥಿರ unsigned ವರ್ಣ m[SHA224_DIGEST_LENGTH];
 
-    if (md == NULL)
+    ಯದಿ (md == ರಿಕ್ತ)
         md = m;
-    return EVP_Q_digest(NULL, "SHA224", NULL, d, n, md, NULL) ? md : NULL;
+    ಪ್ರತ್ಯಾಗಮ EVP_Q_digest(ರಿಕ್ತ, "SHA224", ರಿಕ್ತ, d, n, md, ರಿಕ್ತ) ? md : ರಿಕ್ತ;
 }
 
-unsigned char *SHA256(const unsigned char *d, size_t n, unsigned char *md)
+unsigned ವರ್ಣ *SHA256(ಧ್ರುವ unsigned ವರ್ಣ *d, size_t n, unsigned ವರ್ಣ *md)
 {
-    static unsigned char m[SHA256_DIGEST_LENGTH];
+    ಸ್ಥಿರ unsigned ವರ್ಣ m[SHA256_DIGEST_LENGTH];
 
-    if (md == NULL)
+    ಯದಿ (md == ರಿಕ್ತ)
         md = m;
-    return EVP_Q_digest(NULL, "SHA256", NULL, d, n, md, NULL) ? md : NULL;
+    ಪ್ರತ್ಯಾಗಮ EVP_Q_digest(ರಿಕ್ತ, "SHA256", ರಿಕ್ತ, d, n, md, ರಿಕ್ತ) ? md : ರಿಕ್ತ;
 }
 
-unsigned char *SHA384(const unsigned char *d, size_t n, unsigned char *md)
+unsigned ವರ್ಣ *SHA384(ಧ್ರುವ unsigned ವರ್ಣ *d, size_t n, unsigned ವರ್ಣ *md)
 {
-    static unsigned char m[SHA384_DIGEST_LENGTH];
+    ಸ್ಥಿರ unsigned ವರ್ಣ m[SHA384_DIGEST_LENGTH];
 
-    if (md == NULL)
+    ಯದಿ (md == ರಿಕ್ತ)
         md = m;
-    return EVP_Q_digest(NULL, "SHA384", NULL, d, n, md, NULL) ? md : NULL;
+    ಪ್ರತ್ಯಾಗಮ EVP_Q_digest(ರಿಕ್ತ, "SHA384", ರಿಕ್ತ, d, n, md, ರಿಕ್ತ) ? md : ರಿಕ್ತ;
 }
 
-unsigned char *SHA512(const unsigned char *d, size_t n, unsigned char *md)
+unsigned ವರ್ಣ *SHA512(ಧ್ರುವ unsigned ವರ್ಣ *d, size_t n, unsigned ವರ್ಣ *md)
 {
-    static unsigned char m[SHA512_DIGEST_LENGTH];
+    ಸ್ಥಿರ unsigned ವರ್ಣ m[SHA512_DIGEST_LENGTH];
 
-    if (md == NULL)
+    ಯದಿ (md == ರಿಕ್ತ)
         md = m;
-    return EVP_Q_digest(NULL, "SHA512", NULL, d, n, md, NULL) ? md : NULL;
+    ಪ್ರತ್ಯಾಗಮ EVP_Q_digest(ರಿಕ್ತ, "SHA512", ರಿಕ್ತ, d, n, md, ರಿಕ್ತ) ? md : ರಿಕ್ತ;
 }
