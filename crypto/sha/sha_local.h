@@ -7,82 +7,82 @@
  * https://www.openssl.org/source/license.html
  */
 
-#if !defined(OSSL_LIBCRYPTO_SHA_SHA_LOCAL_H)
-#define OSSL_LIBCRYPTO_SHA_SHA_LOCAL_H
+#إذا !defined(OSSL_LIBCRYPTO_SHA_SHA_LOCAL_H)
+#تعریف_کن OSSL_LIBCRYPTO_SHA_SHA_LOCAL_H
 
-#include <stdlib.h>
-#include <string.h>
+#ضمن <stdlib.h>
+#ضمن <string.h>
 
-#include <openssl/opensslconf.h>
-#include <openssl/sha.h>
-#include "internal/endian.h"
+#ضمن <openssl/opensslconf.h>
+#ضمن <openssl/sha.h>
+#ضمن "internal/endian.h"
 
-#define DATA_ORDER_IS_BIG_ENDIAN
+#تعریف_کن داده_ترتیب_IS_BIG_ENDIAN
 
-#define HASH_LONG SHA_LONG
-#define HASH_CTX SHA_CTX
-#define HASH_CBLOCK SHA_CBLOCK
-#define HASH_MAKE_STRING(c, s)   \
-    do {                         \
-        unsigned long ll;        \
+#تعریف_کن HASH_LONG SHA_LONG
+#تعریف_کن HASH_CTX SHA_CTX
+#تعریف_کن HASH_CBLOCK SHA_CBLOCK
+#تعریف_کن HASH_MAKE_STRING(c, s)   \
+    افعل {                         \
+        بیعلامت دراز ll;        \
         ll = (c)->h0;            \
-        (void)HOST_l2c(ll, (s)); \
+        (فراغ)HOST_l2c(ll, (s)); \
         ll = (c)->h1;            \
-        (void)HOST_l2c(ll, (s)); \
+        (فراغ)HOST_l2c(ll, (s)); \
         ll = (c)->h2;            \
-        (void)HOST_l2c(ll, (s)); \
+        (فراغ)HOST_l2c(ll, (s)); \
         ll = (c)->h3;            \
-        (void)HOST_l2c(ll, (s)); \
+        (فراغ)HOST_l2c(ll, (s)); \
         ll = (c)->h4;            \
-        (void)HOST_l2c(ll, (s)); \
-    } while (0)
+        (فراغ)HOST_l2c(ll, (s)); \
+    } طالما (0)
 
-#define HASH_UPDATE_THUNK
-#define HASH_UPDATE SHA1_Update_thunk
-#define HASH_TRANSFORM SHA1_Transform
-#define HASH_FINAL SHA1_Final
-#define HASH_INIT SHA1_Init
-#define HASH_BLOCK_DATA_ORDER sha1_block_data_order
-#define Xupdate(a, ix, ia, ib, ic, id) ((a) = (ia ^ ib ^ ic ^ id), \
+#تعریف_کن HASH_UPDATE_THUNK
+#تعریف_کن HASH_UPDATE SHA1_Update_thunk
+#تعریف_کن HASH_TRANSFORM SHA1_Transform
+#تعریف_کن HASH_FINAL SHA1_Final
+#تعریف_کن HASH_INIT SHA1_Init
+#تعریف_کن HASH_بلوک_داده_ترتیب sha1_بلوک_داده_ترتیب
+#تعریف_کن Xupdate(a, ix, ia, ib, ic, id) ((a) = (ia ^ ib ^ ic ^ id), \
     ix = (a) = ROTATE((a), 1))
 
-#ifndef SHA1_ASM
-static void sha1_block_data_order(SHA_CTX *c, const void *p, size_t num);
-#else
-void sha1_block_data_order(SHA_CTX *c, const void *p, size_t num);
-#endif
+#اگر_تعریف_نشده SHA1_ASM
+ساكن فراغ sha1_بلوک_داده_ترتیب(SHA_CTX *c, ثابت فراغ *p, size_t رقم);
+#وإلا
+فراغ sha1_بلوک_داده_ترتیب(SHA_CTX *c, ثابت فراغ *p, size_t رقم);
+#پایان_اگر
 
 /* clang-format off */
-#include "crypto/md32_common.inc"
+#ضمن "crypto/md32_common.inc"
 /* clang-format on */
-#undef HASH_UPDATE_THUNK
+#لغو_تعریف HASH_UPDATE_THUNK
 
-int SHA1_Update(SHA_CTX *c, const void *data, size_t len)
+صحيح SHA1_Update(SHA_CTX *c, ثابت فراغ *داده, size_t len)
 {
-    return SHA1_Update_thunk((void *)c, (const unsigned char *)data, len);
+    أرجع SHA1_Update_thunk((فراغ *)c, (ثابت بیعلامت حرف *)داده, len);
 }
 
-#define INIT_DATA_h0 0x67452301UL
-#define INIT_DATA_h1 0xefcdab89UL
-#define INIT_DATA_h2 0x98badcfeUL
-#define INIT_DATA_h3 0x10325476UL
-#define INIT_DATA_h4 0xc3d2e1f0UL
+#تعریف_کن INIT_داده_h0 0x67452301UL
+#تعریف_کن INIT_داده_h1 0xefcdab89UL
+#تعریف_کن INIT_داده_h2 0x98badcfeUL
+#تعریف_کن INIT_داده_h3 0x10325476UL
+#تعریف_کن INIT_داده_h4 0xc3d2e1f0UL
 
-int HASH_INIT(SHA_CTX *c)
+صحيح HASH_INIT(SHA_CTX *c)
 {
-    memset(c, 0, sizeof(*c));
-    c->h0 = INIT_DATA_h0;
-    c->h1 = INIT_DATA_h1;
-    c->h2 = INIT_DATA_h2;
-    c->h3 = INIT_DATA_h3;
-    c->h4 = INIT_DATA_h4;
-    return 1;
+    memset(c, 0, حجم(*c));
+    c->h0 = INIT_داده_h0;
+    c->h1 = INIT_داده_h1;
+    c->h2 = INIT_داده_h2;
+    c->h3 = INIT_داده_h3;
+    c->h4 = INIT_داده_h4;
+    أرجع 1;
 }
 
-#define K_00_19 0x5a827999UL
-#define K_20_39 0x6ed9eba1UL
-#define K_40_59 0x8f1bbcdcUL
-#define K_60_79 0xca62c1d6UL
+#تعریف_کن K_00_19 0x5a827999UL
+#تعریف_کن K_20_39 0x6ed9eba1UL
+#تعریف_کن K_40_59 0x8f1bbcdcUL
+#تعریف_کن K_60_79 0xca62c1d6UL
 
 /*
  * As pointed out by Wei Dai, F() below can be simplified to the code in
@@ -92,46 +92,46 @@ int HASH_INIT(SHA_CTX *c)
  * I've just become aware of another tweak to be made, again from Wei Dai,
  * in F_40_59, (x&a)|(y&a) -> (x|y)&a
  */
-#define F_00_19(b, c, d) ((((c) ^ (d)) & (b)) ^ (d))
-#define F_20_39(b, c, d) ((b) ^ (c) ^ (d))
-#define F_40_59(b, c, d) (((b) & (c)) | (((b) | (c)) & (d)))
-#define F_60_79(b, c, d) F_20_39(b, c, d)
+#تعریف_کن F_00_19(b, c, d) ((((c) ^ (d)) & (b)) ^ (d))
+#تعریف_کن F_20_39(b, c, d) ((b) ^ (c) ^ (d))
+#تعریف_کن F_40_59(b, c, d) (((b) & (c)) | (((b) | (c)) & (d)))
+#تعریف_کن F_60_79(b, c, d) F_20_39(b, c, d)
 
-#ifndef OPENSSL_SMALL_FOOTPRINT
+#اگر_تعریف_نشده OPENSSL_SMALL_FOOTPRINT
 
-#define BODY_00_15(i, a, b, c, d, e, f, xi)                             \
+#تعریف_کن BODY_00_15(i, a, b, c, d, e, f, xi)                             \
     (f) = xi + (e) + K_00_19 + ROTATE((a), 5) + F_00_19((b), (c), (d)); \
     (b) = ROTATE((b), 30);
 
-#define BODY_16_19(i, a, b, c, d, e, f, xi, xa, xb, xc, xd)         \
+#تعریف_کن BODY_16_19(i, a, b, c, d, e, f, xi, xa, xb, xc, xd)         \
     Xupdate(f, xi, xa, xb, xc, xd);                                 \
     (f) += (e) + K_00_19 + ROTATE((a), 5) + F_00_19((b), (c), (d)); \
     (b) = ROTATE((b), 30);
 
-#define BODY_20_31(i, a, b, c, d, e, f, xi, xa, xb, xc, xd)         \
+#تعریف_کن BODY_20_31(i, a, b, c, d, e, f, xi, xa, xb, xc, xd)         \
     Xupdate(f, xi, xa, xb, xc, xd);                                 \
     (f) += (e) + K_20_39 + ROTATE((a), 5) + F_20_39((b), (c), (d)); \
     (b) = ROTATE((b), 30);
 
-#define BODY_32_39(i, a, b, c, d, e, f, xa, xb, xc, xd)             \
+#تعریف_کن BODY_32_39(i, a, b, c, d, e, f, xa, xb, xc, xd)             \
     Xupdate(f, xa, xa, xb, xc, xd);                                 \
     (f) += (e) + K_20_39 + ROTATE((a), 5) + F_20_39((b), (c), (d)); \
     (b) = ROTATE((b), 30);
 
-#define BODY_40_59(i, a, b, c, d, e, f, xa, xb, xc, xd)             \
+#تعریف_کن BODY_40_59(i, a, b, c, d, e, f, xa, xb, xc, xd)             \
     Xupdate(f, xa, xa, xb, xc, xd);                                 \
     (f) += (e) + K_40_59 + ROTATE((a), 5) + F_40_59((b), (c), (d)); \
     (b) = ROTATE((b), 30);
 
-#define BODY_60_79(i, a, b, c, d, e, f, xa, xb, xc, xd)                 \
+#تعریف_کن BODY_60_79(i, a, b, c, d, e, f, xa, xb, xc, xd)                 \
     Xupdate(f, xa, xa, xb, xc, xd);                                     \
     (f) = xa + (e) + K_60_79 + ROTATE((a), 5) + F_60_79((b), (c), (d)); \
     (b) = ROTATE((b), 30);
 
-#ifdef X
-#undef X
-#endif
-#ifndef MD32_XARRAY
+#اگر_تعریف_شده X
+#لغو_تعریف X
+#پایان_اگر
+#اگر_تعریف_نشده MD32_XARRAY
 /*
  * Originally X was an array. As it's automatic it's natural
  * to expect RISC compiler to accommodate at least part of it in
@@ -140,27 +140,27 @@ int HASH_INIT(SHA_CTX *c)
  * compilers generate better code I replace X[] with a bunch of
  * X0, X1, etc. See the function body below...
  */
-#define X(i) XX##i
-#else
+#تعریف_کن X(i) XX##i
+#وإلا
 /*
  * However! Some compilers (most notably HP C) get overwhelmed by
  * that many local variables so that we have to have the way to
  * fall down to the original behavior.
  */
-#define X(i) XX[i]
-#endif
+#تعریف_کن X(i) XX[i]
+#پایان_اگر
 
-#if !defined(SHA1_ASM)
-static void HASH_BLOCK_DATA_ORDER(SHA_CTX *c, const void *p, size_t num)
+#إذا !defined(SHA1_ASM)
+ساكن فراغ HASH_بلوک_داده_ترتیب(SHA_CTX *c, ثابت فراغ *p, size_t رقم)
 {
-    const unsigned char *data = p;
-    register unsigned MD32_REG_T A, B, C, D, E, T, l;
-#ifndef MD32_XARRAY
-    unsigned MD32_REG_T XX0, XX1, XX2, XX3, XX4, XX5, XX6, XX7,
+    ثابت بیعلامت حرف *داده = p;
+    سجل بیعلامت MD32_REG_T A, B, C, D, E, T, l;
+#اگر_تعریف_نشده MD32_XARRAY
+    بیعلامت MD32_REG_T XX0, XX1, XX2, XX3, XX4, XX5, XX6, XX7,
         XX8, XX9, XX10, XX11, XX12, XX13, XX14, XX15;
-#else
+#وإلا
     SHA_LONG XX[16];
-#endif
+#پایان_اگر
 
     A = c->h0;
     B = c->h1;
@@ -168,12 +168,12 @@ static void HASH_BLOCK_DATA_ORDER(SHA_CTX *c, const void *p, size_t num)
     D = c->h3;
     E = c->h4;
 
-    for (;;) {
+    لكل (;;) {
         DECLARE_IS_ENDIAN;
 
-        if (!IS_LITTLE_ENDIAN && sizeof(SHA_LONG) == 4
+        إذا (!IS_LITTLE_ENDIAN && حجم(SHA_LONG) == 4
             && ((size_t)p % 4) == 0) {
-            const SHA_LONG *W = (const SHA_LONG *)data;
+            ثابت SHA_LONG *W = (ثابت SHA_LONG *)داده;
 
             X(0) = W[0];
             X(1) = W[1];
@@ -208,53 +208,53 @@ static void HASH_BLOCK_DATA_ORDER(SHA_CTX *c, const void *p, size_t num)
             BODY_00_15(14, E, T, A, B, C, D, X(14));
             BODY_00_15(15, D, E, T, A, B, C, X(15));
 
-            data += SHA_CBLOCK;
-        } else {
-            (void)HOST_c2l(data, l);
+            داده += SHA_CBLOCK;
+        } وإلا {
+            (فراغ)HOST_c2l(داده, l);
             X(0) = l;
-            (void)HOST_c2l(data, l);
+            (فراغ)HOST_c2l(داده, l);
             X(1) = l;
             BODY_00_15(0, A, B, C, D, E, T, X(0));
-            (void)HOST_c2l(data, l);
+            (فراغ)HOST_c2l(داده, l);
             X(2) = l;
             BODY_00_15(1, T, A, B, C, D, E, X(1));
-            (void)HOST_c2l(data, l);
+            (فراغ)HOST_c2l(داده, l);
             X(3) = l;
             BODY_00_15(2, E, T, A, B, C, D, X(2));
-            (void)HOST_c2l(data, l);
+            (فراغ)HOST_c2l(داده, l);
             X(4) = l;
             BODY_00_15(3, D, E, T, A, B, C, X(3));
-            (void)HOST_c2l(data, l);
+            (فراغ)HOST_c2l(داده, l);
             X(5) = l;
             BODY_00_15(4, C, D, E, T, A, B, X(4));
-            (void)HOST_c2l(data, l);
+            (فراغ)HOST_c2l(داده, l);
             X(6) = l;
             BODY_00_15(5, B, C, D, E, T, A, X(5));
-            (void)HOST_c2l(data, l);
+            (فراغ)HOST_c2l(داده, l);
             X(7) = l;
             BODY_00_15(6, A, B, C, D, E, T, X(6));
-            (void)HOST_c2l(data, l);
+            (فراغ)HOST_c2l(داده, l);
             X(8) = l;
             BODY_00_15(7, T, A, B, C, D, E, X(7));
-            (void)HOST_c2l(data, l);
+            (فراغ)HOST_c2l(داده, l);
             X(9) = l;
             BODY_00_15(8, E, T, A, B, C, D, X(8));
-            (void)HOST_c2l(data, l);
+            (فراغ)HOST_c2l(داده, l);
             X(10) = l;
             BODY_00_15(9, D, E, T, A, B, C, X(9));
-            (void)HOST_c2l(data, l);
+            (فراغ)HOST_c2l(داده, l);
             X(11) = l;
             BODY_00_15(10, C, D, E, T, A, B, X(10));
-            (void)HOST_c2l(data, l);
+            (فراغ)HOST_c2l(داده, l);
             X(12) = l;
             BODY_00_15(11, B, C, D, E, T, A, X(11));
-            (void)HOST_c2l(data, l);
+            (فراغ)HOST_c2l(داده, l);
             X(13) = l;
             BODY_00_15(12, A, B, C, D, E, T, X(12));
-            (void)HOST_c2l(data, l);
+            (فراغ)HOST_c2l(داده, l);
             X(14) = l;
             BODY_00_15(13, T, A, B, C, D, E, X(13));
-            (void)HOST_c2l(data, l);
+            (فراغ)HOST_c2l(داده, l);
             X(15) = l;
             BODY_00_15(14, E, T, A, B, C, D, X(14));
             BODY_00_15(15, D, E, T, A, B, C, X(15));
@@ -335,8 +335,8 @@ static void HASH_BLOCK_DATA_ORDER(SHA_CTX *c, const void *p, size_t num)
         c->h3 = (c->h3 + B) & 0xffffffffL;
         c->h4 = (c->h4 + C) & 0xffffffffL;
 
-        if (--num == 0)
-            break;
+        إذا (--رقم == 0)
+            اكسر;
 
         A = c->h0;
         B = c->h1;
@@ -345,55 +345,55 @@ static void HASH_BLOCK_DATA_ORDER(SHA_CTX *c, const void *p, size_t num)
         E = c->h4;
     }
 }
-#endif
+#پایان_اگر
 
-#else /* OPENSSL_SMALL_FOOTPRINT */
+#وإلا /* OPENSSL_SMALL_FOOTPRINT */
 
-#define BODY_00_15(xi)                          \
-    do {                                        \
+#تعریف_کن BODY_00_15(xi)                          \
+    افعل {                                        \
         T = E + K_00_19 + F_00_19(B, C, D);     \
         E = D, D = C, C = ROTATE(B, 30), B = A; \
         A = ROTATE(A, 5) + T + xi;              \
-    } while (0)
+    } طالما (0)
 
-#define BODY_16_19(xa, xb, xc, xd)              \
-    do {                                        \
+#تعریف_کن BODY_16_19(xa, xb, xc, xd)              \
+    افعل {                                        \
         Xupdate(T, xa, xa, xb, xc, xd);         \
         T += E + K_00_19 + F_00_19(B, C, D);    \
         E = D, D = C, C = ROTATE(B, 30), B = A; \
         A = ROTATE(A, 5) + T;                   \
-    } while (0)
+    } طالما (0)
 
-#define BODY_20_39(xa, xb, xc, xd)              \
-    do {                                        \
+#تعریف_کن BODY_20_39(xa, xb, xc, xd)              \
+    افعل {                                        \
         Xupdate(T, xa, xa, xb, xc, xd);         \
         T += E + K_20_39 + F_20_39(B, C, D);    \
         E = D, D = C, C = ROTATE(B, 30), B = A; \
         A = ROTATE(A, 5) + T;                   \
-    } while (0)
+    } طالما (0)
 
-#define BODY_40_59(xa, xb, xc, xd)              \
-    do {                                        \
+#تعریف_کن BODY_40_59(xa, xb, xc, xd)              \
+    افعل {                                        \
         Xupdate(T, xa, xa, xb, xc, xd);         \
         T += E + K_40_59 + F_40_59(B, C, D);    \
         E = D, D = C, C = ROTATE(B, 30), B = A; \
         A = ROTATE(A, 5) + T;                   \
-    } while (0)
+    } طالما (0)
 
-#define BODY_60_79(xa, xb, xc, xd)              \
-    do {                                        \
+#تعریف_کن BODY_60_79(xa, xb, xc, xd)              \
+    افعل {                                        \
         Xupdate(T, xa, xa, xb, xc, xd);         \
         T = E + K_60_79 + F_60_79(B, C, D);     \
         E = D, D = C, C = ROTATE(B, 30), B = A; \
         A = ROTATE(A, 5) + T + xa;              \
-    } while (0)
+    } طالما (0)
 
-#if !defined(SHA1_ASM)
-static void HASH_BLOCK_DATA_ORDER(SHA_CTX *c, const void *p, size_t num)
+#إذا !defined(SHA1_ASM)
+ساكن فراغ HASH_بلوک_داده_ترتیب(SHA_CTX *c, ثابت فراغ *p, size_t رقم)
 {
-    const unsigned char *data = p;
-    register unsigned MD32_REG_T A, B, C, D, E, T, l;
-    int i;
+    ثابت بیعلامت حرف *داده = p;
+    سجل بیعلامت MD32_REG_T A, B, C, D, E, T, l;
+    صحيح i;
     SHA_LONG X[16];
 
     A = c->h0;
@@ -402,24 +402,24 @@ static void HASH_BLOCK_DATA_ORDER(SHA_CTX *c, const void *p, size_t num)
     D = c->h3;
     E = c->h4;
 
-    for (;;) {
-        for (i = 0; i < 16; i++) {
-            (void)HOST_c2l(data, l);
+    لكل (;;) {
+        لكل (i = 0; i < 16; i++) {
+            (فراغ)HOST_c2l(داده, l);
             X[i] = l;
             BODY_00_15(X[i]);
         }
-        for (i = 0; i < 4; i++) {
+        لكل (i = 0; i < 4; i++) {
             BODY_16_19(X[i], X[i + 2], X[i + 8], X[(i + 13) & 15]);
         }
-        for (; i < 24; i++) {
+        لكل (; i < 24; i++) {
             BODY_20_39(X[i & 15], X[(i + 2) & 15], X[(i + 8) & 15],
                 X[(i + 13) & 15]);
         }
-        for (i = 0; i < 20; i++) {
+        لكل (i = 0; i < 20; i++) {
             BODY_40_59(X[(i + 8) & 15], X[(i + 10) & 15], X[i & 15],
                 X[(i + 5) & 15]);
         }
-        for (i = 4; i < 24; i++) {
+        لكل (i = 4; i < 24; i++) {
             BODY_60_79(X[(i + 8) & 15], X[(i + 10) & 15], X[i & 15],
                 X[(i + 5) & 15]);
         }
@@ -430,8 +430,8 @@ static void HASH_BLOCK_DATA_ORDER(SHA_CTX *c, const void *p, size_t num)
         c->h3 = (c->h3 + D) & 0xffffffffL;
         c->h4 = (c->h4 + E) & 0xffffffffL;
 
-        if (--num == 0)
-            break;
+        إذا (--رقم == 0)
+            اكسر;
 
         A = c->h0;
         B = c->h1;
@@ -440,8 +440,8 @@ static void HASH_BLOCK_DATA_ORDER(SHA_CTX *c, const void *p, size_t num)
         E = c->h4;
     }
 }
-#endif
+#پایان_اگر
 
-#endif
+#پایان_اگر
 
-#endif /* !defined(OSSL_LIBCRYPTO_SHA_SHA_LOCAL_H) */
+#پایان_اگر /* !defined(OSSL_LIBCRYPTO_SHA_SHA_LOCAL_H) */
