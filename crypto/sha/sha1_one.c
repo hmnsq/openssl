@@ -11,71 +11,71 @@
  * SHA-1 low level APIs are deprecated for public use, but still ok for
  * internal use.
  */
-#include "internal/deprecated.h"
+#समावेश "internal/deprecated.h"
 
-#include <stdio.h>
-#include <string.h>
-#include <openssl/crypto.h>
-#include <openssl/sha.h>
-#include <openssl/evp.h>
-#include "crypto/sha.h"
+#समावेश <stdio.h>
+#समावेश <string.h>
+#समावेश <openssl/crypto.h>
+#समावेश <openssl/sha.h>
+#समावेश <openssl/evp.h>
+#समावेश "crypto/sha.h"
 
-unsigned char *ossl_sha1(const unsigned char *d, size_t n, unsigned char *md)
+अचिन्हित अक्षर *ossl_sha1(स्थिर अचिन्हित अक्षर *d, माप_प्रकार n, अचिन्हित अक्षर *md)
 {
     SHA_CTX c;
-    static unsigned char m[SHA_DIGEST_LENGTH];
+    अटल अचिन्हित अक्षर m[SHA_DIGEST_लंबाई];
 
-    if (md == NULL)
+    अगर (md == शून्य)
         md = m;
-    if (!SHA1_Init(&c))
-        return NULL;
+    अगर (!SHA1_Init(&c))
+        वापस शून्य;
     SHA1_Update(&c, d, n);
     SHA1_Final(md, &c);
-    OPENSSL_cleanse(&c, sizeof(c));
-    return md;
+    OPENSSL_cleanse(&c, माप(c));
+    वापस md;
 }
 
-unsigned char *SHA1(const unsigned char *d, size_t n, unsigned char *md)
+अचिन्हित अक्षर *SHA1(स्थिर अचिन्हित अक्षर *d, माप_प्रकार n, अचिन्हित अक्षर *md)
 {
-    static unsigned char m[SHA_DIGEST_LENGTH];
+    अटल अचिन्हित अक्षर m[SHA_DIGEST_लंबाई];
 
-    if (md == NULL)
+    अगर (md == शून्य)
         md = m;
-    return EVP_Q_digest(NULL, "SHA1", NULL, d, n, md, NULL) ? md : NULL;
+    वापस EVP_Q_digest(शून्य, "SHA1", शून्य, d, n, md, शून्य) ? md : शून्य;
 }
 
-unsigned char *SHA224(const unsigned char *d, size_t n, unsigned char *md)
+अचिन्हित अक्षर *SHA224(स्थिर अचिन्हित अक्षर *d, माप_प्रकार n, अचिन्हित अक्षर *md)
 {
-    static unsigned char m[SHA224_DIGEST_LENGTH];
+    अटल अचिन्हित अक्षर m[SHA224_DIGEST_लंबाई];
 
-    if (md == NULL)
+    अगर (md == शून्य)
         md = m;
-    return EVP_Q_digest(NULL, "SHA224", NULL, d, n, md, NULL) ? md : NULL;
+    वापस EVP_Q_digest(शून्य, "SHA224", शून्य, d, n, md, शून्य) ? md : शून्य;
 }
 
-unsigned char *SHA256(const unsigned char *d, size_t n, unsigned char *md)
+अचिन्हित अक्षर *SHA256(स्थिर अचिन्हित अक्षर *d, माप_प्रकार n, अचिन्हित अक्षर *md)
 {
-    static unsigned char m[SHA256_DIGEST_LENGTH];
+    अटल अचिन्हित अक्षर m[SHA256_DIGEST_लंबाई];
 
-    if (md == NULL)
+    अगर (md == शून्य)
         md = m;
-    return EVP_Q_digest(NULL, "SHA256", NULL, d, n, md, NULL) ? md : NULL;
+    वापस EVP_Q_digest(शून्य, "SHA256", शून्य, d, n, md, शून्य) ? md : शून्य;
 }
 
-unsigned char *SHA384(const unsigned char *d, size_t n, unsigned char *md)
+अचिन्हित अक्षर *SHA384(स्थिर अचिन्हित अक्षर *d, माप_प्रकार n, अचिन्हित अक्षर *md)
 {
-    static unsigned char m[SHA384_DIGEST_LENGTH];
+    अटल अचिन्हित अक्षर m[SHA384_DIGEST_लंबाई];
 
-    if (md == NULL)
+    अगर (md == शून्य)
         md = m;
-    return EVP_Q_digest(NULL, "SHA384", NULL, d, n, md, NULL) ? md : NULL;
+    वापस EVP_Q_digest(शून्य, "SHA384", शून्य, d, n, md, शून्य) ? md : शून्य;
 }
 
-unsigned char *SHA512(const unsigned char *d, size_t n, unsigned char *md)
+अचिन्हित अक्षर *SHA512(स्थिर अचिन्हित अक्षर *d, माप_प्रकार n, अचिन्हित अक्षर *md)
 {
-    static unsigned char m[SHA512_DIGEST_LENGTH];
+    अटल अचिन्हित अक्षर m[SHA512_DIGEST_लंबाई];
 
-    if (md == NULL)
+    अगर (md == शून्य)
         md = m;
-    return EVP_Q_digest(NULL, "SHA512", NULL, d, n, md, NULL) ? md : NULL;
+    वापस EVP_Q_digest(शून्य, "SHA512", शून्य, d, n, md, शून्य) ? md : शून्य;
 }

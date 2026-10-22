@@ -7,25 +7,25 @@
  * https://www.openssl.org/source/license.html
  */
 
-#include <stdlib.h>
-#include <string.h>
+#समावेश <stdlib.h>
+#समावेश <string.h>
 
-#include <openssl/opensslconf.h>
-#include <openssl/sha.h>
-#include "arch/ppc_arch.h"
+#समावेश <openssl/opensslconf.h>
+#समावेश <openssl/sha.h>
+#समावेश "arch/ppc_arch.h"
 
-void sha256_block_p8(void *ctx, const void *inp, size_t len);
-void sha256_block_ppc(void *ctx, const void *inp, size_t len);
-void sha256_block_data_order(void *ctx, const void *inp, size_t len);
-void sha256_block_data_order(void *ctx, const void *inp, size_t len)
+व्योम sha256_block_p8(व्योम *ctx, स्थिर व्योम *inp, माप_प्रकार len);
+व्योम sha256_block_ppc(व्योम *ctx, स्थिर व्योम *inp, माप_प्रकार len);
+व्योम sha256_block_तथ्य_order(व्योम *ctx, स्थिर व्योम *inp, माप_प्रकार len);
+व्योम sha256_block_तथ्य_order(व्योम *ctx, स्थिर व्योम *inp, माप_प्रकार len)
 {
     OPENSSL_ppccap_P &PPC_CRYPTO207 ? sha256_block_p8(ctx, inp, len) : sha256_block_ppc(ctx, inp, len);
 }
 
-void sha512_block_p8(void *ctx, const void *inp, size_t len);
-void sha512_block_ppc(void *ctx, const void *inp, size_t len);
-void sha512_block_data_order(void *ctx, const void *inp, size_t len);
-void sha512_block_data_order(void *ctx, const void *inp, size_t len)
+व्योम sha512_block_p8(व्योम *ctx, स्थिर व्योम *inp, माप_प्रकार len);
+व्योम sha512_block_ppc(व्योम *ctx, स्थिर व्योम *inp, माप_प्रकार len);
+व्योम sha512_block_तथ्य_order(व्योम *ctx, स्थिर व्योम *inp, माप_प्रकार len);
+व्योम sha512_block_तथ्य_order(व्योम *ctx, स्थिर व्योम *inp, माप_प्रकार len)
 {
     OPENSSL_ppccap_P &PPC_CRYPTO207 ? sha512_block_p8(ctx, inp, len) : sha512_block_ppc(ctx, inp, len);
 }
