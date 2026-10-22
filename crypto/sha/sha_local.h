@@ -7,15 +7,15 @@
  * https://www.openssl.org/source/license.html
  */
 
-#if !defined(OSSL_LIBCRYPTO_SHA_SHA_LOCAL_H)
+#எனில் !defined(OSSL_LIBCRYPTO_SHA_SHA_LOCAL_H)
 #define OSSL_LIBCRYPTO_SHA_SHA_LOCAL_H
 
-#include <stdlib.h>
-#include <string.h>
+#அந்தர்பாவ <stdlib.h>
+#அந்தர்பாவ <string.h>
 
-#include <openssl/opensslconf.h>
-#include <openssl/sha.h>
-#include "internal/endian.h"
+#அந்தர்பாவ <openssl/opensslconf.h>
+#அந்தர்பாவ <openssl/sha.h>
+#அந்தர்பாவ "internal/endian.h"
 
 #define DATA_ORDER_IS_BIG_ENDIAN
 
@@ -23,19 +23,19 @@
 #define HASH_CTX SHA_CTX
 #define HASH_CBLOCK SHA_CBLOCK
 #define HASH_MAKE_STRING(c, s)   \
-    do {                         \
+    செய் {                         \
         unsigned long ll;        \
         ll = (c)->h0;            \
-        (void)HOST_l2c(ll, (s)); \
+        (வெறுமை)HOST_l2c(ll, (s)); \
         ll = (c)->h1;            \
-        (void)HOST_l2c(ll, (s)); \
+        (வெறுமை)HOST_l2c(ll, (s)); \
         ll = (c)->h2;            \
-        (void)HOST_l2c(ll, (s)); \
+        (வெறுமை)HOST_l2c(ll, (s)); \
         ll = (c)->h3;            \
-        (void)HOST_l2c(ll, (s)); \
+        (வெறுமை)HOST_l2c(ll, (s)); \
         ll = (c)->h4;            \
-        (void)HOST_l2c(ll, (s)); \
-    } while (0)
+        (வெறுமை)HOST_l2c(ll, (s)); \
+    } போது (0)
 
 #define HASH_UPDATE_THUNK
 #define HASH_UPDATE SHA1_Update_thunk
@@ -47,19 +47,19 @@
     ix = (a) = ROTATE((a), 1))
 
 #ifndef SHA1_ASM
-static void sha1_block_data_order(SHA_CTX *c, const void *p, size_t num);
-#else
-void sha1_block_data_order(SHA_CTX *c, const void *p, size_t num);
+நிலையான வெறுமை sha1_block_data_order(SHA_CTX *c, மாறிலி வெறுமை *p, size_t இலக்கம்);
+#இல்லையெனில்
+வெறுமை sha1_block_data_order(SHA_CTX *c, மாறிலி வெறுமை *p, size_t இலக்கம்);
 #endif
 
 /* clang-format off */
-#include "crypto/md32_common.inc"
+#அந்தர்பாவ "crypto/md32_common.inc"
 /* clang-format on */
 #undef HASH_UPDATE_THUNK
 
-int SHA1_Update(SHA_CTX *c, const void *data, size_t len)
+முழு SHA1_Update(SHA_CTX *c, மாறிலி வெறுமை *data, size_t len)
 {
-    return SHA1_Update_thunk((void *)c, (const unsigned char *)data, len);
+    திரும்பு SHA1_Update_thunk((வெறுமை *)c, (மாறிலி unsigned எழுத்து *)data, len);
 }
 
 #define INIT_DATA_h0 0x67452301UL
@@ -68,15 +68,15 @@ int SHA1_Update(SHA_CTX *c, const void *data, size_t len)
 #define INIT_DATA_h3 0x10325476UL
 #define INIT_DATA_h4 0xc3d2e1f0UL
 
-int HASH_INIT(SHA_CTX *c)
+முழு HASH_INIT(SHA_CTX *c)
 {
-    memset(c, 0, sizeof(*c));
+    memset(c, 0, அளவு(*c));
     c->h0 = INIT_DATA_h0;
     c->h1 = INIT_DATA_h1;
     c->h2 = INIT_DATA_h2;
     c->h3 = INIT_DATA_h3;
     c->h4 = INIT_DATA_h4;
-    return 1;
+    திரும்பு 1;
 }
 
 #define K_00_19 0x5a827999UL
@@ -141,7 +141,7 @@ int HASH_INIT(SHA_CTX *c)
  * X0, X1, etc. See the function body below...
  */
 #define X(i) XX##i
-#else
+#இல்லையெனில்
 /*
  * However! Some compilers (most notably HP C) get overwhelmed by
  * that many local variables so that we have to have the way to
@@ -150,15 +150,15 @@ int HASH_INIT(SHA_CTX *c)
 #define X(i) XX[i]
 #endif
 
-#if !defined(SHA1_ASM)
-static void HASH_BLOCK_DATA_ORDER(SHA_CTX *c, const void *p, size_t num)
+#எனில் !defined(SHA1_ASM)
+நிலையான வெறுமை HASH_BLOCK_DATA_ORDER(SHA_CTX *c, மாறிலி வெறுமை *p, size_t இலக்கம்)
 {
-    const unsigned char *data = p;
-    register unsigned MD32_REG_T A, B, C, D, E, T, l;
+    மாறிலி unsigned எழுத்து *data = p;
+    பதிவு unsigned MD32_REG_T A, B, C, D, E, T, l;
 #ifndef MD32_XARRAY
     unsigned MD32_REG_T XX0, XX1, XX2, XX3, XX4, XX5, XX6, XX7,
         XX8, XX9, XX10, XX11, XX12, XX13, XX14, XX15;
-#else
+#இல்லையெனில்
     SHA_LONG XX[16];
 #endif
 
@@ -168,12 +168,12 @@ static void HASH_BLOCK_DATA_ORDER(SHA_CTX *c, const void *p, size_t num)
     D = c->h3;
     E = c->h4;
 
-    for (;;) {
+    க்கு (;;) {
         DECLARE_IS_ENDIAN;
 
-        if (!IS_LITTLE_ENDIAN && sizeof(SHA_LONG) == 4
+        எனில் (!IS_LITTLE_ENDIAN && அளவு(SHA_LONG) == 4
             && ((size_t)p % 4) == 0) {
-            const SHA_LONG *W = (const SHA_LONG *)data;
+            மாறிலி SHA_LONG *W = (மாறிலி SHA_LONG *)data;
 
             X(0) = W[0];
             X(1) = W[1];
@@ -209,52 +209,52 @@ static void HASH_BLOCK_DATA_ORDER(SHA_CTX *c, const void *p, size_t num)
             BODY_00_15(15, D, E, T, A, B, C, X(15));
 
             data += SHA_CBLOCK;
-        } else {
-            (void)HOST_c2l(data, l);
+        } இல்லையெனில் {
+            (வெறுமை)HOST_c2l(data, l);
             X(0) = l;
-            (void)HOST_c2l(data, l);
+            (வெறுமை)HOST_c2l(data, l);
             X(1) = l;
             BODY_00_15(0, A, B, C, D, E, T, X(0));
-            (void)HOST_c2l(data, l);
+            (வெறுமை)HOST_c2l(data, l);
             X(2) = l;
             BODY_00_15(1, T, A, B, C, D, E, X(1));
-            (void)HOST_c2l(data, l);
+            (வெறுமை)HOST_c2l(data, l);
             X(3) = l;
             BODY_00_15(2, E, T, A, B, C, D, X(2));
-            (void)HOST_c2l(data, l);
+            (வெறுமை)HOST_c2l(data, l);
             X(4) = l;
             BODY_00_15(3, D, E, T, A, B, C, X(3));
-            (void)HOST_c2l(data, l);
+            (வெறுமை)HOST_c2l(data, l);
             X(5) = l;
             BODY_00_15(4, C, D, E, T, A, B, X(4));
-            (void)HOST_c2l(data, l);
+            (வெறுமை)HOST_c2l(data, l);
             X(6) = l;
             BODY_00_15(5, B, C, D, E, T, A, X(5));
-            (void)HOST_c2l(data, l);
+            (வெறுமை)HOST_c2l(data, l);
             X(7) = l;
             BODY_00_15(6, A, B, C, D, E, T, X(6));
-            (void)HOST_c2l(data, l);
+            (வெறுமை)HOST_c2l(data, l);
             X(8) = l;
             BODY_00_15(7, T, A, B, C, D, E, X(7));
-            (void)HOST_c2l(data, l);
+            (வெறுமை)HOST_c2l(data, l);
             X(9) = l;
             BODY_00_15(8, E, T, A, B, C, D, X(8));
-            (void)HOST_c2l(data, l);
+            (வெறுமை)HOST_c2l(data, l);
             X(10) = l;
             BODY_00_15(9, D, E, T, A, B, C, X(9));
-            (void)HOST_c2l(data, l);
+            (வெறுமை)HOST_c2l(data, l);
             X(11) = l;
             BODY_00_15(10, C, D, E, T, A, B, X(10));
-            (void)HOST_c2l(data, l);
+            (வெறுமை)HOST_c2l(data, l);
             X(12) = l;
             BODY_00_15(11, B, C, D, E, T, A, X(11));
-            (void)HOST_c2l(data, l);
+            (வெறுமை)HOST_c2l(data, l);
             X(13) = l;
             BODY_00_15(12, A, B, C, D, E, T, X(12));
-            (void)HOST_c2l(data, l);
+            (வெறுமை)HOST_c2l(data, l);
             X(14) = l;
             BODY_00_15(13, T, A, B, C, D, E, X(13));
-            (void)HOST_c2l(data, l);
+            (வெறுமை)HOST_c2l(data, l);
             X(15) = l;
             BODY_00_15(14, E, T, A, B, C, D, X(14));
             BODY_00_15(15, D, E, T, A, B, C, X(15));
@@ -335,8 +335,8 @@ static void HASH_BLOCK_DATA_ORDER(SHA_CTX *c, const void *p, size_t num)
         c->h3 = (c->h3 + B) & 0xffffffffL;
         c->h4 = (c->h4 + C) & 0xffffffffL;
 
-        if (--num == 0)
-            break;
+        எனில் (--இலக்கம் == 0)
+            நிறுத்து;
 
         A = c->h0;
         B = c->h1;
@@ -347,53 +347,53 @@ static void HASH_BLOCK_DATA_ORDER(SHA_CTX *c, const void *p, size_t num)
 }
 #endif
 
-#else /* OPENSSL_SMALL_FOOTPRINT */
+#இல்லையெனில் /* OPENSSL_SMALL_FOOTPRINT */
 
 #define BODY_00_15(xi)                          \
-    do {                                        \
+    செய் {                                        \
         T = E + K_00_19 + F_00_19(B, C, D);     \
         E = D, D = C, C = ROTATE(B, 30), B = A; \
         A = ROTATE(A, 5) + T + xi;              \
-    } while (0)
+    } போது (0)
 
 #define BODY_16_19(xa, xb, xc, xd)              \
-    do {                                        \
+    செய் {                                        \
         Xupdate(T, xa, xa, xb, xc, xd);         \
         T += E + K_00_19 + F_00_19(B, C, D);    \
         E = D, D = C, C = ROTATE(B, 30), B = A; \
         A = ROTATE(A, 5) + T;                   \
-    } while (0)
+    } போது (0)
 
 #define BODY_20_39(xa, xb, xc, xd)              \
-    do {                                        \
+    செய் {                                        \
         Xupdate(T, xa, xa, xb, xc, xd);         \
         T += E + K_20_39 + F_20_39(B, C, D);    \
         E = D, D = C, C = ROTATE(B, 30), B = A; \
         A = ROTATE(A, 5) + T;                   \
-    } while (0)
+    } போது (0)
 
 #define BODY_40_59(xa, xb, xc, xd)              \
-    do {                                        \
+    செய் {                                        \
         Xupdate(T, xa, xa, xb, xc, xd);         \
         T += E + K_40_59 + F_40_59(B, C, D);    \
         E = D, D = C, C = ROTATE(B, 30), B = A; \
         A = ROTATE(A, 5) + T;                   \
-    } while (0)
+    } போது (0)
 
 #define BODY_60_79(xa, xb, xc, xd)              \
-    do {                                        \
+    செய் {                                        \
         Xupdate(T, xa, xa, xb, xc, xd);         \
         T = E + K_60_79 + F_60_79(B, C, D);     \
         E = D, D = C, C = ROTATE(B, 30), B = A; \
         A = ROTATE(A, 5) + T + xa;              \
-    } while (0)
+    } போது (0)
 
-#if !defined(SHA1_ASM)
-static void HASH_BLOCK_DATA_ORDER(SHA_CTX *c, const void *p, size_t num)
+#எனில் !defined(SHA1_ASM)
+நிலையான வெறுமை HASH_BLOCK_DATA_ORDER(SHA_CTX *c, மாறிலி வெறுமை *p, size_t இலக்கம்)
 {
-    const unsigned char *data = p;
-    register unsigned MD32_REG_T A, B, C, D, E, T, l;
-    int i;
+    மாறிலி unsigned எழுத்து *data = p;
+    பதிவு unsigned MD32_REG_T A, B, C, D, E, T, l;
+    முழு i;
     SHA_LONG X[16];
 
     A = c->h0;
@@ -402,24 +402,24 @@ static void HASH_BLOCK_DATA_ORDER(SHA_CTX *c, const void *p, size_t num)
     D = c->h3;
     E = c->h4;
 
-    for (;;) {
-        for (i = 0; i < 16; i++) {
-            (void)HOST_c2l(data, l);
+    க்கு (;;) {
+        க்கு (i = 0; i < 16; i++) {
+            (வெறுமை)HOST_c2l(data, l);
             X[i] = l;
             BODY_00_15(X[i]);
         }
-        for (i = 0; i < 4; i++) {
+        க்கு (i = 0; i < 4; i++) {
             BODY_16_19(X[i], X[i + 2], X[i + 8], X[(i + 13) & 15]);
         }
-        for (; i < 24; i++) {
+        க்கு (; i < 24; i++) {
             BODY_20_39(X[i & 15], X[(i + 2) & 15], X[(i + 8) & 15],
                 X[(i + 13) & 15]);
         }
-        for (i = 0; i < 20; i++) {
+        க்கு (i = 0; i < 20; i++) {
             BODY_40_59(X[(i + 8) & 15], X[(i + 10) & 15], X[i & 15],
                 X[(i + 5) & 15]);
         }
-        for (i = 4; i < 24; i++) {
+        க்கு (i = 4; i < 24; i++) {
             BODY_60_79(X[(i + 8) & 15], X[(i + 10) & 15], X[i & 15],
                 X[(i + 5) & 15]);
         }
@@ -430,8 +430,8 @@ static void HASH_BLOCK_DATA_ORDER(SHA_CTX *c, const void *p, size_t num)
         c->h3 = (c->h3 + D) & 0xffffffffL;
         c->h4 = (c->h4 + E) & 0xffffffffL;
 
-        if (--num == 0)
-            break;
+        எனில் (--இலக்கம் == 0)
+            நிறுத்து;
 
         A = c->h0;
         B = c->h1;

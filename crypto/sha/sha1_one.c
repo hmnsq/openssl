@@ -11,71 +11,71 @@
  * SHA-1 low level APIs are deprecated for public use, but still ok for
  * internal use.
  */
-#include "internal/deprecated.h"
+#அந்தர்பாவ "internal/deprecated.h"
 
-#include <stdio.h>
-#include <string.h>
-#include <openssl/crypto.h>
-#include <openssl/sha.h>
-#include <openssl/evp.h>
-#include "crypto/sha.h"
+#அந்தர்பாவ <stdio.h>
+#அந்தர்பாவ <string.h>
+#அந்தர்பாவ <openssl/crypto.h>
+#அந்தர்பாவ <openssl/sha.h>
+#அந்தர்பாவ <openssl/evp.h>
+#அந்தர்பாவ "crypto/sha.h"
 
-unsigned char *ossl_sha1(const unsigned char *d, size_t n, unsigned char *md)
+unsigned எழுத்து *ossl_sha1(மாறிலி unsigned எழுத்து *d, size_t n, unsigned எழுத்து *md)
 {
     SHA_CTX c;
-    static unsigned char m[SHA_DIGEST_LENGTH];
+    நிலையான unsigned எழுத்து m[SHA_DIGEST_LENGTH];
 
-    if (md == NULL)
+    எனில் (md == வெற்று)
         md = m;
-    if (!SHA1_Init(&c))
-        return NULL;
+    எனில் (!SHA1_Init(&c))
+        திரும்பு வெற்று;
     SHA1_Update(&c, d, n);
     SHA1_Final(md, &c);
-    OPENSSL_cleanse(&c, sizeof(c));
-    return md;
+    OPENSSL_cleanse(&c, அளவு(c));
+    திரும்பு md;
 }
 
-unsigned char *SHA1(const unsigned char *d, size_t n, unsigned char *md)
+unsigned எழுத்து *SHA1(மாறிலி unsigned எழுத்து *d, size_t n, unsigned எழுத்து *md)
 {
-    static unsigned char m[SHA_DIGEST_LENGTH];
+    நிலையான unsigned எழுத்து m[SHA_DIGEST_LENGTH];
 
-    if (md == NULL)
+    எனில் (md == வெற்று)
         md = m;
-    return EVP_Q_digest(NULL, "SHA1", NULL, d, n, md, NULL) ? md : NULL;
+    திரும்பு EVP_Q_digest(வெற்று, "SHA1", வெற்று, d, n, md, வெற்று) ? md : வெற்று;
 }
 
-unsigned char *SHA224(const unsigned char *d, size_t n, unsigned char *md)
+unsigned எழுத்து *SHA224(மாறிலி unsigned எழுத்து *d, size_t n, unsigned எழுத்து *md)
 {
-    static unsigned char m[SHA224_DIGEST_LENGTH];
+    நிலையான unsigned எழுத்து m[SHA224_DIGEST_LENGTH];
 
-    if (md == NULL)
+    எனில் (md == வெற்று)
         md = m;
-    return EVP_Q_digest(NULL, "SHA224", NULL, d, n, md, NULL) ? md : NULL;
+    திரும்பு EVP_Q_digest(வெற்று, "SHA224", வெற்று, d, n, md, வெற்று) ? md : வெற்று;
 }
 
-unsigned char *SHA256(const unsigned char *d, size_t n, unsigned char *md)
+unsigned எழுத்து *SHA256(மாறிலி unsigned எழுத்து *d, size_t n, unsigned எழுத்து *md)
 {
-    static unsigned char m[SHA256_DIGEST_LENGTH];
+    நிலையான unsigned எழுத்து m[SHA256_DIGEST_LENGTH];
 
-    if (md == NULL)
+    எனில் (md == வெற்று)
         md = m;
-    return EVP_Q_digest(NULL, "SHA256", NULL, d, n, md, NULL) ? md : NULL;
+    திரும்பு EVP_Q_digest(வெற்று, "SHA256", வெற்று, d, n, md, வெற்று) ? md : வெற்று;
 }
 
-unsigned char *SHA384(const unsigned char *d, size_t n, unsigned char *md)
+unsigned எழுத்து *SHA384(மாறிலி unsigned எழுத்து *d, size_t n, unsigned எழுத்து *md)
 {
-    static unsigned char m[SHA384_DIGEST_LENGTH];
+    நிலையான unsigned எழுத்து m[SHA384_DIGEST_LENGTH];
 
-    if (md == NULL)
+    எனில் (md == வெற்று)
         md = m;
-    return EVP_Q_digest(NULL, "SHA384", NULL, d, n, md, NULL) ? md : NULL;
+    திரும்பு EVP_Q_digest(வெற்று, "SHA384", வெற்று, d, n, md, வெற்று) ? md : வெற்று;
 }
 
-unsigned char *SHA512(const unsigned char *d, size_t n, unsigned char *md)
+unsigned எழுத்து *SHA512(மாறிலி unsigned எழுத்து *d, size_t n, unsigned எழுத்து *md)
 {
-    static unsigned char m[SHA512_DIGEST_LENGTH];
+    நிலையான unsigned எழுத்து m[SHA512_DIGEST_LENGTH];
 
-    if (md == NULL)
+    எனில் (md == வெற்று)
         md = m;
-    return EVP_Q_digest(NULL, "SHA512", NULL, d, n, md, NULL) ? md : NULL;
+    திரும்பு EVP_Q_digest(வெற்று, "SHA512", வெற்று, d, n, md, வெற்று) ? md : வெற்று;
 }

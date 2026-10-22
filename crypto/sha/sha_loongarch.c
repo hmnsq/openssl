@@ -7,35 +7,35 @@
  * https://www.openssl.org/source/license.html
  */
 
-#include <stdlib.h>
-#include <string.h>
+#அந்தர்பாவ <stdlib.h>
+#அந்தர்பாவ <string.h>
 
-#include <openssl/opensslconf.h>
-#include <openssl/sha.h>
-#include "arch/loongarch_arch.h"
+#அந்தர்பாவ <openssl/opensslconf.h>
+#அந்தர்பாவ <openssl/sha.h>
+#அந்தர்பாவ "arch/loongarch_arch.h"
 
-void sha256_block_data_order_la64v100(void *ctx, const void *in, size_t num);
-void sha256_block_data_order_lsx(void *ctx, const void *in, size_t num);
-void sha256_block_data_order(void *ctx, const void *in, size_t num);
+வெறுமை sha256_block_data_order_la64v100(வெறுமை *ctx, மாறிலி வெறுமை *in, size_t இலக்கம்);
+வெறுமை sha256_block_data_order_lsx(வெறுமை *ctx, மாறிலி வெறுமை *in, size_t இலக்கம்);
+வெறுமை sha256_block_data_order(வெறுமை *ctx, மாறிலி வெறுமை *in, size_t இலக்கம்);
 
-void sha256_block_data_order(void *ctx, const void *in, size_t num)
+வெறுமை sha256_block_data_order(வெறுமை *ctx, மாறிலி வெறுமை *in, size_t இலக்கம்)
 {
-    if (OPENSSL_loongarch_hwcap_P & LOONGARCH_HWCAP_LSX) {
-        sha256_block_data_order_lsx(ctx, in, num);
-    } else {
-        sha256_block_data_order_la64v100(ctx, in, num);
+    எனில் (OPENSSL_loongarch_hwcap_P & LOONGARCH_HWCAP_LSX) {
+        sha256_block_data_order_lsx(ctx, in, இலக்கம்);
+    } இல்லையெனில் {
+        sha256_block_data_order_la64v100(ctx, in, இலக்கம்);
     }
 }
 
-void sha512_block_data_order_la64v100(void *ctx, const void *in, size_t num);
-void sha512_block_data_order_lsx(void *ctx, const void *in, size_t num);
-void sha512_block_data_order(void *ctx, const void *in, size_t num);
+வெறுமை sha512_block_data_order_la64v100(வெறுமை *ctx, மாறிலி வெறுமை *in, size_t இலக்கம்);
+வெறுமை sha512_block_data_order_lsx(வெறுமை *ctx, மாறிலி வெறுமை *in, size_t இலக்கம்);
+வெறுமை sha512_block_data_order(வெறுமை *ctx, மாறிலி வெறுமை *in, size_t இலக்கம்);
 
-void sha512_block_data_order(void *ctx, const void *in, size_t num)
+வெறுமை sha512_block_data_order(வெறுமை *ctx, மாறிலி வெறுமை *in, size_t இலக்கம்)
 {
-    if (OPENSSL_loongarch_hwcap_P & LOONGARCH_HWCAP_LSX) {
-        sha512_block_data_order_lsx(ctx, in, num);
-    } else {
-        sha512_block_data_order_la64v100(ctx, in, num);
+    எனில் (OPENSSL_loongarch_hwcap_P & LOONGARCH_HWCAP_LSX) {
+        sha512_block_data_order_lsx(ctx, in, இலக்கம்);
+    } இல்லையெனில் {
+        sha512_block_data_order_la64v100(ctx, in, இலக்கம்);
     }
 }
