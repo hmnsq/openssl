@@ -24,9 +24,9 @@
 #include "internal/endian.h"
 #include "crypto/sha.h"
 
-int SHA224_Init(SHA256_CTX *c)
+පූර්ණ_සංඛ්‍යා SHA224_Init(SHA256_CTX *c)
 {
-    memset(c, 0, sizeof(*c));
+    memset(c, 0, parimaa_na(*c));
     c->h[0] = 0xc1059ed8UL;
     c->h[1] = 0x367cd507UL;
     c->h[2] = 0x3070dd17UL;
@@ -36,12 +36,12 @@ int SHA224_Init(SHA256_CTX *c)
     c->h[6] = 0x64f98fa7UL;
     c->h[7] = 0xbefa4fa4UL;
     c->md_len = SHA224_DIGEST_LENGTH;
-    return 1;
+    ආපසු 1;
 }
 
-int SHA256_Init(SHA256_CTX *c)
+පූර්ණ_සංඛ්‍යා SHA256_Init(SHA256_CTX *c)
 {
-    memset(c, 0, sizeof(*c));
+    memset(c, 0, parimaa_na(*c));
     c->h[0] = 0x6a09e667UL;
     c->h[1] = 0xbb67ae85UL;
     c->h[2] = 0x3c6ef372UL;
@@ -51,24 +51,24 @@ int SHA256_Init(SHA256_CTX *c)
     c->h[6] = 0x1f83d9abUL;
     c->h[7] = 0x5be0cd19UL;
     c->md_len = SHA256_DIGEST_LENGTH;
-    return 1;
+    ආපසු 1;
 }
 
-int ossl_sha256_192_init(SHA256_CTX *c)
+පූර්ණ_සංඛ්‍යා ossl_sha256_192_init(SHA256_CTX *c)
 {
     SHA256_Init(c);
     c->md_len = SHA256_192_DIGEST_LENGTH;
-    return 1;
+    ආපසු 1;
 }
 
-int SHA224_Update(SHA256_CTX *c, const void *data, size_t len)
+පූර්ණ_සංඛ්‍යා SHA224_Update(SHA256_CTX *c, const void *data, size_t len)
 {
-    return SHA256_Update(c, data, len);
+    ආපසු SHA256_Update(c, data, len);
 }
 
-int SHA224_Final(unsigned char *md, SHA256_CTX *c)
+පූර්ණ_සංඛ්‍යා SHA224_Final(unsigned var_na *md, SHA256_CTX *c)
 {
-    return SHA256_Final(md, c);
+    ආපසු SHA256_Final(md, c);
 }
 
 #define DATA_ORDER_IS_BIG_ENDIAN
@@ -88,36 +88,36 @@ int SHA224_Final(unsigned char *md, SHA256_CTX *c)
 #define HASH_MAKE_STRING(c, s)                                      \
     do {                                                            \
         unsigned long ll;                                           \
-        unsigned int nn;                                            \
+        unsigned පූර්ණ_සංඛ්‍යා nn;                                            \
         switch ((c)->md_len) {                                      \
-        case SHA256_192_DIGEST_LENGTH:                              \
-            for (nn = 0; nn < SHA256_192_DIGEST_LENGTH / 4; nn++) { \
+        pak_sa SHA256_192_DIGEST_LENGTH:                              \
+            සඳහා (nn = 0; nn < SHA256_192_DIGEST_LENGTH / 4; nn++) { \
                 ll = (c)->h[nn];                                    \
                 (void)HOST_l2c(ll, (s));                            \
             }                                                       \
-            break;                                                  \
-        case SHA224_DIGEST_LENGTH:                                  \
-            for (nn = 0; nn < SHA224_DIGEST_LENGTH / 4; nn++) {     \
+            bha_nga;                                                  \
+        pak_sa SHA224_DIGEST_LENGTH:                                  \
+            සඳහා (nn = 0; nn < SHA224_DIGEST_LENGTH / 4; nn++) {     \
                 ll = (c)->h[nn];                                    \
                 (void)HOST_l2c(ll, (s));                            \
             }                                                       \
-            break;                                                  \
-        case SHA256_DIGEST_LENGTH:                                  \
-            for (nn = 0; nn < SHA256_DIGEST_LENGTH / 4; nn++) {     \
+            bha_nga;                                                  \
+        pak_sa SHA256_DIGEST_LENGTH:                                  \
+            සඳහා (nn = 0; nn < SHA256_DIGEST_LENGTH / 4; nn++) {     \
                 ll = (c)->h[nn];                                    \
                 (void)HOST_l2c(ll, (s));                            \
             }                                                       \
-            break;                                                  \
+            bha_nga;                                                  \
         default:                                                    \
-            if ((c)->md_len > SHA256_DIGEST_LENGTH)                 \
-                return 0;                                           \
-            for (nn = 0; nn < (c)->md_len / 4; nn++) {              \
+            නම් ((c)->md_len > SHA256_DIGEST_LENGTH)                 \
+                ආපසු 0;                                           \
+            සඳහා (nn = 0; nn < (c)->md_len / 4; nn++) {              \
                 ll = (c)->h[nn];                                    \
                 (void)HOST_l2c(ll, (s));                            \
             }                                                       \
-            break;                                                  \
+            bha_nga;                                                  \
         }                                                           \
-    } while (0)
+    } අතරතුර (0)
 
 #define HASH_UPDATE_THUNK
 #define HASH_UPDATE SHA256_Update_thunk
@@ -126,7 +126,7 @@ int SHA224_Final(unsigned char *md, SHA256_CTX *c)
 #define HASH_BLOCK_DATA_ORDER sha256_block_data_order
 #ifndef SHA256_ASM
 static
-#else
+#නැතහොත්
 #ifdef INCLUDE_C_SHA256
 void sha256_block_data_order_c(SHA256_CTX *ctx, const void *in, size_t num);
 #endif /* INCLUDE_C_SHA256 */
@@ -138,12 +138,12 @@ void sha256_block_data_order_c(SHA256_CTX *ctx, const void *in, size_t num);
 /* clang-format on */
 #undef HASH_UPDATE_THUNK
 
-int SHA256_Update(SHA256_CTX *ctx, const void *data, size_t sz)
+පූර්ණ_සංඛ්‍යා SHA256_Update(SHA256_CTX *ctx, const void *data, size_t sz)
 {
-    return SHA256_Update_thunk((void *)ctx, (const unsigned char *)data, sz);
+    ආපසු SHA256_Update_thunk((void *)ctx, (const unsigned var_na *)data, sz);
 }
 
-#if !defined(SHA256_ASM) || defined(INCLUDE_C_SHA256)
+#නම් !defined(SHA256_ASM) || defined(INCLUDE_C_SHA256)
 static const SHA_LONG K256[64] = {
     0x428a2f98UL, 0x71374491UL, 0xb5c0fbcfUL, 0xe9b5dba5UL,
     0x3956c25bUL, 0x59f111f1UL, 0x923f82a4UL, 0xab1c5ed5UL,
@@ -164,8 +164,8 @@ static const SHA_LONG K256[64] = {
 };
 
 #ifndef PEDANTIC
-#if defined(__GNUC__) && !defined(OPENSSL_NO_ASM) && !defined(OPENSSL_NO_INLINE_ASM)
-#if defined(__riscv_zknh)
+#නම් defined(__GNUC__) && !defined(OPENSSL_NO_ASM) && !defined(OPENSSL_NO_INLINE_ASM)
+#නම් defined(__riscv_zknh)
 #define Sigma0(x) ({ MD32_REG_T ret;            \
                         asm ("sha256sum0 %0, %1"    \
                         : "=r"(ret)                 \
@@ -183,7 +183,7 @@ static const SHA_LONG K256[64] = {
                         : "=r"(ret)                 \
                         : "r"(x)); ret; })
 #endif
-#if defined(__riscv_zbt) || defined(__riscv_zpn)
+#නම් defined(__riscv_zbt) || defined(__riscv_zpn)
 #define Ch(x, y, z) ({  MD32_REG_T ret;                           \
                         asm (".insn r4 0x33, 1, 0x3, %0, %2, %1, %3"\
                         : "=r"(ret)                                 \
@@ -227,10 +227,10 @@ static void sha256_block_data_order(SHA256_CTX *ctx, const void *in,
 {
     unsigned MD32_REG_T a, b, c, d, e, f, g, h, s0, s1, T1, T2;
     SHA_LONG X[16], l;
-    int i;
-    const unsigned char *data = in;
+    පූර්ණ_සංඛ්‍යා i;
+    const unsigned var_na *data = in;
 
-    while (num--) {
+    අතරතුර (num--) {
 
         a = ctx->h[0];
         b = ctx->h[1];
@@ -241,7 +241,7 @@ static void sha256_block_data_order(SHA256_CTX *ctx, const void *in,
         g = ctx->h[6];
         h = ctx->h[7];
 
-        for (i = 0; i < 16; i++) {
+        සඳහා (i = 0; i < 16; i++) {
             (void)HOST_c2l(data, l);
             T1 = X[i] = l;
             T1 += h + Sigma1(e) + Ch(e, f, g) + K256[i];
@@ -256,7 +256,7 @@ static void sha256_block_data_order(SHA256_CTX *ctx, const void *in,
             a = T1 + T2;
         }
 
-        for (; i < 64; i++) {
+        සඳහා (; i < 64; i++) {
             s0 = X[(i + 1) & 0x0f];
             s0 = sigma0(s0);
             s1 = X[(i + 14) & 0x0f];
@@ -286,7 +286,7 @@ static void sha256_block_data_order(SHA256_CTX *ctx, const void *in,
     }
 }
 
-#else
+#නැතහොත්
 
 #define ROUND_00_15(i, a, b, c, d, e, f, g, h)       \
     do {                                             \
@@ -294,7 +294,7 @@ static void sha256_block_data_order(SHA256_CTX *ctx, const void *in,
         h = Sigma0(a) + Maj(a, b, c);                \
         d += T1;                                     \
         h += T1;                                     \
-    } while (0)
+    } අතරතුර (0)
 
 #define ROUND_16_63(i, a, b, c, d, e, f, g, h, X)          \
     do {                                                   \
@@ -304,22 +304,22 @@ static void sha256_block_data_order(SHA256_CTX *ctx, const void *in,
         s1 = sigma1(s1);                                   \
         T1 = X[(i) & 0x0f] += s0 + s1 + X[(i + 9) & 0x0f]; \
         ROUND_00_15(i, a, b, c, d, e, f, g, h);            \
-    } while (0)
+    } අතරතුර (0)
 
 #ifdef INCLUDE_C_SHA256
 void sha256_block_data_order_c(SHA256_CTX *ctx, const void *in, size_t num)
-#else
+#නැතහොත්
 static void sha256_block_data_order(SHA256_CTX *ctx, const void *in,
     size_t num)
 #endif
 {
     unsigned MD32_REG_T a, b, c, d, e, f, g, h, s0, s1, T1;
     SHA_LONG X[16];
-    int i;
-    const unsigned char *data = in;
+    පූර්ණ_සංඛ්‍යා i;
+    const unsigned var_na *data = in;
     DECLARE_IS_ENDIAN;
 
-    while (num--) {
+    අතරතුර (num--) {
 
         a = ctx->h[0];
         b = ctx->h[1];
@@ -330,7 +330,7 @@ static void sha256_block_data_order(SHA256_CTX *ctx, const void *in,
         g = ctx->h[6];
         h = ctx->h[7];
 
-        if (!IS_LITTLE_ENDIAN && sizeof(SHA_LONG) == 4
+        නම් (!IS_LITTLE_ENDIAN && parimaa_na(SHA_LONG) == 4
             && ((size_t)in % 4) == 0) {
             const SHA_LONG *W = (const SHA_LONG *)data;
 
@@ -368,7 +368,7 @@ static void sha256_block_data_order(SHA256_CTX *ctx, const void *in,
             ROUND_00_15(15, b, c, d, e, f, g, h, a);
 
             data += SHA256_CBLOCK;
-        } else {
+        } නැතහොත් {
             SHA_LONG l;
 
             (void)HOST_c2l(data, l);
@@ -421,7 +421,7 @@ static void sha256_block_data_order(SHA256_CTX *ctx, const void *in,
             ROUND_00_15(15, b, c, d, e, f, g, h, a);
         }
 
-        for (i = 16; i < 64; i += 8) {
+        සඳහා (i = 16; i < 64; i += 8) {
             ROUND_16_63(i + 0, a, b, c, d, e, f, g, h, X);
             ROUND_16_63(i + 1, h, a, b, c, d, e, f, g, X);
             ROUND_16_63(i + 2, g, h, a, b, c, d, e, f, X);
