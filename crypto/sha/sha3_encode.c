@@ -8,32 +8,32 @@
  */
 
 /* including crypto/sha.h requires this for SHA256_CTX */
-#include "internal/deprecated.h"
+#अन्तर्भाव "internal/deprecated.h"
 
 /*
  * NIST.SP.800-185 Encoding/Padding Methods used for SHA3 derived functions
  * e.g. It is used by KMAC and cSHAKE
  */
 
-#include <string.h> /* memcpy */
-#include <openssl/err.h>
-#include <openssl/proverr.h>
-#include "crypto/sha.h"
-#include "internal/common.h" /* ossl_assert */
+#अन्तर्भाव <string.h> /* memcpy */
+#अन्तर्भाव <openssl/err.h>
+#अन्तर्भाव <openssl/proverr.h>
+#अन्तर्भाव "crypto/sha.h"
+#अन्तर्भाव "internal/common.h" /* ossl_assert */
 
 /* Returns the number of bytes required to store 'bits' into a byte array */
-static unsigned int get_encode_size(size_t bits)
+स्थिर unsigned पूर्णाङ्क get_encode_size(size_t bits)
 {
-    unsigned int cnt = 0, sz = sizeof(size_t);
+    unsigned पूर्णाङ्क cnt = 0, sz = परिमाण(size_t);
 
-    while (bits && (cnt < sz)) {
+    यावत् (bits && (cnt < sz)) {
         ++cnt;
         bits >>= 8;
     }
     /* If bits is zero 1 byte is required */
-    if (cnt == 0)
+    यदि (cnt == 0)
         cnt = 1;
-    return cnt;
+    प्रत्यागम cnt;
 }
 
 /*
@@ -43,29 +43,29 @@ static unsigned int get_encode_size(size_t bits)
  *
  * e.g if bits = 32, out[2] = { 0x20, 0x01 }
  */
-int ossl_sp800_185_right_encode(unsigned char *out,
+पूर्णाङ्क ossl_sp800_185_उजवा_encode(unsigned वर्ण *out,
     size_t out_max_len, size_t *out_len,
     size_t bits)
 {
-    unsigned int len = get_encode_size(bits);
-    int i;
+    unsigned पूर्णाङ्क len = get_encode_size(bits);
+    पूर्णाङ्क i;
 
-    if (len >= out_max_len) {
+    यदि (len >= out_max_len) {
         ERR_raise(ERR_LIB_PROV, PROV_R_LENGTH_TOO_LARGE);
-        return 0;
+        प्रत्यागम 0;
     }
 
     /* MSB's are at the start of the bytes array */
-    for (i = len - 1; i >= 0; --i) {
-        out[i] = (unsigned char)(bits & 0xFF);
+    प्रति (i = len - 1; i >= 0; --i) {
+        out[i] = (unsigned वर्ण)(bits & 0xFF);
         bits >>= 8;
     }
     /* Tack the length onto the end */
-    out[len] = (unsigned char)len;
+    out[len] = (unsigned वर्ण)len;
 
     /* The Returned length includes the tacked on byte */
     *out_len = len + 1;
-    return 1;
+    प्रत्यागम 1;
 }
 
 /*
@@ -75,33 +75,33 @@ int ossl_sp800_185_right_encode(unsigned char *out,
  * e.g- in="KMAC" gives out[6] = { 0x01, 0x20, 0x4B, 0x4D, 0x41, 0x43 }
  *                                 len   bits    K     M     A     C
  */
-int ossl_sp800_185_encode_string(unsigned char *out,
+पूर्णाङ्क ossl_sp800_185_encode_string(unsigned वर्ण *out,
     size_t out_max_len, size_t *out_len,
-    const unsigned char *in, size_t in_len)
+    ध्रुव unsigned वर्ण *in, size_t in_len)
 {
-    if (in == NULL) {
+    यदि (in == रिक्त) {
         *out_len = 0;
-    } else {
+    } अन्यथा {
         size_t i, bits, len, sz;
 
         bits = 8 * in_len;
         len = get_encode_size(bits);
         sz = 1 + len + in_len;
 
-        if (sz > out_max_len) {
+        यदि (sz > out_max_len) {
             ERR_raise(ERR_LIB_PROV, PROV_R_LENGTH_TOO_LARGE);
-            return 0;
+            प्रत्यागम 0;
         }
 
-        out[0] = (unsigned char)len;
-        for (i = len; i > 0; --i) {
+        out[0] = (unsigned वर्ण)len;
+        प्रति (i = len; i > 0; --i) {
             out[i] = (bits & 0xFF);
             bits >>= 8;
         }
         memcpy(out + len + 1, in, in_len);
         *out_len = sz;
     }
-    return 1;
+    प्रत्यागम 1;
 }
 
 /*
@@ -112,47 +112,47 @@ int ossl_sp800_185_encode_string(unsigned char *out,
  * The returned output is:
  *    zero_padded(multiple of w, (left_encode(w) || in1 [|| in2])
  */
-int ossl_sp800_185_bytepad(unsigned char *out, size_t out_len_max, size_t *out_len,
-    const unsigned char *in1, size_t in1_len,
-    const unsigned char *in2, size_t in2_len,
+पूर्णाङ्क ossl_sp800_185_bytepad(unsigned वर्ण *out, size_t out_len_max, size_t *out_len,
+    ध्रुव unsigned वर्ण *in1, size_t in1_len,
+    ध्रुव unsigned वर्ण *in2, size_t in2_len,
     size_t w)
 {
     size_t len;
-    unsigned char *p = out;
+    unsigned वर्ण *p = out;
     size_t sz;
 
-    if (!ossl_assert(w <= 255))
-        return 0;
-    sz = (2 + in1_len + (in2 != NULL ? in2_len : 0) + w - 1) / w * w;
-    if (out_len_max != 0 && sz > out_len_max)
-        return 0;
+    यदि (!ossl_assert(w <= 255))
+        प्रत्यागम 0;
+    sz = (2 + in1_len + (in2 != रिक्त ? in2_len : 0) + w - 1) / w * w;
+    यदि (out_len_max != 0 && sz > out_len_max)
+        प्रत्यागम 0;
 
-    if (out == NULL) {
-        if (out_len == NULL) {
+    यदि (out == रिक्त) {
+        यदि (out_len == रिक्त) {
             ERR_raise(ERR_LIB_PROV, ERR_R_PASSED_NULL_PARAMETER);
-            return 0;
+            प्रत्यागम 0;
         }
         *out_len = sz;
-        return 1;
+        प्रत्यागम 1;
     }
 
     /* Left encoded w */
     *p++ = 1;
-    *p++ = (unsigned char)w;
+    *p++ = (unsigned वर्ण)w;
     /* || in1 */
     memcpy(p, in1, in1_len);
     p += in1_len;
     /* [ || in2 ] */
-    if (in2 != NULL && in2_len > 0) {
+    यदि (in2 != रिक्त && in2_len > 0) {
         memcpy(p, in2, in2_len);
         p += in2_len;
     }
     /* Figure out the pad size (divisible by w) */
     len = p - out;
     /* zero pad the end of the buffer */
-    if (sz != len)
+    यदि (sz != len)
         memset(p, 0, sz - len);
-    if (out_len != NULL)
+    यदि (out_len != रिक्त)
         *out_len = sz;
-    return 1;
+    प्रत्यागम 1;
 }
