@@ -11,70 +11,70 @@
  * SHA-1 low level APIs are deprecated for public use, but still ok for
  * internal use.
  */
-#include "internal/deprecated.h"
+#અન્તર્ભાવ "internal/deprecated.h"
 
-#include <openssl/crypto.h>
-#include <openssl/opensslconf.h>
+#અન્તર્ભાવ <openssl/crypto.h>
+#અન્તર્ભાવ <openssl/opensslconf.h>
 
-#include <openssl/opensslv.h>
-#include <openssl/evp.h>
-#include <openssl/sha.h>
+#અન્તર્ભાવ <openssl/opensslv.h>
+#અન્તર્ભાવ <openssl/evp.h>
+#અન્તર્ભાવ <openssl/sha.h>
 
 /* The implementation is in crypto/md32_common.inc */
 
-#include "sha_local.h"
-#include "crypto/sha.h"
+#અન્તર્ભાવ "sha_local.h"
+#અન્તર્ભાવ "crypto/sha.h"
 
-int ossl_sha1_ctrl(SHA_CTX *sha1, int cmd, int mslen, void *ms)
+પૂર્ણાંક ossl_sha1_ctrl(SHA_CTX *sha1, પૂર્ણાંક cmd, પૂર્ણાંક mslen, શૂન્ય *ms)
 {
-    unsigned char padtmp[40];
-    unsigned char sha1tmp[SHA_DIGEST_LENGTH];
+    unsigned અક્ષર padtmp[40];
+    unsigned અક્ષર sha1tmp[SHA_DIGEST_LENGTH];
 
-    if (cmd != EVP_CTRL_SSL3_MASTER_SECRET)
-        return -2;
+    જો (cmd != EVP_CTRL_SSL3_MASTER_SECRET)
+        પાછા -2;
 
-    if (sha1 == NULL)
-        return 0;
+    જો (sha1 == ખાલી)
+        પાછા 0;
 
     /* SSLv3 client auth handling: see RFC-6101 5.6.8 */
-    if (mslen != 48)
-        return 0;
+    જો (mslen != 48)
+        પાછા 0;
 
     /* At this point hash contains all handshake messages, update
      * with master secret and pad_1.
      */
 
-    if (SHA1_Update(sha1, ms, mslen) <= 0)
-        return 0;
+    જો (SHA1_Update(sha1, ms, mslen) <= 0)
+        પાછા 0;
 
     /* Set padtmp to pad_1 value */
-    memset(padtmp, 0x36, sizeof(padtmp));
+    memset(padtmp, 0x36, કદ(padtmp));
 
-    if (!SHA1_Update(sha1, padtmp, sizeof(padtmp)))
-        return 0;
+    જો (!SHA1_Update(sha1, padtmp, કદ(padtmp)))
+        પાછા 0;
 
-    if (!SHA1_Final(sha1tmp, sha1))
-        return 0;
+    જો (!SHA1_Final(sha1tmp, sha1))
+        પાછા 0;
 
     /* Reinitialise context */
 
-    if (!SHA1_Init(sha1))
-        return 0;
+    જો (!SHA1_Init(sha1))
+        પાછા 0;
 
-    if (SHA1_Update(sha1, ms, mslen) <= 0)
-        return 0;
+    જો (SHA1_Update(sha1, ms, mslen) <= 0)
+        પાછા 0;
 
     /* Set padtmp to pad_2 value */
-    memset(padtmp, 0x5c, sizeof(padtmp));
+    memset(padtmp, 0x5c, કદ(padtmp));
 
-    if (!SHA1_Update(sha1, padtmp, sizeof(padtmp)))
-        return 0;
+    જો (!SHA1_Update(sha1, padtmp, કદ(padtmp)))
+        પાછા 0;
 
-    if (!SHA1_Update(sha1, sha1tmp, sizeof(sha1tmp)))
-        return 0;
+    જો (!SHA1_Update(sha1, sha1tmp, કદ(sha1tmp)))
+        પાછા 0;
 
     /* Now when ctx is finalised it will return the SSL v3 hash value */
-    OPENSSL_cleanse(sha1tmp, sizeof(sha1tmp));
+    OPENSSL_cleanse(sha1tmp, કદ(sha1tmp));
 
-    return 1;
+    પાછા 1;
 }
