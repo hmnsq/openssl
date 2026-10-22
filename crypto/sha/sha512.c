@@ -11,11 +11,11 @@
  * SHA512 low level APIs are deprecated for public use, but still ok for
  * internal use.
  */
-#include "internal/deprecated.h"
+#अन्तर्भाव "internal/deprecated.h"
 
-#include <stdio.h>
-#include <openssl/opensslconf.h>
-#include <openssl/byteorder.h>
+#अन्तर्भाव <stdio.h>
+#अन्तर्भाव <openssl/opensslconf.h>
+#अन्तर्भाव <openssl/byteorder.h>
 /*-
  * IMPLEMENTATION NOTES.
  *
@@ -50,31 +50,31 @@
  * inappropriate for platforms which don't support it, most notably
  * 16-bit platforms.
  */
-#include <stdlib.h>
-#include <string.h>
+#अन्तर्भाव <stdlib.h>
+#अन्तर्भाव <string.h>
 
-#include <openssl/crypto.h>
-#include <openssl/sha.h>
-#include <openssl/opensslv.h>
+#अन्तर्भाव <openssl/crypto.h>
+#अन्तर्भाव <openssl/sha.h>
+#अन्तर्भाव <openssl/opensslv.h>
 
-#include "internal/cryptlib.h"
-#include "crypto/sha.h"
+#अन्तर्भाव "internal/cryptlib.h"
+#अन्तर्भाव "crypto/sha.h"
 
-#if defined(__i386) || defined(__i386__) || defined(_M_IX86) || defined(__x86_64) || defined(_M_AMD64) || defined(_M_X64) || defined(__s390__) || defined(__s390x__) || defined(__aarch64__) || defined(__e2k__) || defined(SHA512_ASM)
+#यदि defined(__i386) || defined(__i386__) || defined(_M_IX86) || defined(__x86_64) || defined(_M_AMD64) || defined(_M_X64) || defined(__s390__) || defined(__s390x__) || defined(__aarch64__) || defined(__e2k__) || defined(SHA512_ASM)
 #define SHA512_BLOCK_CAN_MANAGE_UNALIGNED_DATA
 #endif
 
-#if (defined(_WIN32) || defined(_WIN64)) && !defined(__MINGW32__)
+#यदि (defined(_WIN32) || defined(_WIN64)) && !defined(__MINGW32__)
 #define U64(C) C##UI64
-#elif defined(__arch64__)
+#नोचेद्यदि defined(__arch64__)
 #define U64(C) C##UL
-#else
+#अन्यथा
 #define U64(C) C##ULL
 #endif
 
-int SHA512_Update_thunk(void *cp, const unsigned char *data, size_t len);
+पूर्णाङ्क SHA512_Update_thunk(शून्य *cp, ध्रुव unsigned वर्ण *data, size_t len);
 
-int sha512_224_init(SHA512_CTX *c)
+पूर्णाङ्क sha512_224_init(SHA512_CTX *c)
 {
     c->h[0] = U64(0x8c3d37c819544da2);
     c->h[1] = U64(0x73e1996689dcd4d6);
@@ -87,12 +87,12 @@ int sha512_224_init(SHA512_CTX *c)
 
     c->Nl = 0;
     c->Nh = 0;
-    c->num = 0;
+    c->अंक = 0;
     c->md_len = SHA224_DIGEST_LENGTH;
-    return 1;
+    प्रत्यागम 1;
 }
 
-int sha512_256_init(SHA512_CTX *c)
+पूर्णाङ्क sha512_256_init(SHA512_CTX *c)
 {
     c->h[0] = U64(0x22312194fc2bf72c);
     c->h[1] = U64(0x9f555fa3c84c64c2);
@@ -105,12 +105,12 @@ int sha512_256_init(SHA512_CTX *c)
 
     c->Nl = 0;
     c->Nh = 0;
-    c->num = 0;
+    c->अंक = 0;
     c->md_len = SHA256_DIGEST_LENGTH;
-    return 1;
+    प्रत्यागम 1;
 }
 
-int SHA384_Init(SHA512_CTX *c)
+पूर्णाङ्क SHA384_Init(SHA512_CTX *c)
 {
     c->h[0] = U64(0xcbbb9d5dc1059ed8);
     c->h[1] = U64(0x629a292a367cd507);
@@ -123,12 +123,12 @@ int SHA384_Init(SHA512_CTX *c)
 
     c->Nl = 0;
     c->Nh = 0;
-    c->num = 0;
+    c->अंक = 0;
     c->md_len = SHA384_DIGEST_LENGTH;
-    return 1;
+    प्रत्यागम 1;
 }
 
-int SHA512_Init(SHA512_CTX *c)
+पूर्णाङ्क SHA512_Init(SHA512_CTX *c)
 {
     c->h[0] = U64(0x6a09e667f3bcc908);
     c->h[1] = U64(0xbb67ae8584caa73b);
@@ -141,43 +141,43 @@ int SHA512_Init(SHA512_CTX *c)
 
     c->Nl = 0;
     c->Nh = 0;
-    c->num = 0;
+    c->अंक = 0;
     c->md_len = SHA512_DIGEST_LENGTH;
-    return 1;
+    प्रत्यागम 1;
 }
 
 #ifndef SHA512_ASM
-static
-#else
+स्थिर
+#अन्यथा
 #ifdef INCLUDE_C_SHA512
-void sha512_block_data_order_c(SHA512_CTX *ctx, const void *in, size_t num);
+शून्य sha512_block_data_order_c(SHA512_CTX *ctx, ध्रुव शून्य *in, size_t अंक);
 #endif
 #endif
-    void sha512_block_data_order(SHA512_CTX *ctx, const void *in, size_t num);
+    शून्य sha512_block_data_order(SHA512_CTX *ctx, ध्रुव शून्य *in, size_t अंक);
 
 #define OUTPUT_RESULT(md, len)      \
-    for (n = 0; n < (len / 8); n++) \
+    प्रति (n = 0; n < (len / 8); n++) \
     md = OPENSSL_store_u64_be(md, (uint64_t)c->h[n])
 
-int SHA512_Final(unsigned char *out, SHA512_CTX *c)
+पूर्णाङ्क SHA512_Final(unsigned वर्ण *out, SHA512_CTX *c)
 {
-    unsigned char *p = (unsigned char *)c->u.p;
-    size_t n = c->num;
+    unsigned वर्ण *p = (unsigned वर्ण *)c->u.p;
+    size_t n = c->अंक;
 
     p[n] = 0x80; /* There always is a room for one */
     n++;
-    if (n > (sizeof(c->u) - 16)) {
-        memset(p + n, 0, sizeof(c->u) - n);
+    यदि (n > (परिमाण(c->u) - 16)) {
+        memset(p + n, 0, परिमाण(c->u) - n);
         n = 0;
         sha512_block_data_order(c, p, 1);
     }
 
-    memset(p + n, 0, sizeof(c->u) - 16 - n);
+    memset(p + n, 0, परिमाण(c->u) - 16 - n);
 #ifdef B_ENDIAN
     c->u.d[SHA_LBLOCK - 2] = c->Nh;
     c->u.d[SHA_LBLOCK - 1] = c->Nl;
-#else
-    uint8_t *cu = p + sizeof(c->u) - 16;
+#अन्यथा
+    uint8_t *cu = p + परिमाण(c->u) - 16;
 
     cu = OPENSSL_store_u64_be(cu, (uint64_t)c->Nh);
     cu = OPENSSL_store_u64_be(cu, (uint64_t)c->Nl);
@@ -185,24 +185,24 @@ int SHA512_Final(unsigned char *out, SHA512_CTX *c)
 
     sha512_block_data_order(c, p, 1);
 
-    if (out == NULL)
-        return 0;
+    यदि (out == रिक्त)
+        प्रत्यागम 0;
 
     /* Let compiler decide if it's appropriate to unroll... */
-    switch (c->md_len) {
-    case SHA256_192_DIGEST_LENGTH:
+    विकल्प (c->md_len) {
+    पक्ष SHA256_192_DIGEST_LENGTH:
         OUTPUT_RESULT(out, SHA256_192_DIGEST_LENGTH);
-        break;
-    case SHA256_DIGEST_LENGTH:
+        भङ्ग;
+    पक्ष SHA256_DIGEST_LENGTH:
         OUTPUT_RESULT(out, SHA256_DIGEST_LENGTH);
-        break;
-    case SHA384_DIGEST_LENGTH:
+        भङ्ग;
+    पक्ष SHA384_DIGEST_LENGTH:
         OUTPUT_RESULT(out, SHA384_DIGEST_LENGTH);
-        break;
-    case SHA512_DIGEST_LENGTH:
+        भङ्ग;
+    पक्ष SHA512_DIGEST_LENGTH:
         OUTPUT_RESULT(out, SHA512_DIGEST_LENGTH);
-        break;
-    case SHA224_DIGEST_LENGTH: {
+        भङ्ग;
+    पक्ष SHA224_DIGEST_LENGTH: {
         OUTPUT_RESULT(out, SHA224_DIGEST_LENGTH);
         /*
          * For 224 bits, there are four bytes left over that have to be
@@ -211,95 +211,95 @@ int SHA512_Final(unsigned char *out, SHA512_CTX *c)
         {
             SHA_LONG64 t = c->h[SHA224_DIGEST_LENGTH / 8];
 
-            *(out++) = (unsigned char)(t >> 56);
-            *(out++) = (unsigned char)(t >> 48);
-            *(out++) = (unsigned char)(t >> 40);
-            *(out++) = (unsigned char)(t >> 32);
+            *(out++) = (unsigned वर्ण)(t >> 56);
+            *(out++) = (unsigned वर्ण)(t >> 48);
+            *(out++) = (unsigned वर्ण)(t >> 40);
+            *(out++) = (unsigned वर्ण)(t >> 32);
         }
-        break;
+        भङ्ग;
     }
     /* ... as well as make sure md_len is not abused. */
-    default:
-        return 0;
+    स्वभाव:
+        प्रत्यागम 0;
     }
 
-    return 1;
+    प्रत्यागम 1;
 }
 
-int SHA384_Final(unsigned char *md, SHA512_CTX *c)
+पूर्णाङ्क SHA384_Final(unsigned वर्ण *md, SHA512_CTX *c)
 {
-    return SHA512_Final(md, c);
+    प्रत्यागम SHA512_Final(md, c);
 }
 
-int SHA512_Update_thunk(void *cp, const unsigned char *data, size_t len)
+पूर्णाङ्क SHA512_Update_thunk(शून्य *cp, ध्रुव unsigned वर्ण *data, size_t len)
 {
     SHA512_CTX *c = (SHA512_CTX *)cp;
     SHA_LONG64 l;
-    unsigned char *p = c->u.p;
+    unsigned वर्ण *p = c->u.p;
 
-    if (len == 0)
-        return 1;
+    यदि (len == 0)
+        प्रत्यागम 1;
 
     l = (c->Nl + (((SHA_LONG64)len) << 3)) & U64(0xffffffffffffffff);
-    if (l < c->Nl)
+    यदि (l < c->Nl)
         c->Nh++;
-    if (sizeof(len) >= 8)
+    यदि (परिमाण(len) >= 8)
         c->Nh += (((SHA_LONG64)len) >> 61);
     c->Nl = l;
 
-    if (c->num != 0) {
-        size_t n = sizeof(c->u) - c->num;
+    यदि (c->अंक != 0) {
+        size_t n = परिमाण(c->u) - c->अंक;
 
-        if (len < n) {
-            memcpy(p + c->num, data, len), c->num += (unsigned int)len;
-            return 1;
-        } else {
-            memcpy(p + c->num, data, n), c->num = 0;
+        यदि (len < n) {
+            memcpy(p + c->अंक, data, len), c->अंक += (unsigned पूर्णाङ्क)len;
+            प्रत्यागम 1;
+        } अन्यथा {
+            memcpy(p + c->अंक, data, n), c->अंक = 0;
             len -= n, data += n;
             sha512_block_data_order(c, p, 1);
         }
     }
 
-    if (len >= sizeof(c->u)) {
+    यदि (len >= परिमाण(c->u)) {
 #ifndef SHA512_BLOCK_CAN_MANAGE_UNALIGNED_DATA
-        if ((size_t)data % sizeof(c->u.d[0]) != 0)
-            while (len >= sizeof(c->u))
-                memcpy(p, data, sizeof(c->u)),
+        यदि ((size_t)data % परिमाण(c->u.d[0]) != 0)
+            यावत् (len >= परिमाण(c->u))
+                memcpy(p, data, परिमाण(c->u)),
                     sha512_block_data_order(c, p, 1),
-                    len -= sizeof(c->u), data += sizeof(c->u);
-        else
+                    len -= परिमाण(c->u), data += परिमाण(c->u);
+        अन्यथा
 #endif
-            sha512_block_data_order(c, data, len / sizeof(c->u)),
-                data += len, len %= sizeof(c->u), data -= len;
+            sha512_block_data_order(c, data, len / परिमाण(c->u)),
+                data += len, len %= परिमाण(c->u), data -= len;
     }
 
-    if (len != 0)
-        memcpy(p, data, len), c->num = (int)len;
+    यदि (len != 0)
+        memcpy(p, data, len), c->अंक = (पूर्णाङ्क)len;
 
-    return 1;
+    प्रत्यागम 1;
 }
 
-int SHA512_Update(SHA512_CTX *c, const void *_data, size_t len)
+पूर्णाङ्क SHA512_Update(SHA512_CTX *c, ध्रुव शून्य *_data, size_t len)
 {
-    return SHA512_Update_thunk((void *)c, (const unsigned char *)_data, len);
+    प्रत्यागम SHA512_Update_thunk((शून्य *)c, (ध्रुव unsigned वर्ण *)_data, len);
 }
 
-int SHA384_Update(SHA512_CTX *c, const void *data, size_t len)
+पूर्णाङ्क SHA384_Update(SHA512_CTX *c, ध्रुव शून्य *data, size_t len)
 {
-    return SHA512_Update_thunk((void *)c, (const unsigned char *)data, len);
+    प्रत्यागम SHA512_Update_thunk((शून्य *)c, (ध्रुव unsigned वर्ण *)data, len);
 }
 
-void SHA512_Transform(SHA512_CTX *c, const unsigned char *data)
+शून्य SHA512_Transform(SHA512_CTX *c, ध्रुव unsigned वर्ण *data)
 {
 #ifndef SHA512_BLOCK_CAN_MANAGE_UNALIGNED_DATA
-    if ((size_t)data % sizeof(c->u.d[0]) != 0)
-        memcpy(c->u.p, data, sizeof(c->u.p)), data = c->u.p;
+    यदि ((size_t)data % परिमाण(c->u.d[0]) != 0)
+        memcpy(c->u.p, data, परिमाण(c->u.p)), data = c->u.p;
 #endif
     sha512_block_data_order(c, data, 1);
 }
 
-#if !defined(SHA512_ASM) || defined(INCLUDE_C_SHA512)
-static const SHA_LONG64 K512[80] = {
+#यदि !defined(SHA512_ASM) || defined(INCLUDE_C_SHA512)
+स्थिर ध्रुव SHA_LONG64 K512[80] = {
     U64(0x428a2f98d728ae22), U64(0x7137449123ef65cd),
     U64(0xb5c0fbcfec4d3b2f), U64(0xe9b5dba58189dbbc),
     U64(0x3956c25bf348b538), U64(0x59f111f1b605d019),
@@ -343,108 +343,108 @@ static const SHA_LONG64 K512[80] = {
 };
 
 #ifndef PEDANTIC
-#if defined(__GNUC__) && !defined(OPENSSL_NO_ASM) && !defined(OPENSSL_NO_INLINE_ASM)
-#if defined(__x86_64) || defined(__x86_64__)
+#यदि defined(__GNUC__) && !defined(OPENSSL_NO_ASM) && !defined(OPENSSL_NO_INLINE_ASM)
+#यदि defined(__x86_64) || defined(__x86_64__)
 #define ROTR(a, n) ({ SHA_LONG64 ret;             \
                                 asm ("rorq %1,%0"       \
                                 : "=r"(ret)             \
                                 : "J"(n),"0"(a)         \
                                 : "cc"); ret; })
-#if !defined(B_ENDIAN)
-#define PULL64(x) ({ SHA_LONG64 ret=*((const SHA_LONG64 *)(&(x)));  \
+#यदि !defined(B_ENDIAN)
+#define PULL64(x) ({ SHA_LONG64 ret=*((ध्रुव SHA_LONG64 *)(&(x)));  \
                                 asm ("bswapq    %0"             \
                                 : "=r"(ret)                     \
                                 : "0"(ret)); ret; })
 #endif
-#elif (defined(__i386) || defined(__i386__)) && !defined(B_ENDIAN)
-#if defined(I386_ONLY)
-#define PULL64(x) ({ const unsigned int *p=(const unsigned int *)(&(x));\
-                          unsigned int hi=p[0],lo=p[1];          \
+#नोचेद्यदि (defined(__i386) || defined(__i386__)) && !defined(B_ENDIAN)
+#यदि defined(I386_ONLY)
+#define PULL64(x) ({ ध्रुव unsigned पूर्णाङ्क *p=(ध्रुव unsigned पूर्णाङ्क *)(&(x));\
+                          unsigned पूर्णाङ्क hi=p[0],lo=p[1];          \
                                 asm("xchgb %%ah,%%al;xchgb %%dh,%%dl;"\
                                     "roll $16,%%eax; roll $16,%%edx; "\
                                     "xchgb %%ah,%%al;xchgb %%dh,%%dl;"\
                                 : "=a"(lo),"=d"(hi)             \
                                 : "0"(lo),"1"(hi) : "cc");      \
                                 ((SHA_LONG64)hi)<<32|lo; })
-#else
-#define PULL64(x) ({ const unsigned int *p=(const unsigned int *)(&(x));\
-                          unsigned int hi=p[0],lo=p[1];         \
+#अन्यथा
+#define PULL64(x) ({ ध्रुव unsigned पूर्णाङ्क *p=(ध्रुव unsigned पूर्णाङ्क *)(&(x));\
+                          unsigned पूर्णाङ्क hi=p[0],lo=p[1];         \
                                 asm ("bswapl %0; bswapl %1;"    \
                                 : "=r"(lo),"=r"(hi)             \
                                 : "0"(lo),"1"(hi));             \
                                 ((SHA_LONG64)hi)<<32|lo; })
 #endif
-#elif (defined(_ARCH_PPC) && defined(__64BIT__)) || defined(_ARCH_PPC64)
+#नोचेद्यदि (defined(_ARCH_PPC) && defined(__64BIT__)) || defined(_ARCH_PPC64)
 #define ROTR(a, n) ({ SHA_LONG64 ret;             \
                                 asm ("rotrdi %0,%1,%2"  \
                                 : "=r"(ret)             \
                                 : "r"(a),"K"(n)); ret; })
-#elif defined(__aarch64__)
+#नोचेद्यदि defined(__aarch64__)
 #define ROTR(a, n) ({ SHA_LONG64 ret;             \
                                 asm ("ror %0,%1,%2"     \
                                 : "=r"(ret)             \
                                 : "r"(a),"I"(n)); ret; })
-#if defined(__BYTE_ORDER__) && defined(__ORDER_LITTLE_ENDIAN__) && __BYTE_ORDER__ == __ORDER_LITTLE_ENDIAN__
+#यदि defined(__BYTE_ORDER__) && defined(__ORDER_LITTLE_ENDIAN__) && __BYTE_ORDER__ == __ORDER_LITTLE_ENDIAN__
 #define PULL64(x) ({ SHA_LONG64 ret;                     \
                                 asm ("rev       %0,%1"          \
                                 : "=r"(ret)                     \
-                                : "r"(*((const SHA_LONG64 *)(&(x))))); ret; })
+                                : "r"(*((ध्रुव SHA_LONG64 *)(&(x))))); ret; })
 #endif
-#elif (defined(__riscv_zbkb) || defined(__riscv_zbb)) && __riscv_xlen == 32
+#नोचेद्यदि (defined(__riscv_zbkb) || defined(__riscv_zbb)) && __riscv_xlen == 32
 #define PULL64(x) ({ SHA_LONG64 ret;                                        \
-                        unsigned int *r = (unsigned int *)(&(ret));             \
-                        const unsigned int *p = (const unsigned int *)(&(x));   \
+                        unsigned पूर्णाङ्क *r = (unsigned पूर्णाङ्क *)(&(ret));             \
+                        ध्रुव unsigned पूर्णाङ्क *p = (ध्रुव unsigned पूर्णाङ्क *)(&(x));   \
                         asm ("rev8 %0, %1"                                      \
                         : "=r"(r[0])                                            \
                         : "r" (p[1]));                                          \
                         asm ("rev8 %0, %1"                                      \
                         : "=r"(r[1])                                            \
                         : "r" (p[0])); ret; })
-#elif (defined(__riscv_zbkb) || defined(__riscv_zbb)) && __riscv_xlen == 64
+#नोचेद्यदि (defined(__riscv_zbkb) || defined(__riscv_zbb)) && __riscv_xlen == 64
 #define PULL64(x) ({ SHA_LONG64 ret;    \
                         asm ("rev8 %0, %1"  \
                         : "=r"(ret)         \
                         : "r"(x)); ret; })
-#elif defined(__e2k__)
-#include <x86gprintrin.h>
+#नोचेद्यदि defined(__e2k__)
+#अन्तर्भाव <x86gprintrin.h>
 #define PULL64(x) __builtin_bswap64(x)
 #define ROTR(x, s) ((s) > 48 ? __rolq((x), 64 - (s)) \
                              : __rorq((x), (s)))
 #endif
-#if defined(__riscv_zknh) && __riscv_xlen == 32
-#define Sigma0(x) ({ SHA_LONG64 ret; unsigned int *r = (unsigned int *)(&(ret));    \
-                        const unsigned int *p = (const unsigned int *)(&(x));           \
+#यदि defined(__riscv_zknh) && __riscv_xlen == 32
+#define Sigma0(x) ({ SHA_LONG64 ret; unsigned पूर्णाङ्क *r = (unsigned पूर्णाङ्क *)(&(ret));    \
+                        ध्रुव unsigned पूर्णाङ्क *p = (ध्रुव unsigned पूर्णाङ्क *)(&(x));           \
                         asm ("sha512sum0r %0, %1, %2"                                   \
                         : "=r"(r[0])                                                    \
                         : "r" (p[0]), "r" (p[1]));                                      \
                         asm ("sha512sum0r %0, %2, %1"                                   \
                         : "=r"(r[1])                                                    \
                         : "r" (p[0]), "r" (p[1])); ret; })
-#define Sigma1(x) ({ SHA_LONG64 ret; unsigned int *r = (unsigned int *)(&(ret));    \
-                        const unsigned int *p = (const unsigned int *)(&(x));           \
+#define Sigma1(x) ({ SHA_LONG64 ret; unsigned पूर्णाङ्क *r = (unsigned पूर्णाङ्क *)(&(ret));    \
+                        ध्रुव unsigned पूर्णाङ्क *p = (ध्रुव unsigned पूर्णाङ्क *)(&(x));           \
                         asm ("sha512sum1r %0, %1, %2"                                   \
                         : "=r"(r[0])                                                    \
                         : "r" (p[0]), "r" (p[1]));                                      \
                         asm ("sha512sum1r %0, %2, %1"                                   \
                         : "=r"(r[1])                                                    \
                         : "r" (p[0]), "r" (p[1])); ret; })
-#define sigma0(x) ({ SHA_LONG64 ret; unsigned int *r = (unsigned int *)(&(ret));    \
-                        const unsigned int *p = (const unsigned int *)(&(x));           \
+#define sigma0(x) ({ SHA_LONG64 ret; unsigned पूर्णाङ्क *r = (unsigned पूर्णाङ्क *)(&(ret));    \
+                        ध्रुव unsigned पूर्णाङ्क *p = (ध्रुव unsigned पूर्णाङ्क *)(&(x));           \
                         asm ("sha512sig0l %0, %1, %2"                                   \
                         : "=r"(r[0])                                                    \
                         : "r" (p[0]), "r" (p[1]));                                      \
                         asm ("sha512sig0h %0, %2, %1"                                   \
                         : "=r"(r[1])                                                    \
                         : "r" (p[0]), "r" (p[1])); ret; })
-#define sigma1(x) ({ SHA_LONG64 ret; unsigned int *r = (unsigned int *)(&(ret));    \
-                        const unsigned int *p = (const unsigned int *)(&(x));           \
+#define sigma1(x) ({ SHA_LONG64 ret; unsigned पूर्णाङ्क *r = (unsigned पूर्णाङ्क *)(&(ret));    \
+                        ध्रुव unsigned पूर्णाङ्क *p = (ध्रुव unsigned पूर्णाङ्क *)(&(x));           \
                         asm ("sha512sig1l %0, %1, %2"                                   \
                         : "=r"(r[0])                                                    \
                         : "r" (p[0]), "r" (p[1]));                                      \
                         asm ("sha512sig1h %0, %2, %1"                                   \
                         : "=r"(r[1])                                                    \
                         : "r" (p[0]), "r" (p[1])); ret; })
-#elif defined(__riscv_zknh) && __riscv_xlen == 64
+#नोचेद्यदि defined(__riscv_zknh) && __riscv_xlen == 64
 #define Sigma0(x) ({ SHA_LONG64 ret;            \
                         asm ("sha512sum0 %0, %1"    \
                         : "=r"(ret)                 \
@@ -462,28 +462,28 @@ static const SHA_LONG64 K512[80] = {
                         : "=r"(ret)                 \
                         : "r"(x)); ret; })
 #endif
-#if (defined(__riscv_zbt) || defined(__riscv_zpn)) && __riscv_xlen == 32
-#define Ch(x, y, z) ({  SHA_LONG64 ret; unsigned int *r = (unsigned int *)(&(ret));   \
-                        const unsigned int *xp = (const unsigned int *)(&(x));          \
-                        const unsigned int *yp = (const unsigned int *)(&(y));          \
-                        const unsigned int *zp = (const unsigned int *)(&(z));          \
+#यदि (defined(__riscv_zbt) || defined(__riscv_zpn)) && __riscv_xlen == 32
+#define Ch(x, y, z) ({  SHA_LONG64 ret; unsigned पूर्णाङ्क *r = (unsigned पूर्णाङ्क *)(&(ret));   \
+                        ध्रुव unsigned पूर्णाङ्क *xp = (ध्रुव unsigned पूर्णाङ्क *)(&(x));          \
+                        ध्रुव unsigned पूर्णाङ्क *yp = (ध्रुव unsigned पूर्णाङ्क *)(&(y));          \
+                        ध्रुव unsigned पूर्णाङ्क *zp = (ध्रुव unsigned पूर्णाङ्क *)(&(z));          \
                         asm (".insn r4 0x33, 1, 0x3, %0, %2, %1, %3\n\t"                \
                         : "=r"(r[0])                                                    \
                         : "r"(xp[0]), "r"(yp[0]), "r"(zp[0]));                          \
                         asm (".insn r4 0x33, 1, 0x3, %0, %2, %1, %3\n\t"                \
                         : "=r"(r[1])                                                    \
                         : "r"(xp[1]), "r"(yp[1]), "r"(zp[1])); ret; })
-#define Maj(x, y, z) ({ SHA_LONG64 ret; unsigned int *r = (unsigned int *)(&(ret));   \
-                        const unsigned int *xp = (const unsigned int *)(&(x));          \
-                        const unsigned int *yp = (const unsigned int *)(&(y));          \
-                        const unsigned int *zp = (const unsigned int *)(&(z));          \
+#define Maj(x, y, z) ({ SHA_LONG64 ret; unsigned पूर्णाङ्क *r = (unsigned पूर्णाङ्क *)(&(ret));   \
+                        ध्रुव unsigned पूर्णाङ्क *xp = (ध्रुव unsigned पूर्णाङ्क *)(&(x));          \
+                        ध्रुव unsigned पूर्णाङ्क *yp = (ध्रुव unsigned पूर्णाङ्क *)(&(y));          \
+                        ध्रुव unsigned पूर्णाङ्क *zp = (ध्रुव unsigned पूर्णाङ्क *)(&(z));          \
                         asm (".insn r4 0x33, 1, 0x3, %0, %2, %1, %3\n\t"                \
                         : "=r"(r[0])                                                    \
                         : "r"(xp[0]^zp[0]), "r"(yp[0]), "r"(zp[0]));                    \
                         asm (".insn r4 0x33, 1, 0x3, %0, %2, %1, %3\n\t"                \
                         : "=r"(r[1])                                                    \
                         : "r"(xp[1]^zp[1]), "r"(yp[1]), "r"(zp[1])); ret; })
-#elif (defined(__riscv_zbt) || defined(__riscv_zpn)) && __riscv_xlen == 64
+#नोचेद्यदि (defined(__riscv_zbt) || defined(__riscv_zpn)) && __riscv_xlen == 64
 #define Ch(x, y, z) ({  SHA_LONG64 ret;                           \
                         asm (".insn r4 0x33, 1, 0x3, %0, %2, %1, %3"\
                         : "=r"(ret)                                 \
@@ -492,23 +492,23 @@ static const SHA_LONG64 K512[80] = {
                         asm (".insn r4 0x33, 1, 0x3, %0, %2, %1, %3"\
                         : "=r"(ret)                                 \
                         : "r"(x^z), "r"(y), "r"(x)); ret; })
-#elif defined(__e2k__) && __iset__ >= 5
+#नोचेद्यदि defined(__e2k__) && __iset__ >= 5
 #define sigma0(x) (__builtin_e2k_plog(0x96, ROTR((x), 1), ROTR((x), 8), ((x) >> 7)))
 #define sigma1(x) (__builtin_e2k_plog(0x96, ROTR((x), 19), ROTR((x), 61), ((x) >> 6)))
 #endif
-#elif defined(_MSC_VER)
-#if defined(_WIN64) /* applies to both IA-64 and AMD64 */
+#नोचेद्यदि defined(_MSC_VER)
+#यदि defined(_WIN64) /* applies to both IA-64 and AMD64 */
 #pragma intrinsic(_rotr64)
 #define ROTR(a, n) _rotr64((a), n)
 #endif
-#if defined(_M_IX86) && !defined(OPENSSL_NO_ASM) && !defined(OPENSSL_NO_INLINE_ASM)
-#if defined(I386_ONLY)
-static SHA_LONG64 __fastcall __pull64be(const void *x)
+#यदि defined(_M_IX86) && !defined(OPENSSL_NO_ASM) && !defined(OPENSSL_NO_INLINE_ASM)
+#यदि defined(I386_ONLY)
+स्थिर SHA_LONG64 __fastcall __pull64be(ध्रुव शून्य *x)
 {
     _asm mov edx, [ecx + 0] _asm mov eax, [ecx + 4] _asm xchg dh, dl _asm xchg ah, al _asm rol edx, 16 _asm rol eax, 16 _asm xchg dh, dl _asm xchg ah, al
 }
-#else
-static SHA_LONG64 __fastcall __pull64be(const void *x) {
+#अन्यथा
+स्थिर SHA_LONG64 __fastcall __pull64be(ध्रुव शून्य *x) {
     _asm mov edx, [ecx + 0] _asm mov eax, [ecx + 4] _asm bswap edx _asm bswap eax
 }
 #endif
@@ -517,7 +517,7 @@ static SHA_LONG64 __fastcall __pull64be(const void *x) {
 #endif
 #endif
 #ifndef PULL64
-#define B(x, j) (((SHA_LONG64)(*(((const unsigned char *)(&x)) + j))) << ((7 - j) * 8))
+#define B(x, j) (((SHA_LONG64)(*(((ध्रुव unsigned वर्ण *)(&x)) + j))) << ((7 - j) * 8))
 #define PULL64(x) (B(x, 0) | B(x, 1) | B(x, 2) | B(x, 3) | B(x, 4) | B(x, 5) | B(x, 6) | B(x, 7))
 #endif
 #ifndef ROTR
@@ -542,21 +542,21 @@ static SHA_LONG64 __fastcall __pull64be(const void *x) {
 #define Maj(x, y, z) (((x) & (y)) ^ ((x) & (z)) ^ ((y) & (z)))
 #endif
 
-#if defined(__i386) || defined(__i386__) || defined(_M_IX86)
+#यदि defined(__i386) || defined(__i386__) || defined(_M_IX86)
 /*
  * This code should give better results on 32-bit CPU with less than
  * ~24 registers, both size and performance wise...
  */
 
-static void sha512_block_data_order(SHA512_CTX *ctx, const void *in,
-    size_t num)
+स्थिर शून्य sha512_block_data_order(SHA512_CTX *ctx, ध्रुव शून्य *in,
+    size_t अंक)
 {
-    const SHA_LONG64 *W = in;
+    ध्रुव SHA_LONG64 *W = in;
     SHA_LONG64 A, E, T;
     SHA_LONG64 X[9 + 80], *F;
-    int i;
+    पूर्णाङ्क i;
 
-    while (num--) {
+    यावत् (अंक--) {
 
         F = X + 80;
         A = ctx->h[0];
@@ -568,10 +568,10 @@ static void sha512_block_data_order(SHA512_CTX *ctx, const void *in,
         F[6] = ctx->h[6];
         F[7] = ctx->h[7];
 
-        for (i = 0; i < 16; i++, F--) {
+        प्रति (i = 0; i < 16; i++, F--) {
 #ifdef B_ENDIAN
             T = W[i];
-#else
+#अन्यथा
             T = PULL64(W[i]);
 #endif
             F[0] = A;
@@ -582,7 +582,7 @@ static void sha512_block_data_order(SHA512_CTX *ctx, const void *in,
             A = T + Sigma0(A) + Maj(A, F[1], F[2]);
         }
 
-        for (; i < 80; i++, F--) {
+        प्रति (; i < 80; i++, F--) {
             T = sigma0(F[8 + 16 - 1]);
             T += sigma1(F[8 + 16 - 14]);
             T += F[8 + 16] + F[8 + 16 - 9];
@@ -608,17 +608,17 @@ static void sha512_block_data_order(SHA512_CTX *ctx, const void *in,
     }
 }
 
-#elif defined(OPENSSL_SMALL_FOOTPRINT)
+#नोचेद्यदि defined(OPENSSL_SMALL_FOOTPRINT)
 
-static void sha512_block_data_order(SHA512_CTX *ctx, const void *in,
-    size_t num)
+स्थिर शून्य sha512_block_data_order(SHA512_CTX *ctx, ध्रुव शून्य *in,
+    size_t अंक)
 {
-    const SHA_LONG64 *W = in;
+    ध्रुव SHA_LONG64 *W = in;
     SHA_LONG64 a, b, c, d, e, f, g, h, s0, s1, T1, T2;
     SHA_LONG64 X[16];
-    int i;
+    पूर्णाङ्क i;
 
-    while (num--) {
+    यावत् (अंक--) {
 
         a = ctx->h[0];
         b = ctx->h[1];
@@ -629,10 +629,10 @@ static void sha512_block_data_order(SHA512_CTX *ctx, const void *in,
         g = ctx->h[6];
         h = ctx->h[7];
 
-        for (i = 0; i < 16; i++) {
+        प्रति (i = 0; i < 16; i++) {
 #ifdef B_ENDIAN
             T1 = X[i] = W[i];
-#else
+#अन्यथा
             T1 = X[i] = PULL64(W[i]);
 #endif
             T1 += h + Sigma1(e) + Ch(e, f, g) + K512[i];
@@ -647,7 +647,7 @@ static void sha512_block_data_order(SHA512_CTX *ctx, const void *in,
             a = T1 + T2;
         }
 
-        for (; i < 80; i++) {
+        प्रति (; i < 80; i++) {
             s0 = X[(i + 1) & 0x0f];
             s0 = sigma0(s0);
             s1 = X[(i + 14) & 0x0f];
@@ -679,38 +679,38 @@ static void sha512_block_data_order(SHA512_CTX *ctx, const void *in,
     }
 }
 
-#else
+#अन्यथा
 #define ROUND_00_15(i, a, b, c, d, e, f, g, h)       \
-    do {                                             \
+    कुरु {                                             \
         T1 += h + Sigma1(e) + Ch(e, f, g) + K512[i]; \
         h = Sigma0(a) + Maj(a, b, c);                \
         d += T1;                                     \
         h += T1;                                     \
-    } while (0)
+    } यावत् (0)
 
 #define ROUND_16_80(i, j, a, b, c, d, e, f, g, h, X)       \
-    do {                                                   \
+    कुरु {                                                   \
         s0 = X[(j + 1) & 0x0f];                            \
         s0 = sigma0(s0);                                   \
         s1 = X[(j + 14) & 0x0f];                           \
         s1 = sigma1(s1);                                   \
         T1 = X[(j) & 0x0f] += s0 + s1 + X[(j + 9) & 0x0f]; \
         ROUND_00_15(i + j, a, b, c, d, e, f, g, h);        \
-    } while (0)
+    } यावत् (0)
 
 #ifdef INCLUDE_C_SHA512
-void sha512_block_data_order_c(SHA512_CTX *ctx, const void *in, size_t num)
-#else
-static void sha512_block_data_order(SHA512_CTX *ctx, const void *in,
-    size_t num)
+शून्य sha512_block_data_order_c(SHA512_CTX *ctx, ध्रुव शून्य *in, size_t अंक)
+#अन्यथा
+स्थिर शून्य sha512_block_data_order(SHA512_CTX *ctx, ध्रुव शून्य *in,
+    size_t अंक)
 #endif
 {
-    const SHA_LONG64 *W = in;
+    ध्रुव SHA_LONG64 *W = in;
     SHA_LONG64 a, b, c, d, e, f, g, h, s0, s1, T1;
     SHA_LONG64 X[16];
-    int i;
+    पूर्णाङ्क i;
 
-    while (num--) {
+    यावत् (अंक--) {
 
         a = ctx->h[0];
         b = ctx->h[1];
@@ -754,7 +754,7 @@ static void sha512_block_data_order(SHA512_CTX *ctx, const void *in,
         ROUND_00_15(14, c, d, e, f, g, h, a, b);
         T1 = X[15] = W[15];
         ROUND_00_15(15, b, c, d, e, f, g, h, a);
-#else
+#अन्यथा
         T1 = X[0] = PULL64(W[0]);
         ROUND_00_15(0, a, b, c, d, e, f, g, h);
         T1 = X[1] = PULL64(W[1]);
@@ -789,7 +789,7 @@ static void sha512_block_data_order(SHA512_CTX *ctx, const void *in,
         ROUND_00_15(15, b, c, d, e, f, g, h, a);
 #endif
 
-        for (i = 16; i < 80; i += 16) {
+        प्रति (i = 16; i < 80; i += 16) {
             ROUND_16_80(i, 0, a, b, c, d, e, f, g, h, X);
             ROUND_16_80(i, 1, h, a, b, c, d, e, f, g, X);
             ROUND_16_80(i, 2, g, h, a, b, c, d, e, f, X);
