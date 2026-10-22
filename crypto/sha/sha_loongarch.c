@@ -7,35 +7,35 @@
  * https://www.openssl.org/source/license.html
  */
 
-#include <stdlib.h>
-#include <string.h>
+#ਅਨ੍ਤਰ੍ਭਾਵ <stdlib.h>
+#ਅਨ੍ਤਰ੍ਭਾਵ <string.h>
 
-#include <openssl/opensslconf.h>
-#include <openssl/sha.h>
-#include "arch/loongarch_arch.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ <openssl/opensslconf.h>
+#ਅਨ੍ਤਰ੍ਭਾਵ <openssl/sha.h>
+#ਅਨ੍ਤਰ੍ਭਾਵ "arch/loongarch_arch.h"
 
-void sha256_block_data_order_la64v100(void *ctx, const void *in, size_t num);
-void sha256_block_data_order_lsx(void *ctx, const void *in, size_t num);
-void sha256_block_data_order(void *ctx, const void *in, size_t num);
+ਖਾਲੀ sha256_ਖੰਡ_ਅੰਕੜੇ_ਕ੍ਰਮ_la64v100(ਖਾਲੀ *ctx, ਅਚਲ ਖਾਲੀ *ਵਿੱਚ, size_t ਅੰਕ);
+ਖਾਲੀ sha256_ਖੰਡ_ਅੰਕੜੇ_ਕ੍ਰਮ_lsx(ਖਾਲੀ *ctx, ਅਚਲ ਖਾਲੀ *ਵਿੱਚ, size_t ਅੰਕ);
+ਖਾਲੀ sha256_ਖੰਡ_ਅੰਕੜੇ_ਕ੍ਰਮ(ਖਾਲੀ *ctx, ਅਚਲ ਖਾਲੀ *ਵਿੱਚ, size_t ਅੰਕ);
 
-void sha256_block_data_order(void *ctx, const void *in, size_t num)
+ਖਾਲੀ sha256_ਖੰਡ_ਅੰਕੜੇ_ਕ੍ਰਮ(ਖਾਲੀ *ctx, ਅਚਲ ਖਾਲੀ *ਵਿੱਚ, size_t ਅੰਕ)
 {
-    if (OPENSSL_loongarch_hwcap_P & LOONGARCH_HWCAP_LSX) {
-        sha256_block_data_order_lsx(ctx, in, num);
-    } else {
-        sha256_block_data_order_la64v100(ctx, in, num);
+    ਜੇ (OPENSSL_loongarch_hwcap_P & LOONGARCH_HWCAP_LSX) {
+        sha256_ਖੰਡ_ਅੰਕੜੇ_ਕ੍ਰਮ_lsx(ctx, ਵਿੱਚ, ਅੰਕ);
+    } ਨਹੀਂਤਾਂ {
+        sha256_ਖੰਡ_ਅੰਕੜੇ_ਕ੍ਰਮ_la64v100(ctx, ਵਿੱਚ, ਅੰਕ);
     }
 }
 
-void sha512_block_data_order_la64v100(void *ctx, const void *in, size_t num);
-void sha512_block_data_order_lsx(void *ctx, const void *in, size_t num);
-void sha512_block_data_order(void *ctx, const void *in, size_t num);
+ਖਾਲੀ sha512_ਖੰਡ_ਅੰਕੜੇ_ਕ੍ਰਮ_la64v100(ਖਾਲੀ *ctx, ਅਚਲ ਖਾਲੀ *ਵਿੱਚ, size_t ਅੰਕ);
+ਖਾਲੀ sha512_ਖੰਡ_ਅੰਕੜੇ_ਕ੍ਰਮ_lsx(ਖਾਲੀ *ctx, ਅਚਲ ਖਾਲੀ *ਵਿੱਚ, size_t ਅੰਕ);
+ਖਾਲੀ sha512_ਖੰਡ_ਅੰਕੜੇ_ਕ੍ਰਮ(ਖਾਲੀ *ctx, ਅਚਲ ਖਾਲੀ *ਵਿੱਚ, size_t ਅੰਕ);
 
-void sha512_block_data_order(void *ctx, const void *in, size_t num)
+ਖਾਲੀ sha512_ਖੰਡ_ਅੰਕੜੇ_ਕ੍ਰਮ(ਖਾਲੀ *ctx, ਅਚਲ ਖਾਲੀ *ਵਿੱਚ, size_t ਅੰਕ)
 {
-    if (OPENSSL_loongarch_hwcap_P & LOONGARCH_HWCAP_LSX) {
-        sha512_block_data_order_lsx(ctx, in, num);
-    } else {
-        sha512_block_data_order_la64v100(ctx, in, num);
+    ਜੇ (OPENSSL_loongarch_hwcap_P & LOONGARCH_HWCAP_LSX) {
+        sha512_ਖੰਡ_ਅੰਕੜੇ_ਕ੍ਰਮ_lsx(ctx, ਵਿੱਚ, ਅੰਕ);
+    } ਨਹੀਂਤਾਂ {
+        sha512_ਖੰਡ_ਅੰਕੜੇ_ਕ੍ਰਮ_la64v100(ctx, ਵਿੱਚ, ਅੰਕ);
     }
 }

@@ -8,32 +8,32 @@
  */
 
 /* including crypto/sha.h requires this for SHA256_CTX */
-#include "internal/deprecated.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "internal/deprecated.h"
 
 /*
  * NIST.SP.800-185 Encoding/Padding Methods used for SHA3 derived functions
  * e.g. It is used by KMAC and cSHAKE
  */
 
-#include <string.h> /* memcpy */
-#include <openssl/err.h>
-#include <openssl/proverr.h>
-#include "crypto/sha.h"
-#include "internal/common.h" /* ossl_assert */
+#ਅਨ੍ਤਰ੍ਭਾਵ <string.h> /* memcpy */
+#ਅਨ੍ਤਰ੍ਭਾਵ <openssl/err.h>
+#ਅਨ੍ਤਰ੍ਭਾਵ <openssl/proverr.h>
+#ਅਨ੍ਤਰ੍ਭਾਵ "crypto/sha.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "internal/common.h" /* ossl_assert */
 
 /* Returns the number of bytes required to store 'bits' into a byte array */
-static unsigned int get_encode_size(size_t bits)
+ਸਥਿਰ ਬਿਨਾਨਿਸ਼ਾਨੀ ਪੂਰਨ get_encode_ਮਾਪ(size_t ਬਿੱਟ)
 {
-    unsigned int cnt = 0, sz = sizeof(size_t);
+    ਬਿਨਾਨਿਸ਼ਾਨੀ ਪੂਰਨ cnt = 0, sz = ਆਕਾਰ(size_t);
 
-    while (bits && (cnt < sz)) {
+    ਜਦੋਂ (ਬਿੱਟ && (cnt < sz)) {
         ++cnt;
-        bits >>= 8;
+        ਬਿੱਟ >>= 8;
     }
     /* If bits is zero 1 byte is required */
-    if (cnt == 0)
+    ਜੇ (cnt == 0)
         cnt = 1;
-    return cnt;
+    ਵਾਪਸ cnt;
 }
 
 /*
@@ -43,29 +43,29 @@ static unsigned int get_encode_size(size_t bits)
  *
  * e.g if bits = 32, out[2] = { 0x20, 0x01 }
  */
-int ossl_sp800_185_right_encode(unsigned char *out,
-    size_t out_max_len, size_t *out_len,
-    size_t bits)
+ਪੂਰਨ ossl_sp800_185_ਸੱਜਾ_encode(ਬਿਨਾਨਿਸ਼ਾਨੀ ਅੱਖਰ *ਬਾਹਰਲਾ,
+    size_t ਬਾਹਰਲਾ_max_len, size_t *ਬਾਹਰਲਾ_len,
+    size_t ਬਿੱਟ)
 {
-    unsigned int len = get_encode_size(bits);
-    int i;
+    ਬਿਨਾਨਿਸ਼ਾਨੀ ਪੂਰਨ len = get_encode_ਮਾਪ(ਬਿੱਟ);
+    ਪੂਰਨ i;
 
-    if (len >= out_max_len) {
-        ERR_raise(ERR_LIB_PROV, PROV_R_LENGTH_TOO_LARGE);
-        return 0;
+    ਜੇ (len >= ਬਾਹਰਲਾ_max_len) {
+        ERR_raise(ERR_LIB_PROV, PROV_R_ਲੰਮਾਈ_TOO_LARGE);
+        ਵਾਪਸ 0;
     }
 
     /* MSB's are at the start of the bytes array */
-    for (i = len - 1; i >= 0; --i) {
-        out[i] = (unsigned char)(bits & 0xFF);
-        bits >>= 8;
+    ਲਈ (i = len - 1; i >= 0; --i) {
+        ਬਾਹਰਲਾ[i] = (ਬਿਨਾਨਿਸ਼ਾਨੀ ਅੱਖਰ)(ਬਿੱਟ & 0xFF);
+        ਬਿੱਟ >>= 8;
     }
     /* Tack the length onto the end */
-    out[len] = (unsigned char)len;
+    ਬਾਹਰਲਾ[len] = (ਬਿਨਾਨਿਸ਼ਾਨੀ ਅੱਖਰ)len;
 
     /* The Returned length includes the tacked on byte */
-    *out_len = len + 1;
-    return 1;
+    *ਬਾਹਰਲਾ_len = len + 1;
+    ਵਾਪਸ 1;
 }
 
 /*
@@ -75,33 +75,33 @@ int ossl_sp800_185_right_encode(unsigned char *out,
  * e.g- in="KMAC" gives out[6] = { 0x01, 0x20, 0x4B, 0x4D, 0x41, 0x43 }
  *                                 len   bits    K     M     A     C
  */
-int ossl_sp800_185_encode_string(unsigned char *out,
-    size_t out_max_len, size_t *out_len,
-    const unsigned char *in, size_t in_len)
+ਪੂਰਨ ossl_sp800_185_encode_string(ਬਿਨਾਨਿਸ਼ਾਨੀ ਅੱਖਰ *ਬਾਹਰਲਾ,
+    size_t ਬਾਹਰਲਾ_max_len, size_t *ਬਾਹਰਲਾ_len,
+    ਅਚਲ ਬਿਨਾਨਿਸ਼ਾਨੀ ਅੱਖਰ *ਵਿੱਚ, size_t ਵਿੱਚ_len)
 {
-    if (in == NULL) {
-        *out_len = 0;
-    } else {
-        size_t i, bits, len, sz;
+    ਜੇ (ਵਿੱਚ == ਨਿਰਾ) {
+        *ਬਾਹਰਲਾ_len = 0;
+    } ਨਹੀਂਤਾਂ {
+        size_t i, ਬਿੱਟ, len, sz;
 
-        bits = 8 * in_len;
-        len = get_encode_size(bits);
-        sz = 1 + len + in_len;
+        ਬਿੱਟ = 8 * ਵਿੱਚ_len;
+        len = get_encode_ਮਾਪ(ਬਿੱਟ);
+        sz = 1 + len + ਵਿੱਚ_len;
 
-        if (sz > out_max_len) {
-            ERR_raise(ERR_LIB_PROV, PROV_R_LENGTH_TOO_LARGE);
-            return 0;
+        ਜੇ (sz > ਬਾਹਰਲਾ_max_len) {
+            ERR_raise(ERR_LIB_PROV, PROV_R_ਲੰਮਾਈ_TOO_LARGE);
+            ਵਾਪਸ 0;
         }
 
-        out[0] = (unsigned char)len;
-        for (i = len; i > 0; --i) {
-            out[i] = (bits & 0xFF);
-            bits >>= 8;
+        ਬਾਹਰਲਾ[0] = (ਬਿਨਾਨਿਸ਼ਾਨੀ ਅੱਖਰ)len;
+        ਲਈ (i = len; i > 0; --i) {
+            ਬਾਹਰਲਾ[i] = (ਬਿੱਟ & 0xFF);
+            ਬਿੱਟ >>= 8;
         }
-        memcpy(out + len + 1, in, in_len);
-        *out_len = sz;
+        ਸਮ੍ਰਿਤੀ_ਨਕਲ(ਬਾਹਰਲਾ + len + 1, ਵਿੱਚ, ਵਿੱਚ_len);
+        *ਬਾਹਰਲਾ_len = sz;
     }
-    return 1;
+    ਵਾਪਸ 1;
 }
 
 /*
@@ -112,47 +112,47 @@ int ossl_sp800_185_encode_string(unsigned char *out,
  * The returned output is:
  *    zero_padded(multiple of w, (left_encode(w) || in1 [|| in2])
  */
-int ossl_sp800_185_bytepad(unsigned char *out, size_t out_len_max, size_t *out_len,
-    const unsigned char *in1, size_t in1_len,
-    const unsigned char *in2, size_t in2_len,
+ਪੂਰਨ ossl_sp800_185_bytepad(ਬਿਨਾਨਿਸ਼ਾਨੀ ਅੱਖਰ *ਬਾਹਰਲਾ, size_t ਬਾਹਰਲਾ_len_max, size_t *ਬਾਹਰਲਾ_len,
+    ਅਚਲ ਬਿਨਾਨਿਸ਼ਾਨੀ ਅੱਖਰ *in1, size_t in1_len,
+    ਅਚਲ ਬਿਨਾਨਿਸ਼ਾਨੀ ਅੱਖਰ *in2, size_t in2_len,
     size_t w)
 {
     size_t len;
-    unsigned char *p = out;
+    ਬਿਨਾਨਿਸ਼ਾਨੀ ਅੱਖਰ *p = ਬਾਹਰਲਾ;
     size_t sz;
 
-    if (!ossl_assert(w <= 255))
-        return 0;
-    sz = (2 + in1_len + (in2 != NULL ? in2_len : 0) + w - 1) / w * w;
-    if (out_len_max != 0 && sz > out_len_max)
-        return 0;
+    ਜੇ (!ossl_assert(w <= 255))
+        ਵਾਪਸ 0;
+    sz = (2 + in1_len + (in2 != ਨਿਰਾ ? in2_len : 0) + w - 1) / w * w;
+    ਜੇ (ਬਾਹਰਲਾ_len_max != 0 && sz > ਬਾਹਰਲਾ_len_max)
+        ਵਾਪਸ 0;
 
-    if (out == NULL) {
-        if (out_len == NULL) {
+    ਜੇ (ਬਾਹਰਲਾ == ਨਿਰਾ) {
+        ਜੇ (ਬਾਹਰਲਾ_len == ਨਿਰਾ) {
             ERR_raise(ERR_LIB_PROV, ERR_R_PASSED_NULL_PARAMETER);
-            return 0;
+            ਵਾਪਸ 0;
         }
-        *out_len = sz;
-        return 1;
+        *ਬਾਹਰਲਾ_len = sz;
+        ਵਾਪਸ 1;
     }
 
     /* Left encoded w */
     *p++ = 1;
-    *p++ = (unsigned char)w;
+    *p++ = (ਬਿਨਾਨਿਸ਼ਾਨੀ ਅੱਖਰ)w;
     /* || in1 */
-    memcpy(p, in1, in1_len);
+    ਸਮ੍ਰਿਤੀ_ਨਕਲ(p, in1, in1_len);
     p += in1_len;
     /* [ || in2 ] */
-    if (in2 != NULL && in2_len > 0) {
-        memcpy(p, in2, in2_len);
+    ਜੇ (in2 != ਨਿਰਾ && in2_len > 0) {
+        ਸਮ੍ਰਿਤੀ_ਨਕਲ(p, in2, in2_len);
         p += in2_len;
     }
     /* Figure out the pad size (divisible by w) */
-    len = p - out;
+    len = p - ਬਾਹਰਲਾ;
     /* zero pad the end of the buffer */
-    if (sz != len)
+    ਜੇ (sz != len)
         memset(p, 0, sz - len);
-    if (out_len != NULL)
-        *out_len = sz;
-    return 1;
+    ਜੇ (ਬਾਹਰਲਾ_len != ਨਿਰਾ)
+        *ਬਾਹਰਲਾ_len = sz;
+    ਵਾਪਸ 1;
 }

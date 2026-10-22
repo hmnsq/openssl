@@ -11,71 +11,71 @@
  * SHA-1 low level APIs are deprecated for public use, but still ok for
  * internal use.
  */
-#include "internal/deprecated.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "internal/deprecated.h"
 
-#include <stdio.h>
-#include <string.h>
-#include <openssl/crypto.h>
-#include <openssl/sha.h>
-#include <openssl/evp.h>
-#include "crypto/sha.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ <stdio.h>
+#ਅਨ੍ਤਰ੍ਭਾਵ <string.h>
+#ਅਨ੍ਤਰ੍ਭਾਵ <openssl/crypto.h>
+#ਅਨ੍ਤਰ੍ਭਾਵ <openssl/sha.h>
+#ਅਨ੍ਤਰ੍ਭਾਵ <openssl/evp.h>
+#ਅਨ੍ਤਰ੍ਭਾਵ "crypto/sha.h"
 
-unsigned char *ossl_sha1(const unsigned char *d, size_t n, unsigned char *md)
+ਬਿਨਾਨਿਸ਼ਾਨੀ ਅੱਖਰ *ossl_sha1(ਅਚਲ ਬਿਨਾਨਿਸ਼ਾਨੀ ਅੱਖਰ *d, size_t n, ਬਿਨਾਨਿਸ਼ਾਨੀ ਅੱਖਰ *md)
 {
     SHA_CTX c;
-    static unsigned char m[SHA_DIGEST_LENGTH];
+    ਸਥਿਰ ਬਿਨਾਨਿਸ਼ਾਨੀ ਅੱਖਰ m[SHA_DIGEST_ਲੰਮਾਈ];
 
-    if (md == NULL)
+    ਜੇ (md == ਨਿਰਾ)
         md = m;
-    if (!SHA1_Init(&c))
-        return NULL;
+    ਜੇ (!SHA1_Init(&c))
+        ਵਾਪਸ ਨਿਰਾ;
     SHA1_Update(&c, d, n);
     SHA1_Final(md, &c);
-    OPENSSL_cleanse(&c, sizeof(c));
-    return md;
+    OPENSSL_cleanse(&c, ਆਕਾਰ(c));
+    ਵਾਪਸ md;
 }
 
-unsigned char *SHA1(const unsigned char *d, size_t n, unsigned char *md)
+ਬਿਨਾਨਿਸ਼ਾਨੀ ਅੱਖਰ *SHA1(ਅਚਲ ਬਿਨਾਨਿਸ਼ਾਨੀ ਅੱਖਰ *d, size_t n, ਬਿਨਾਨਿਸ਼ਾਨੀ ਅੱਖਰ *md)
 {
-    static unsigned char m[SHA_DIGEST_LENGTH];
+    ਸਥਿਰ ਬਿਨਾਨਿਸ਼ਾਨੀ ਅੱਖਰ m[SHA_DIGEST_ਲੰਮਾਈ];
 
-    if (md == NULL)
+    ਜੇ (md == ਨਿਰਾ)
         md = m;
-    return EVP_Q_digest(NULL, "SHA1", NULL, d, n, md, NULL) ? md : NULL;
+    ਵਾਪਸ EVP_Q_digest(ਨਿਰਾ, "SHA1", ਨਿਰਾ, d, n, md, ਨਿਰਾ) ? md : ਨਿਰਾ;
 }
 
-unsigned char *SHA224(const unsigned char *d, size_t n, unsigned char *md)
+ਬਿਨਾਨਿਸ਼ਾਨੀ ਅੱਖਰ *SHA224(ਅਚਲ ਬਿਨਾਨਿਸ਼ਾਨੀ ਅੱਖਰ *d, size_t n, ਬਿਨਾਨਿਸ਼ਾਨੀ ਅੱਖਰ *md)
 {
-    static unsigned char m[SHA224_DIGEST_LENGTH];
+    ਸਥਿਰ ਬਿਨਾਨਿਸ਼ਾਨੀ ਅੱਖਰ m[SHA224_DIGEST_ਲੰਮਾਈ];
 
-    if (md == NULL)
+    ਜੇ (md == ਨਿਰਾ)
         md = m;
-    return EVP_Q_digest(NULL, "SHA224", NULL, d, n, md, NULL) ? md : NULL;
+    ਵਾਪਸ EVP_Q_digest(ਨਿਰਾ, "SHA224", ਨਿਰਾ, d, n, md, ਨਿਰਾ) ? md : ਨਿਰਾ;
 }
 
-unsigned char *SHA256(const unsigned char *d, size_t n, unsigned char *md)
+ਬਿਨਾਨਿਸ਼ਾਨੀ ਅੱਖਰ *SHA256(ਅਚਲ ਬਿਨਾਨਿਸ਼ਾਨੀ ਅੱਖਰ *d, size_t n, ਬਿਨਾਨਿਸ਼ਾਨੀ ਅੱਖਰ *md)
 {
-    static unsigned char m[SHA256_DIGEST_LENGTH];
+    ਸਥਿਰ ਬਿਨਾਨਿਸ਼ਾਨੀ ਅੱਖਰ m[SHA256_DIGEST_ਲੰਮਾਈ];
 
-    if (md == NULL)
+    ਜੇ (md == ਨਿਰਾ)
         md = m;
-    return EVP_Q_digest(NULL, "SHA256", NULL, d, n, md, NULL) ? md : NULL;
+    ਵਾਪਸ EVP_Q_digest(ਨਿਰਾ, "SHA256", ਨਿਰਾ, d, n, md, ਨਿਰਾ) ? md : ਨਿਰਾ;
 }
 
-unsigned char *SHA384(const unsigned char *d, size_t n, unsigned char *md)
+ਬਿਨਾਨਿਸ਼ਾਨੀ ਅੱਖਰ *SHA384(ਅਚਲ ਬਿਨਾਨਿਸ਼ਾਨੀ ਅੱਖਰ *d, size_t n, ਬਿਨਾਨਿਸ਼ਾਨੀ ਅੱਖਰ *md)
 {
-    static unsigned char m[SHA384_DIGEST_LENGTH];
+    ਸਥਿਰ ਬਿਨਾਨਿਸ਼ਾਨੀ ਅੱਖਰ m[SHA384_DIGEST_ਲੰਮਾਈ];
 
-    if (md == NULL)
+    ਜੇ (md == ਨਿਰਾ)
         md = m;
-    return EVP_Q_digest(NULL, "SHA384", NULL, d, n, md, NULL) ? md : NULL;
+    ਵਾਪਸ EVP_Q_digest(ਨਿਰਾ, "SHA384", ਨਿਰਾ, d, n, md, ਨਿਰਾ) ? md : ਨਿਰਾ;
 }
 
-unsigned char *SHA512(const unsigned char *d, size_t n, unsigned char *md)
+ਬਿਨਾਨਿਸ਼ਾਨੀ ਅੱਖਰ *SHA512(ਅਚਲ ਬਿਨਾਨਿਸ਼ਾਨੀ ਅੱਖਰ *d, size_t n, ਬਿਨਾਨਿਸ਼ਾਨੀ ਅੱਖਰ *md)
 {
-    static unsigned char m[SHA512_DIGEST_LENGTH];
+    ਸਥਿਰ ਬਿਨਾਨਿਸ਼ਾਨੀ ਅੱਖਰ m[SHA512_DIGEST_ਲੰਮਾਈ];
 
-    if (md == NULL)
+    ਜੇ (md == ਨਿਰਾ)
         md = m;
-    return EVP_Q_digest(NULL, "SHA512", NULL, d, n, md, NULL) ? md : NULL;
+    ਵਾਪਸ EVP_Q_digest(ਨਿਰਾ, "SHA512", ਨਿਰਾ, d, n, md, ਨਿਰਾ) ? md : ਨਿਰਾ;
 }

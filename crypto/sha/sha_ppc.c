@@ -7,25 +7,25 @@
  * https://www.openssl.org/source/license.html
  */
 
-#include <stdlib.h>
-#include <string.h>
+#ਅਨ੍ਤਰ੍ਭਾਵ <stdlib.h>
+#ਅਨ੍ਤਰ੍ਭਾਵ <string.h>
 
-#include <openssl/opensslconf.h>
-#include <openssl/sha.h>
-#include "arch/ppc_arch.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ <openssl/opensslconf.h>
+#ਅਨ੍ਤਰ੍ਭਾਵ <openssl/sha.h>
+#ਅਨ੍ਤਰ੍ਭਾਵ "arch/ppc_arch.h"
 
-void sha256_block_p8(void *ctx, const void *inp, size_t len);
-void sha256_block_ppc(void *ctx, const void *inp, size_t len);
-void sha256_block_data_order(void *ctx, const void *inp, size_t len);
-void sha256_block_data_order(void *ctx, const void *inp, size_t len)
+ਖਾਲੀ sha256_ਖੰਡ_p8(ਖਾਲੀ *ctx, ਅਚਲ ਖਾਲੀ *inp, size_t len);
+ਖਾਲੀ sha256_ਖੰਡ_ppc(ਖਾਲੀ *ctx, ਅਚਲ ਖਾਲੀ *inp, size_t len);
+ਖਾਲੀ sha256_ਖੰਡ_ਅੰਕੜੇ_ਕ੍ਰਮ(ਖਾਲੀ *ctx, ਅਚਲ ਖਾਲੀ *inp, size_t len);
+ਖਾਲੀ sha256_ਖੰਡ_ਅੰਕੜੇ_ਕ੍ਰਮ(ਖਾਲੀ *ctx, ਅਚਲ ਖਾਲੀ *inp, size_t len)
 {
-    OPENSSL_ppccap_P &PPC_CRYPTO207 ? sha256_block_p8(ctx, inp, len) : sha256_block_ppc(ctx, inp, len);
+    OPENSSL_ppccap_P &PPC_CRYPTO207 ? sha256_ਖੰਡ_p8(ctx, inp, len) : sha256_ਖੰਡ_ppc(ctx, inp, len);
 }
 
-void sha512_block_p8(void *ctx, const void *inp, size_t len);
-void sha512_block_ppc(void *ctx, const void *inp, size_t len);
-void sha512_block_data_order(void *ctx, const void *inp, size_t len);
-void sha512_block_data_order(void *ctx, const void *inp, size_t len)
+ਖਾਲੀ sha512_ਖੰਡ_p8(ਖਾਲੀ *ctx, ਅਚਲ ਖਾਲੀ *inp, size_t len);
+ਖਾਲੀ sha512_ਖੰਡ_ppc(ਖਾਲੀ *ctx, ਅਚਲ ਖਾਲੀ *inp, size_t len);
+ਖਾਲੀ sha512_ਖੰਡ_ਅੰਕੜੇ_ਕ੍ਰਮ(ਖਾਲੀ *ctx, ਅਚਲ ਖਾਲੀ *inp, size_t len);
+ਖਾਲੀ sha512_ਖੰਡ_ਅੰਕੜੇ_ਕ੍ਰਮ(ਖਾਲੀ *ctx, ਅਚਲ ਖਾਲੀ *inp, size_t len)
 {
-    OPENSSL_ppccap_P &PPC_CRYPTO207 ? sha512_block_p8(ctx, inp, len) : sha512_block_ppc(ctx, inp, len);
+    OPENSSL_ppccap_P &PPC_CRYPTO207 ? sha512_ਖੰਡ_p8(ctx, inp, len) : sha512_ਖੰਡ_ppc(ctx, inp, len);
 }

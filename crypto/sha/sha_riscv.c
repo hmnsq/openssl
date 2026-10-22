@@ -7,42 +7,42 @@
  * https://www.openssl.org/source/license.html
  */
 
-#include <stdlib.h>
-#include <string.h>
+#ਅਨ੍ਤਰ੍ਭਾਵ <stdlib.h>
+#ਅਨ੍ਤਰ੍ਭਾਵ <string.h>
 
-#include <openssl/opensslconf.h>
-#include <openssl/sha.h>
-#include "arch/riscv_arch.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ <openssl/opensslconf.h>
+#ਅਨ੍ਤਰ੍ਭਾਵ <openssl/sha.h>
+#ਅਨ੍ਤਰ੍ਭਾਵ "arch/riscv_arch.h"
 
-void sha256_block_data_order_zvkb_zvknha_or_zvknhb(void *ctx, const void *in,
-    size_t num);
-void sha256_block_data_order_zbb(void *ctx, const void *in, size_t num);
-void sha256_block_data_order_riscv64(void *ctx, const void *in, size_t num);
-void sha256_block_data_order(void *ctx, const void *in, size_t num);
+ਖਾਲੀ sha256_ਖੰਡ_ਅੰਕੜੇ_ਕ੍ਰਮ_zvkb_zvknha_or_zvknhb(ਖਾਲੀ *ctx, ਅਚਲ ਖਾਲੀ *ਵਿੱਚ,
+    size_t ਅੰਕ);
+ਖਾਲੀ sha256_ਖੰਡ_ਅੰਕੜੇ_ਕ੍ਰਮ_zbb(ਖਾਲੀ *ctx, ਅਚਲ ਖਾਲੀ *ਵਿੱਚ, size_t ਅੰਕ);
+ਖਾਲੀ sha256_ਖੰਡ_ਅੰਕੜੇ_ਕ੍ਰਮ_riscv64(ਖਾਲੀ *ctx, ਅਚਲ ਖਾਲੀ *ਵਿੱਚ, size_t ਅੰਕ);
+ਖਾਲੀ sha256_ਖੰਡ_ਅੰਕੜੇ_ਕ੍ਰਮ(ਖਾਲੀ *ctx, ਅਚਲ ਖਾਲੀ *ਵਿੱਚ, size_t ਅੰਕ);
 
-void sha256_block_data_order(void *ctx, const void *in, size_t num)
+ਖਾਲੀ sha256_ਖੰਡ_ਅੰਕੜੇ_ਕ੍ਰਮ(ਖਾਲੀ *ctx, ਅਚਲ ਖਾਲੀ *ਵਿੱਚ, size_t ਅੰਕ)
 {
-    if (RISCV_HAS_ZVKB() && (RISCV_HAS_ZVKNHA() || RISCV_HAS_ZVKNHB()) && riscv_vlen() >= 128) {
-        sha256_block_data_order_zvkb_zvknha_or_zvknhb(ctx, in, num);
-    } else if (RISCV_HAS_ZBB()) {
-        sha256_block_data_order_zbb(ctx, in, num);
-    } else {
-        sha256_block_data_order_riscv64(ctx, in, num);
+    ਜੇ (RISCV_HAS_ZVKB() && (RISCV_HAS_ZVKNHA() || RISCV_HAS_ZVKNHB()) && riscv_vlen() >= 128) {
+        sha256_ਖੰਡ_ਅੰਕੜੇ_ਕ੍ਰਮ_zvkb_zvknha_or_zvknhb(ctx, ਵਿੱਚ, ਅੰਕ);
+    } ਨਹੀਂਤਾਂ ਜੇ (RISCV_HAS_ZBB()) {
+        sha256_ਖੰਡ_ਅੰਕੜੇ_ਕ੍ਰਮ_zbb(ctx, ਵਿੱਚ, ਅੰਕ);
+    } ਨਹੀਂਤਾਂ {
+        sha256_ਖੰਡ_ਅੰਕੜੇ_ਕ੍ਰਮ_riscv64(ctx, ਵਿੱਚ, ਅੰਕ);
     }
 }
 
-void sha512_block_data_order_zvkb_zvknhb(void *ctx, const void *in, size_t num);
-void sha512_block_data_order_zbb(void *ctx, const void *in, size_t num);
-void sha512_block_data_order_c(void *ctx, const void *in, size_t num);
-void sha512_block_data_order(void *ctx, const void *in, size_t num);
+ਖਾਲੀ sha512_ਖੰਡ_ਅੰਕੜੇ_ਕ੍ਰਮ_zvkb_zvknhb(ਖਾਲੀ *ctx, ਅਚਲ ਖਾਲੀ *ਵਿੱਚ, size_t ਅੰਕ);
+ਖਾਲੀ sha512_ਖੰਡ_ਅੰਕੜੇ_ਕ੍ਰਮ_zbb(ਖਾਲੀ *ctx, ਅਚਲ ਖਾਲੀ *ਵਿੱਚ, size_t ਅੰਕ);
+ਖਾਲੀ sha512_ਖੰਡ_ਅੰਕੜੇ_ਕ੍ਰਮ_c(ਖਾਲੀ *ctx, ਅਚਲ ਖਾਲੀ *ਵਿੱਚ, size_t ਅੰਕ);
+ਖਾਲੀ sha512_ਖੰਡ_ਅੰਕੜੇ_ਕ੍ਰਮ(ਖਾਲੀ *ctx, ਅਚਲ ਖਾਲੀ *ਵਿੱਚ, size_t ਅੰਕ);
 
-void sha512_block_data_order(void *ctx, const void *in, size_t num)
+ਖਾਲੀ sha512_ਖੰਡ_ਅੰਕੜੇ_ਕ੍ਰਮ(ਖਾਲੀ *ctx, ਅਚਲ ਖਾਲੀ *ਵਿੱਚ, size_t ਅੰਕ)
 {
-    if (RISCV_HAS_ZVKB_AND_ZVKNHB() && riscv_vlen() >= 128) {
-        sha512_block_data_order_zvkb_zvknhb(ctx, in, num);
-    } else if (RISCV_HAS_ZBB()) {
-        sha512_block_data_order_zbb(ctx, in, num);
-    } else {
-        sha512_block_data_order_c(ctx, in, num);
+    ਜੇ (RISCV_HAS_ZVKB_AND_ZVKNHB() && riscv_vlen() >= 128) {
+        sha512_ਖੰਡ_ਅੰਕੜੇ_ਕ੍ਰਮ_zvkb_zvknhb(ctx, ਵਿੱਚ, ਅੰਕ);
+    } ਨਹੀਂਤਾਂ ਜੇ (RISCV_HAS_ZBB()) {
+        sha512_ਖੰਡ_ਅੰਕੜੇ_ਕ੍ਰਮ_zbb(ctx, ਵਿੱਚ, ਅੰਕ);
+    } ਨਹੀਂਤਾਂ {
+        sha512_ਖੰਡ_ਅੰਕੜੇ_ਕ੍ਰਮ_c(ctx, ਵਿੱਚ, ਅੰਕ);
     }
 }

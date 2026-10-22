@@ -11,22 +11,22 @@
  * SHA256 low level APIs are deprecated for public use, but still ok for
  * internal use.
  */
-#include "internal/deprecated.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "internal/deprecated.h"
 
-#include <openssl/opensslconf.h>
+#ਅਨ੍ਤਰ੍ਭਾਵ <openssl/opensslconf.h>
 
-#include <stdlib.h>
-#include <string.h>
+#ਅਨ੍ਤਰ੍ਭਾਵ <stdlib.h>
+#ਅਨ੍ਤਰ੍ਭਾਵ <string.h>
 
-#include <openssl/crypto.h>
-#include <openssl/sha.h>
-#include <openssl/opensslv.h>
-#include "internal/endian.h"
-#include "crypto/sha.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ <openssl/crypto.h>
+#ਅਨ੍ਤਰ੍ਭਾਵ <openssl/sha.h>
+#ਅਨ੍ਤਰ੍ਭਾਵ <openssl/opensslv.h>
+#ਅਨ੍ਤਰ੍ਭਾਵ "internal/endian.h"
+#ਅਨ੍ਤਰ੍ਭਾਵ "crypto/sha.h"
 
-int SHA224_Init(SHA256_CTX *c)
+ਪੂਰਨ SHA224_Init(SHA256_CTX *c)
 {
-    memset(c, 0, sizeof(*c));
+    memset(c, 0, ਆਕਾਰ(*c));
     c->h[0] = 0xc1059ed8UL;
     c->h[1] = 0x367cd507UL;
     c->h[2] = 0x3070dd17UL;
@@ -35,13 +35,13 @@ int SHA224_Init(SHA256_CTX *c)
     c->h[5] = 0x68581511UL;
     c->h[6] = 0x64f98fa7UL;
     c->h[7] = 0xbefa4fa4UL;
-    c->md_len = SHA224_DIGEST_LENGTH;
-    return 1;
+    c->md_len = SHA224_DIGEST_ਲੰਮਾਈ;
+    ਵਾਪਸ 1;
 }
 
-int SHA256_Init(SHA256_CTX *c)
+ਪੂਰਨ SHA256_Init(SHA256_CTX *c)
 {
-    memset(c, 0, sizeof(*c));
+    memset(c, 0, ਆਕਾਰ(*c));
     c->h[0] = 0x6a09e667UL;
     c->h[1] = 0xbb67ae85UL;
     c->h[2] = 0x3c6ef372UL;
@@ -50,32 +50,32 @@ int SHA256_Init(SHA256_CTX *c)
     c->h[5] = 0x9b05688cUL;
     c->h[6] = 0x1f83d9abUL;
     c->h[7] = 0x5be0cd19UL;
-    c->md_len = SHA256_DIGEST_LENGTH;
-    return 1;
+    c->md_len = SHA256_DIGEST_ਲੰਮਾਈ;
+    ਵਾਪਸ 1;
 }
 
-int ossl_sha256_192_init(SHA256_CTX *c)
+ਪੂਰਨ ossl_sha256_192_init(SHA256_CTX *c)
 {
     SHA256_Init(c);
-    c->md_len = SHA256_192_DIGEST_LENGTH;
-    return 1;
+    c->md_len = SHA256_192_DIGEST_ਲੰਮਾਈ;
+    ਵਾਪਸ 1;
 }
 
-int SHA224_Update(SHA256_CTX *c, const void *data, size_t len)
+ਪੂਰਨ SHA224_Update(SHA256_CTX *c, ਅਚਲ ਖਾਲੀ *ਅੰਕੜੇ, size_t len)
 {
-    return SHA256_Update(c, data, len);
+    ਵਾਪਸ SHA256_Update(c, ਅੰਕੜੇ, len);
 }
 
-int SHA224_Final(unsigned char *md, SHA256_CTX *c)
+ਪੂਰਨ SHA224_Final(ਬਿਨਾਨਿਸ਼ਾਨੀ ਅੱਖਰ *md, SHA256_CTX *c)
 {
-    return SHA256_Final(md, c);
+    ਵਾਪਸ SHA256_Final(md, c);
 }
 
-#define DATA_ORDER_IS_BIG_ENDIAN
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਅੰਕੜੇ_ਕ੍ਰਮ_IS_BIG_ENDIAN
 
-#define HASH_LONG SHA_LONG
-#define HASH_CTX SHA256_CTX
-#define HASH_CBLOCK SHA_CBLOCK
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ HASH_LONG SHA_LONG
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ HASH_CTX SHA256_CTX
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ HASH_CBLOCK SHA_CBLOCK
 
 /*
  * Note that FIPS180-2 discusses "Truncation of the Hash Function Output."
@@ -85,66 +85,66 @@ int SHA224_Final(unsigned char *md, SHA256_CTX *c)
  * Idea behind separate cases for pre-defined lengths is to let the
  * compiler decide if it's appropriate to unroll small loops.
  */
-#define HASH_MAKE_STRING(c, s)                                      \
-    do {                                                            \
-        unsigned long ll;                                           \
-        unsigned int nn;                                            \
-        switch ((c)->md_len) {                                      \
-        case SHA256_192_DIGEST_LENGTH:                              \
-            for (nn = 0; nn < SHA256_192_DIGEST_LENGTH / 4; nn++) { \
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ HASH_MAKE_STRING(c, s)                                      \
+    ਕਰੋ {                                                            \
+        ਬਿਨਾਨਿਸ਼ਾਨੀ ਲੰਮਾ ll;                                           \
+        ਬਿਨਾਨਿਸ਼ਾਨੀ ਪੂਰਨ nn;                                            \
+        ਚੋਣ ((c)->md_len) {                                      \
+        ਹਾਲਤ SHA256_192_DIGEST_ਲੰਮਾਈ:                              \
+            ਲਈ (nn = 0; nn < SHA256_192_DIGEST_ਲੰਮਾਈ / 4; nn++) { \
                 ll = (c)->h[nn];                                    \
-                (void)HOST_l2c(ll, (s));                            \
+                (ਖਾਲੀ)HOST_l2c(ll, (s));                            \
             }                                                       \
-            break;                                                  \
-        case SHA224_DIGEST_LENGTH:                                  \
-            for (nn = 0; nn < SHA224_DIGEST_LENGTH / 4; nn++) {     \
+            ਰੋਕੋ;                                                  \
+        ਹਾਲਤ SHA224_DIGEST_ਲੰਮਾਈ:                                  \
+            ਲਈ (nn = 0; nn < SHA224_DIGEST_ਲੰਮਾਈ / 4; nn++) {     \
                 ll = (c)->h[nn];                                    \
-                (void)HOST_l2c(ll, (s));                            \
+                (ਖਾਲੀ)HOST_l2c(ll, (s));                            \
             }                                                       \
-            break;                                                  \
-        case SHA256_DIGEST_LENGTH:                                  \
-            for (nn = 0; nn < SHA256_DIGEST_LENGTH / 4; nn++) {     \
+            ਰੋਕੋ;                                                  \
+        ਹਾਲਤ SHA256_DIGEST_ਲੰਮਾਈ:                                  \
+            ਲਈ (nn = 0; nn < SHA256_DIGEST_ਲੰਮਾਈ / 4; nn++) {     \
                 ll = (c)->h[nn];                                    \
-                (void)HOST_l2c(ll, (s));                            \
+                (ਖਾਲੀ)HOST_l2c(ll, (s));                            \
             }                                                       \
-            break;                                                  \
-        default:                                                    \
-            if ((c)->md_len > SHA256_DIGEST_LENGTH)                 \
-                return 0;                                           \
-            for (nn = 0; nn < (c)->md_len / 4; nn++) {              \
+            ਰੋਕੋ;                                                  \
+        ਮੂਲ:                                                    \
+            ਜੇ ((c)->md_len > SHA256_DIGEST_ਲੰਮਾਈ)                 \
+                ਵਾਪਸ 0;                                           \
+            ਲਈ (nn = 0; nn < (c)->md_len / 4; nn++) {              \
                 ll = (c)->h[nn];                                    \
-                (void)HOST_l2c(ll, (s));                            \
+                (ਖਾਲੀ)HOST_l2c(ll, (s));                            \
             }                                                       \
-            break;                                                  \
+            ਰੋਕੋ;                                                  \
         }                                                           \
-    } while (0)
+    } ਜਦੋਂ (0)
 
-#define HASH_UPDATE_THUNK
-#define HASH_UPDATE SHA256_Update_thunk
-#define HASH_TRANSFORM SHA256_Transform
-#define HASH_FINAL SHA256_Final
-#define HASH_BLOCK_DATA_ORDER sha256_block_data_order
-#ifndef SHA256_ASM
-static
-#else
-#ifdef INCLUDE_C_SHA256
-void sha256_block_data_order_c(SHA256_CTX *ctx, const void *in, size_t num);
-#endif /* INCLUDE_C_SHA256 */
-#endif /* SHA256_ASM */
-    void sha256_block_data_order(SHA256_CTX *ctx, const void *in, size_t num);
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ HASH_UPDATE_THUNK
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ HASH_UPDATE SHA256_Update_thunk
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ HASH_TRANSFORM SHA256_Transform
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ HASH_FINAL SHA256_Final
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ HASH_ਖੰਡ_ਅੰਕੜੇ_ਕ੍ਰਮ sha256_ਖੰਡ_ਅੰਕੜੇ_ਕ੍ਰਮ
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ SHA256_ASM
+ਸਥਿਰ
+#ਨਹੀਂਤਾਂ
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ INCLUDE_C_SHA256
+ਖਾਲੀ sha256_ਖੰਡ_ਅੰਕੜੇ_ਕ੍ਰਮ_c(SHA256_CTX *ctx, ਅਚਲ ਖਾਲੀ *ਵਿੱਚ, size_t ਅੰਕ);
+#ਜੇ_ਅੰਤ /* INCLUDE_C_SHA256 */
+#ਜੇ_ਅੰਤ /* SHA256_ASM */
+    ਖਾਲੀ sha256_ਖੰਡ_ਅੰਕੜੇ_ਕ੍ਰਮ(SHA256_CTX *ctx, ਅਚਲ ਖਾਲੀ *ਵਿੱਚ, size_t ਅੰਕ);
 
 /* clang-format off */
-#include "crypto/md32_common.inc"
+#ਅਨ੍ਤਰ੍ਭਾਵ "crypto/md32_common.inc"
 /* clang-format on */
-#undef HASH_UPDATE_THUNK
+#ਪਰਿਭਾਸ਼ਾ_ਰੱਦ HASH_UPDATE_THUNK
 
-int SHA256_Update(SHA256_CTX *ctx, const void *data, size_t sz)
+ਪੂਰਨ SHA256_Update(SHA256_CTX *ctx, ਅਚਲ ਖਾਲੀ *ਅੰਕੜੇ, size_t sz)
 {
-    return SHA256_Update_thunk((void *)ctx, (const unsigned char *)data, sz);
+    ਵਾਪਸ SHA256_Update_thunk((ਖਾਲੀ *)ctx, (ਅਚਲ ਬਿਨਾਨਿਸ਼ਾਨੀ ਅੱਖਰ *)ਅੰਕੜੇ, sz);
 }
 
-#if !defined(SHA256_ASM) || defined(INCLUDE_C_SHA256)
-static const SHA_LONG K256[64] = {
+#ਜੇ !defined(SHA256_ASM) || defined(INCLUDE_C_SHA256)
+ਸਥਿਰ ਅਚਲ SHA_LONG K256[64] = {
     0x428a2f98UL, 0x71374491UL, 0xb5c0fbcfUL, 0xe9b5dba5UL,
     0x3956c25bUL, 0x59f111f1UL, 0x923f82a4UL, 0xab1c5ed5UL,
     0xd807aa98UL, 0x12835b01UL, 0x243185beUL, 0x550c7dc3UL,
@@ -163,74 +163,74 @@ static const SHA_LONG K256[64] = {
     0x90befffaUL, 0xa4506cebUL, 0xbef9a3f7UL, 0xc67178f2UL
 };
 
-#ifndef PEDANTIC
-#if defined(__GNUC__) && !defined(OPENSSL_NO_ASM) && !defined(OPENSSL_NO_INLINE_ASM)
-#if defined(__riscv_zknh)
-#define Sigma0(x) ({ MD32_REG_T ret;            \
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ PEDANTIC
+#ਜੇ defined(__GNUC__) && !defined(OPENSSL_NO_ASM) && !defined(OPENSSL_NO_INLINE_ASM)
+#ਜੇ defined(__riscv_zknh)
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ Sigma0(x) ({ MD32_REG_T ret;            \
                         asm ("sha256sum0 %0, %1"    \
                         : "=r"(ret)                 \
                         : "r"(x)); ret; })
-#define Sigma1(x) ({ MD32_REG_T ret;            \
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ Sigma1(x) ({ MD32_REG_T ret;            \
                         asm ("sha256sum1 %0, %1"    \
                         : "=r"(ret)                 \
                         : "r"(x)); ret; })
-#define sigma0(x) ({ MD32_REG_T ret;            \
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ sigma0(x) ({ MD32_REG_T ret;            \
                         asm ("sha256sig0 %0, %1"    \
                         : "=r"(ret)                 \
                         : "r"(x)); ret; })
-#define sigma1(x) ({ MD32_REG_T ret;            \
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ sigma1(x) ({ MD32_REG_T ret;            \
                         asm ("sha256sig1 %0, %1"    \
                         : "=r"(ret)                 \
                         : "r"(x)); ret; })
-#endif
-#if defined(__riscv_zbt) || defined(__riscv_zpn)
-#define Ch(x, y, z) ({  MD32_REG_T ret;                           \
+#ਜੇ_ਅੰਤ
+#ਜੇ defined(__riscv_zbt) || defined(__riscv_zpn)
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ Ch(x, y, z) ({  MD32_REG_T ret;                           \
                         asm (".insn r4 0x33, 1, 0x3, %0, %2, %1, %3"\
                         : "=r"(ret)                                 \
                         : "r"(x), "r"(y), "r"(z)); ret; })
-#define Maj(x, y, z) ({ MD32_REG_T ret;                           \
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ Maj(x, y, z) ({ MD32_REG_T ret;                           \
                         asm (".insn r4 0x33, 1, 0x3, %0, %2, %1, %3"\
                         : "=r"(ret)                                 \
                         : "r"(x^z), "r"(y), "r"(x)); ret; })
-#endif
-#endif
-#endif
+#ਜੇ_ਅੰਤ
+#ਜੇ_ਅੰਤ
+#ਜੇ_ਅੰਤ
 
 /*
  * FIPS specification refers to right rotations, while our ROTATE macro
  * is left one. This is why you might notice that rotation coefficients
  * differ from those observed in FIPS document by 32-N...
  */
-#ifndef Sigma0
-#define Sigma0(x) (ROTATE((x), 30) ^ ROTATE((x), 19) ^ ROTATE((x), 10))
-#endif
-#ifndef Sigma1
-#define Sigma1(x) (ROTATE((x), 26) ^ ROTATE((x), 21) ^ ROTATE((x), 7))
-#endif
-#ifndef sigma0
-#define sigma0(x) (ROTATE((x), 25) ^ ROTATE((x), 14) ^ ((x) >> 3))
-#endif
-#ifndef sigma1
-#define sigma1(x) (ROTATE((x), 15) ^ ROTATE((x), 13) ^ ((x) >> 10))
-#endif
-#ifndef Ch
-#define Ch(x, y, z) (((x) & (y)) ^ ((~(x)) & (z)))
-#endif
-#ifndef Maj
-#define Maj(x, y, z) (((x) & (y)) ^ ((x) & (z)) ^ ((y) & (z)))
-#endif
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ Sigma0
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ Sigma0(x) (ROTATE((x), 30) ^ ROTATE((x), 19) ^ ROTATE((x), 10))
+#ਜੇ_ਅੰਤ
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ Sigma1
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ Sigma1(x) (ROTATE((x), 26) ^ ROTATE((x), 21) ^ ROTATE((x), 7))
+#ਜੇ_ਅੰਤ
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ sigma0
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ sigma0(x) (ROTATE((x), 25) ^ ROTATE((x), 14) ^ ((x) >> 3))
+#ਜੇ_ਅੰਤ
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ sigma1
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ sigma1(x) (ROTATE((x), 15) ^ ROTATE((x), 13) ^ ((x) >> 10))
+#ਜੇ_ਅੰਤ
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ Ch
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ Ch(x, y, z) (((x) & (y)) ^ ((~(x)) & (z)))
+#ਜੇ_ਅੰਤ
+#ਜੇ_ਅਪਰਿਭਾਸ਼ਿਤ Maj
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ Maj(x, y, z) (((x) & (y)) ^ ((x) & (z)) ^ ((y) & (z)))
+#ਜੇ_ਅੰਤ
 
-#ifdef OPENSSL_SMALL_FOOTPRINT
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ OPENSSL_SMALL_FOOTPRINT
 
-static void sha256_block_data_order(SHA256_CTX *ctx, const void *in,
-    size_t num)
+ਸਥਿਰ ਖਾਲੀ sha256_ਖੰਡ_ਅੰਕੜੇ_ਕ੍ਰਮ(SHA256_CTX *ctx, ਅਚਲ ਖਾਲੀ *ਵਿੱਚ,
+    size_t ਅੰਕ)
 {
-    unsigned MD32_REG_T a, b, c, d, e, f, g, h, s0, s1, T1, T2;
+    ਬਿਨਾਨਿਸ਼ਾਨੀ MD32_REG_T a, b, c, d, e, f, g, h, s0, s1, T1, T2;
     SHA_LONG X[16], l;
-    int i;
-    const unsigned char *data = in;
+    ਪੂਰਨ i;
+    ਅਚਲ ਬਿਨਾਨਿਸ਼ਾਨੀ ਅੱਖਰ *ਅੰਕੜੇ = ਵਿੱਚ;
 
-    while (num--) {
+    ਜਦੋਂ (ਅੰਕ--) {
 
         a = ctx->h[0];
         b = ctx->h[1];
@@ -241,8 +241,8 @@ static void sha256_block_data_order(SHA256_CTX *ctx, const void *in,
         g = ctx->h[6];
         h = ctx->h[7];
 
-        for (i = 0; i < 16; i++) {
-            (void)HOST_c2l(data, l);
+        ਲਈ (i = 0; i < 16; i++) {
+            (ਖਾਲੀ)HOST_c2l(ਅੰਕੜੇ, l);
             T1 = X[i] = l;
             T1 += h + Sigma1(e) + Ch(e, f, g) + K256[i];
             T2 = Sigma0(a) + Maj(a, b, c);
@@ -256,7 +256,7 @@ static void sha256_block_data_order(SHA256_CTX *ctx, const void *in,
             a = T1 + T2;
         }
 
-        for (; i < 64; i++) {
+        ਲਈ (; i < 64; i++) {
             s0 = X[(i + 1) & 0x0f];
             s0 = sigma0(s0);
             s1 = X[(i + 14) & 0x0f];
@@ -286,40 +286,40 @@ static void sha256_block_data_order(SHA256_CTX *ctx, const void *in,
     }
 }
 
-#else
+#ਨਹੀਂਤਾਂ
 
-#define ROUND_00_15(i, a, b, c, d, e, f, g, h)       \
-    do {                                             \
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਗੇੜਾ_00_15(i, a, b, c, d, e, f, g, h)       \
+    ਕਰੋ {                                             \
         T1 += h + Sigma1(e) + Ch(e, f, g) + K256[i]; \
         h = Sigma0(a) + Maj(a, b, c);                \
         d += T1;                                     \
         h += T1;                                     \
-    } while (0)
+    } ਜਦੋਂ (0)
 
-#define ROUND_16_63(i, a, b, c, d, e, f, g, h, X)          \
-    do {                                                   \
+#ਪਰਿਭਾਸ਼ਿਤ_ਕਰੋ ਗੇੜਾ_16_63(i, a, b, c, d, e, f, g, h, X)          \
+    ਕਰੋ {                                                   \
         s0 = X[(i + 1) & 0x0f];                            \
         s0 = sigma0(s0);                                   \
         s1 = X[(i + 14) & 0x0f];                           \
         s1 = sigma1(s1);                                   \
         T1 = X[(i) & 0x0f] += s0 + s1 + X[(i + 9) & 0x0f]; \
-        ROUND_00_15(i, a, b, c, d, e, f, g, h);            \
-    } while (0)
+        ਗੇੜਾ_00_15(i, a, b, c, d, e, f, g, h);            \
+    } ਜਦੋਂ (0)
 
-#ifdef INCLUDE_C_SHA256
-void sha256_block_data_order_c(SHA256_CTX *ctx, const void *in, size_t num)
-#else
-static void sha256_block_data_order(SHA256_CTX *ctx, const void *in,
-    size_t num)
-#endif
+#ਜੇ_ਪਰਿਭਾਸ਼ਿਤ INCLUDE_C_SHA256
+ਖਾਲੀ sha256_ਖੰਡ_ਅੰਕੜੇ_ਕ੍ਰਮ_c(SHA256_CTX *ctx, ਅਚਲ ਖਾਲੀ *ਵਿੱਚ, size_t ਅੰਕ)
+#ਨਹੀਂਤਾਂ
+ਸਥਿਰ ਖਾਲੀ sha256_ਖੰਡ_ਅੰਕੜੇ_ਕ੍ਰਮ(SHA256_CTX *ctx, ਅਚਲ ਖਾਲੀ *ਵਿੱਚ,
+    size_t ਅੰਕ)
+#ਜੇ_ਅੰਤ
 {
-    unsigned MD32_REG_T a, b, c, d, e, f, g, h, s0, s1, T1;
+    ਬਿਨਾਨਿਸ਼ਾਨੀ MD32_REG_T a, b, c, d, e, f, g, h, s0, s1, T1;
     SHA_LONG X[16];
-    int i;
-    const unsigned char *data = in;
+    ਪੂਰਨ i;
+    ਅਚਲ ਬਿਨਾਨਿਸ਼ਾਨੀ ਅੱਖਰ *ਅੰਕੜੇ = ਵਿੱਚ;
     DECLARE_IS_ENDIAN;
 
-    while (num--) {
+    ਜਦੋਂ (ਅੰਕ--) {
 
         a = ctx->h[0];
         b = ctx->h[1];
@@ -330,106 +330,106 @@ static void sha256_block_data_order(SHA256_CTX *ctx, const void *in,
         g = ctx->h[6];
         h = ctx->h[7];
 
-        if (!IS_LITTLE_ENDIAN && sizeof(SHA_LONG) == 4
-            && ((size_t)in % 4) == 0) {
-            const SHA_LONG *W = (const SHA_LONG *)data;
+        ਜੇ (!IS_LITTLE_ENDIAN && ਆਕਾਰ(SHA_LONG) == 4
+            && ((size_t)ਵਿੱਚ % 4) == 0) {
+            ਅਚਲ SHA_LONG *W = (ਅਚਲ SHA_LONG *)ਅੰਕੜੇ;
 
             T1 = X[0] = W[0];
-            ROUND_00_15(0, a, b, c, d, e, f, g, h);
+            ਗੇੜਾ_00_15(0, a, b, c, d, e, f, g, h);
             T1 = X[1] = W[1];
-            ROUND_00_15(1, h, a, b, c, d, e, f, g);
+            ਗੇੜਾ_00_15(1, h, a, b, c, d, e, f, g);
             T1 = X[2] = W[2];
-            ROUND_00_15(2, g, h, a, b, c, d, e, f);
+            ਗੇੜਾ_00_15(2, g, h, a, b, c, d, e, f);
             T1 = X[3] = W[3];
-            ROUND_00_15(3, f, g, h, a, b, c, d, e);
+            ਗੇੜਾ_00_15(3, f, g, h, a, b, c, d, e);
             T1 = X[4] = W[4];
-            ROUND_00_15(4, e, f, g, h, a, b, c, d);
+            ਗੇੜਾ_00_15(4, e, f, g, h, a, b, c, d);
             T1 = X[5] = W[5];
-            ROUND_00_15(5, d, e, f, g, h, a, b, c);
+            ਗੇੜਾ_00_15(5, d, e, f, g, h, a, b, c);
             T1 = X[6] = W[6];
-            ROUND_00_15(6, c, d, e, f, g, h, a, b);
+            ਗੇੜਾ_00_15(6, c, d, e, f, g, h, a, b);
             T1 = X[7] = W[7];
-            ROUND_00_15(7, b, c, d, e, f, g, h, a);
+            ਗੇੜਾ_00_15(7, b, c, d, e, f, g, h, a);
             T1 = X[8] = W[8];
-            ROUND_00_15(8, a, b, c, d, e, f, g, h);
+            ਗੇੜਾ_00_15(8, a, b, c, d, e, f, g, h);
             T1 = X[9] = W[9];
-            ROUND_00_15(9, h, a, b, c, d, e, f, g);
+            ਗੇੜਾ_00_15(9, h, a, b, c, d, e, f, g);
             T1 = X[10] = W[10];
-            ROUND_00_15(10, g, h, a, b, c, d, e, f);
+            ਗੇੜਾ_00_15(10, g, h, a, b, c, d, e, f);
             T1 = X[11] = W[11];
-            ROUND_00_15(11, f, g, h, a, b, c, d, e);
+            ਗੇੜਾ_00_15(11, f, g, h, a, b, c, d, e);
             T1 = X[12] = W[12];
-            ROUND_00_15(12, e, f, g, h, a, b, c, d);
+            ਗੇੜਾ_00_15(12, e, f, g, h, a, b, c, d);
             T1 = X[13] = W[13];
-            ROUND_00_15(13, d, e, f, g, h, a, b, c);
+            ਗੇੜਾ_00_15(13, d, e, f, g, h, a, b, c);
             T1 = X[14] = W[14];
-            ROUND_00_15(14, c, d, e, f, g, h, a, b);
+            ਗੇੜਾ_00_15(14, c, d, e, f, g, h, a, b);
             T1 = X[15] = W[15];
-            ROUND_00_15(15, b, c, d, e, f, g, h, a);
+            ਗੇੜਾ_00_15(15, b, c, d, e, f, g, h, a);
 
-            data += SHA256_CBLOCK;
-        } else {
+            ਅੰਕੜੇ += SHA256_CBLOCK;
+        } ਨਹੀਂਤਾਂ {
             SHA_LONG l;
 
-            (void)HOST_c2l(data, l);
+            (ਖਾਲੀ)HOST_c2l(ਅੰਕੜੇ, l);
             T1 = X[0] = l;
-            ROUND_00_15(0, a, b, c, d, e, f, g, h);
-            (void)HOST_c2l(data, l);
+            ਗੇੜਾ_00_15(0, a, b, c, d, e, f, g, h);
+            (ਖਾਲੀ)HOST_c2l(ਅੰਕੜੇ, l);
             T1 = X[1] = l;
-            ROUND_00_15(1, h, a, b, c, d, e, f, g);
-            (void)HOST_c2l(data, l);
+            ਗੇੜਾ_00_15(1, h, a, b, c, d, e, f, g);
+            (ਖਾਲੀ)HOST_c2l(ਅੰਕੜੇ, l);
             T1 = X[2] = l;
-            ROUND_00_15(2, g, h, a, b, c, d, e, f);
-            (void)HOST_c2l(data, l);
+            ਗੇੜਾ_00_15(2, g, h, a, b, c, d, e, f);
+            (ਖਾਲੀ)HOST_c2l(ਅੰਕੜੇ, l);
             T1 = X[3] = l;
-            ROUND_00_15(3, f, g, h, a, b, c, d, e);
-            (void)HOST_c2l(data, l);
+            ਗੇੜਾ_00_15(3, f, g, h, a, b, c, d, e);
+            (ਖਾਲੀ)HOST_c2l(ਅੰਕੜੇ, l);
             T1 = X[4] = l;
-            ROUND_00_15(4, e, f, g, h, a, b, c, d);
-            (void)HOST_c2l(data, l);
+            ਗੇੜਾ_00_15(4, e, f, g, h, a, b, c, d);
+            (ਖਾਲੀ)HOST_c2l(ਅੰਕੜੇ, l);
             T1 = X[5] = l;
-            ROUND_00_15(5, d, e, f, g, h, a, b, c);
-            (void)HOST_c2l(data, l);
+            ਗੇੜਾ_00_15(5, d, e, f, g, h, a, b, c);
+            (ਖਾਲੀ)HOST_c2l(ਅੰਕੜੇ, l);
             T1 = X[6] = l;
-            ROUND_00_15(6, c, d, e, f, g, h, a, b);
-            (void)HOST_c2l(data, l);
+            ਗੇੜਾ_00_15(6, c, d, e, f, g, h, a, b);
+            (ਖਾਲੀ)HOST_c2l(ਅੰਕੜੇ, l);
             T1 = X[7] = l;
-            ROUND_00_15(7, b, c, d, e, f, g, h, a);
-            (void)HOST_c2l(data, l);
+            ਗੇੜਾ_00_15(7, b, c, d, e, f, g, h, a);
+            (ਖਾਲੀ)HOST_c2l(ਅੰਕੜੇ, l);
             T1 = X[8] = l;
-            ROUND_00_15(8, a, b, c, d, e, f, g, h);
-            (void)HOST_c2l(data, l);
+            ਗੇੜਾ_00_15(8, a, b, c, d, e, f, g, h);
+            (ਖਾਲੀ)HOST_c2l(ਅੰਕੜੇ, l);
             T1 = X[9] = l;
-            ROUND_00_15(9, h, a, b, c, d, e, f, g);
-            (void)HOST_c2l(data, l);
+            ਗੇੜਾ_00_15(9, h, a, b, c, d, e, f, g);
+            (ਖਾਲੀ)HOST_c2l(ਅੰਕੜੇ, l);
             T1 = X[10] = l;
-            ROUND_00_15(10, g, h, a, b, c, d, e, f);
-            (void)HOST_c2l(data, l);
+            ਗੇੜਾ_00_15(10, g, h, a, b, c, d, e, f);
+            (ਖਾਲੀ)HOST_c2l(ਅੰਕੜੇ, l);
             T1 = X[11] = l;
-            ROUND_00_15(11, f, g, h, a, b, c, d, e);
-            (void)HOST_c2l(data, l);
+            ਗੇੜਾ_00_15(11, f, g, h, a, b, c, d, e);
+            (ਖਾਲੀ)HOST_c2l(ਅੰਕੜੇ, l);
             T1 = X[12] = l;
-            ROUND_00_15(12, e, f, g, h, a, b, c, d);
-            (void)HOST_c2l(data, l);
+            ਗੇੜਾ_00_15(12, e, f, g, h, a, b, c, d);
+            (ਖਾਲੀ)HOST_c2l(ਅੰਕੜੇ, l);
             T1 = X[13] = l;
-            ROUND_00_15(13, d, e, f, g, h, a, b, c);
-            (void)HOST_c2l(data, l);
+            ਗੇੜਾ_00_15(13, d, e, f, g, h, a, b, c);
+            (ਖਾਲੀ)HOST_c2l(ਅੰਕੜੇ, l);
             T1 = X[14] = l;
-            ROUND_00_15(14, c, d, e, f, g, h, a, b);
-            (void)HOST_c2l(data, l);
+            ਗੇੜਾ_00_15(14, c, d, e, f, g, h, a, b);
+            (ਖਾਲੀ)HOST_c2l(ਅੰਕੜੇ, l);
             T1 = X[15] = l;
-            ROUND_00_15(15, b, c, d, e, f, g, h, a);
+            ਗੇੜਾ_00_15(15, b, c, d, e, f, g, h, a);
         }
 
-        for (i = 16; i < 64; i += 8) {
-            ROUND_16_63(i + 0, a, b, c, d, e, f, g, h, X);
-            ROUND_16_63(i + 1, h, a, b, c, d, e, f, g, X);
-            ROUND_16_63(i + 2, g, h, a, b, c, d, e, f, X);
-            ROUND_16_63(i + 3, f, g, h, a, b, c, d, e, X);
-            ROUND_16_63(i + 4, e, f, g, h, a, b, c, d, X);
-            ROUND_16_63(i + 5, d, e, f, g, h, a, b, c, X);
-            ROUND_16_63(i + 6, c, d, e, f, g, h, a, b, X);
-            ROUND_16_63(i + 7, b, c, d, e, f, g, h, a, X);
+        ਲਈ (i = 16; i < 64; i += 8) {
+            ਗੇੜਾ_16_63(i + 0, a, b, c, d, e, f, g, h, X);
+            ਗੇੜਾ_16_63(i + 1, h, a, b, c, d, e, f, g, X);
+            ਗੇੜਾ_16_63(i + 2, g, h, a, b, c, d, e, f, X);
+            ਗੇੜਾ_16_63(i + 3, f, g, h, a, b, c, d, e, X);
+            ਗੇੜਾ_16_63(i + 4, e, f, g, h, a, b, c, d, X);
+            ਗੇੜਾ_16_63(i + 5, d, e, f, g, h, a, b, c, X);
+            ਗੇੜਾ_16_63(i + 6, c, d, e, f, g, h, a, b, X);
+            ਗੇੜਾ_16_63(i + 7, b, c, d, e, f, g, h, a, X);
         }
 
         ctx->h[0] += a;
@@ -443,5 +443,5 @@ static void sha256_block_data_order(SHA256_CTX *ctx, const void *in,
     }
 }
 
-#endif
-#endif /* SHA256_ASM */
+#ਜੇ_ਅੰਤ
+#ਜੇ_ਅੰਤ /* SHA256_ASM */
