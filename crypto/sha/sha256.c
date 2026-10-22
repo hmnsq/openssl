@@ -11,22 +11,22 @@
  * SHA256 low level APIs are deprecated for public use, but still ok for
  * internal use.
  */
-#include "internal/deprecated.h"
+#অন্তর্ভাব "internal/deprecated.h"
 
-#include <openssl/opensslconf.h>
+#অন্তর্ভাব <openssl/opensslconf.h>
 
-#include <stdlib.h>
-#include <string.h>
+#অন্তর্ভাব <stdlib.h>
+#অন্তর্ভাব <string.h>
 
-#include <openssl/crypto.h>
-#include <openssl/sha.h>
-#include <openssl/opensslv.h>
-#include "internal/endian.h"
-#include "crypto/sha.h"
+#অন্তর্ভাব <openssl/crypto.h>
+#অন্তর্ভাব <openssl/sha.h>
+#অন্তর্ভাব <openssl/opensslv.h>
+#অন্তর্ভাব "internal/endian.h"
+#অন্তর্ভাব "crypto/sha.h"
 
-int SHA224_Init(SHA256_CTX *c)
+পূর্ণসংখ্যা SHA224_Init(SHA256_CTX *c)
 {
-    memset(c, 0, sizeof(*c));
+    memset(c, 0, আকার(*c));
     c->h[0] = 0xc1059ed8UL;
     c->h[1] = 0x367cd507UL;
     c->h[2] = 0x3070dd17UL;
@@ -35,13 +35,13 @@ int SHA224_Init(SHA256_CTX *c)
     c->h[5] = 0x68581511UL;
     c->h[6] = 0x64f98fa7UL;
     c->h[7] = 0xbefa4fa4UL;
-    c->md_len = SHA224_DIGEST_LENGTH;
-    return 1;
+    c->md_len = SHA224_DIGEST_দৈর্ঘ্য;
+    ফেরত 1;
 }
 
-int SHA256_Init(SHA256_CTX *c)
+পূর্ণসংখ্যা SHA256_Init(SHA256_CTX *c)
 {
-    memset(c, 0, sizeof(*c));
+    memset(c, 0, আকার(*c));
     c->h[0] = 0x6a09e667UL;
     c->h[1] = 0xbb67ae85UL;
     c->h[2] = 0x3c6ef372UL;
@@ -50,28 +50,28 @@ int SHA256_Init(SHA256_CTX *c)
     c->h[5] = 0x9b05688cUL;
     c->h[6] = 0x1f83d9abUL;
     c->h[7] = 0x5be0cd19UL;
-    c->md_len = SHA256_DIGEST_LENGTH;
-    return 1;
+    c->md_len = SHA256_DIGEST_দৈর্ঘ্য;
+    ফেরত 1;
 }
 
-int ossl_sha256_192_init(SHA256_CTX *c)
+পূর্ণসংখ্যা ossl_sha256_192_init(SHA256_CTX *c)
 {
     SHA256_Init(c);
-    c->md_len = SHA256_192_DIGEST_LENGTH;
-    return 1;
+    c->md_len = SHA256_192_DIGEST_দৈর্ঘ্য;
+    ফেরত 1;
 }
 
-int SHA224_Update(SHA256_CTX *c, const void *data, size_t len)
+পূর্ণসংখ্যা SHA224_Update(SHA256_CTX *c, ধ্রুবক শূন্য *তথ্য, size_t len)
 {
-    return SHA256_Update(c, data, len);
+    ফেরত SHA256_Update(c, তথ্য, len);
 }
 
-int SHA224_Final(unsigned char *md, SHA256_CTX *c)
+পূর্ণসংখ্যা SHA224_Final(unsigned অক্ষর *md, SHA256_CTX *c)
 {
-    return SHA256_Final(md, c);
+    ফেরত SHA256_Final(md, c);
 }
 
-#define DATA_ORDER_IS_BIG_ENDIAN
+#define তথ্য_ORDER_IS_BIG_ENDIAN
 
 #define HASH_LONG SHA_LONG
 #define HASH_CTX SHA256_CTX
@@ -86,65 +86,65 @@ int SHA224_Final(unsigned char *md, SHA256_CTX *c)
  * compiler decide if it's appropriate to unroll small loops.
  */
 #define HASH_MAKE_STRING(c, s)                                      \
-    do {                                                            \
+    করো {                                                            \
         unsigned long ll;                                           \
-        unsigned int nn;                                            \
-        switch ((c)->md_len) {                                      \
-        case SHA256_192_DIGEST_LENGTH:                              \
-            for (nn = 0; nn < SHA256_192_DIGEST_LENGTH / 4; nn++) { \
+        unsigned পূর্ণসংখ্যা nn;                                            \
+        নির্বাচন ((c)->md_len) {                                      \
+        ক্ষেত্র SHA256_192_DIGEST_দৈর্ঘ্য:                              \
+            জন্য (nn = 0; nn < SHA256_192_DIGEST_দৈর্ঘ্য / 4; nn++) { \
                 ll = (c)->h[nn];                                    \
-                (void)HOST_l2c(ll, (s));                            \
+                (শূন্য)HOST_l2c(ll, (s));                            \
             }                                                       \
-            break;                                                  \
-        case SHA224_DIGEST_LENGTH:                                  \
-            for (nn = 0; nn < SHA224_DIGEST_LENGTH / 4; nn++) {     \
+            বিরতি;                                                  \
+        ক্ষেত্র SHA224_DIGEST_দৈর্ঘ্য:                                  \
+            জন্য (nn = 0; nn < SHA224_DIGEST_দৈর্ঘ্য / 4; nn++) {     \
                 ll = (c)->h[nn];                                    \
-                (void)HOST_l2c(ll, (s));                            \
+                (শূন্য)HOST_l2c(ll, (s));                            \
             }                                                       \
-            break;                                                  \
-        case SHA256_DIGEST_LENGTH:                                  \
-            for (nn = 0; nn < SHA256_DIGEST_LENGTH / 4; nn++) {     \
+            বিরতি;                                                  \
+        ক্ষেত্র SHA256_DIGEST_দৈর্ঘ্য:                                  \
+            জন্য (nn = 0; nn < SHA256_DIGEST_দৈর্ঘ্য / 4; nn++) {     \
                 ll = (c)->h[nn];                                    \
-                (void)HOST_l2c(ll, (s));                            \
+                (শূন্য)HOST_l2c(ll, (s));                            \
             }                                                       \
-            break;                                                  \
-        default:                                                    \
-            if ((c)->md_len > SHA256_DIGEST_LENGTH)                 \
-                return 0;                                           \
-            for (nn = 0; nn < (c)->md_len / 4; nn++) {              \
+            বিরতি;                                                  \
+        পূর্বনির্ধারিত:                                                    \
+            যদি ((c)->md_len > SHA256_DIGEST_দৈর্ঘ্য)                 \
+                ফেরত 0;                                           \
+            জন্য (nn = 0; nn < (c)->md_len / 4; nn++) {              \
                 ll = (c)->h[nn];                                    \
-                (void)HOST_l2c(ll, (s));                            \
+                (শূন্য)HOST_l2c(ll, (s));                            \
             }                                                       \
-            break;                                                  \
+            বিরতি;                                                  \
         }                                                           \
-    } while (0)
+    } যখন (0)
 
 #define HASH_UPDATE_THUNK
 #define HASH_UPDATE SHA256_Update_thunk
 #define HASH_TRANSFORM SHA256_Transform
 #define HASH_FINAL SHA256_Final
-#define HASH_BLOCK_DATA_ORDER sha256_block_data_order
+#define HASH_BLOCK_তথ্য_ORDER sha256_block_তথ্য_order
 #ifndef SHA256_ASM
-static
-#else
+স্থির
+#অন্যথা
 #ifdef INCLUDE_C_SHA256
-void sha256_block_data_order_c(SHA256_CTX *ctx, const void *in, size_t num);
+শূন্য sha256_block_তথ্য_order_c(SHA256_CTX *ctx, ধ্রুবক শূন্য *in, size_t অঙ্ক);
 #endif /* INCLUDE_C_SHA256 */
 #endif /* SHA256_ASM */
-    void sha256_block_data_order(SHA256_CTX *ctx, const void *in, size_t num);
+    শূন্য sha256_block_তথ্য_order(SHA256_CTX *ctx, ধ্রুবক শূন্য *in, size_t অঙ্ক);
 
 /* clang-format off */
-#include "crypto/md32_common.inc"
+#অন্তর্ভাব "crypto/md32_common.inc"
 /* clang-format on */
 #undef HASH_UPDATE_THUNK
 
-int SHA256_Update(SHA256_CTX *ctx, const void *data, size_t sz)
+পূর্ণসংখ্যা SHA256_Update(SHA256_CTX *ctx, ধ্রুবক শূন্য *তথ্য, size_t sz)
 {
-    return SHA256_Update_thunk((void *)ctx, (const unsigned char *)data, sz);
+    ফেরত SHA256_Update_thunk((শূন্য *)ctx, (ধ্রুবক unsigned অক্ষর *)তথ্য, sz);
 }
 
-#if !defined(SHA256_ASM) || defined(INCLUDE_C_SHA256)
-static const SHA_LONG K256[64] = {
+#যদি !defined(SHA256_ASM) || defined(INCLUDE_C_SHA256)
+স্থির ধ্রুবক SHA_LONG K256[64] = {
     0x428a2f98UL, 0x71374491UL, 0xb5c0fbcfUL, 0xe9b5dba5UL,
     0x3956c25bUL, 0x59f111f1UL, 0x923f82a4UL, 0xab1c5ed5UL,
     0xd807aa98UL, 0x12835b01UL, 0x243185beUL, 0x550c7dc3UL,
@@ -164,8 +164,8 @@ static const SHA_LONG K256[64] = {
 };
 
 #ifndef PEDANTIC
-#if defined(__GNUC__) && !defined(OPENSSL_NO_ASM) && !defined(OPENSSL_NO_INLINE_ASM)
-#if defined(__riscv_zknh)
+#যদি defined(__GNUC__) && !defined(OPENSSL_NO_ASM) && !defined(OPENSSL_NO_INLINE_ASM)
+#যদি defined(__riscv_zknh)
 #define Sigma0(x) ({ MD32_REG_T ret;            \
                         asm ("sha256sum0 %0, %1"    \
                         : "=r"(ret)                 \
@@ -183,7 +183,7 @@ static const SHA_LONG K256[64] = {
                         : "=r"(ret)                 \
                         : "r"(x)); ret; })
 #endif
-#if defined(__riscv_zbt) || defined(__riscv_zpn)
+#যদি defined(__riscv_zbt) || defined(__riscv_zpn)
 #define Ch(x, y, z) ({  MD32_REG_T ret;                           \
                         asm (".insn r4 0x33, 1, 0x3, %0, %2, %1, %3"\
                         : "=r"(ret)                                 \
@@ -222,15 +222,15 @@ static const SHA_LONG K256[64] = {
 
 #ifdef OPENSSL_SMALL_FOOTPRINT
 
-static void sha256_block_data_order(SHA256_CTX *ctx, const void *in,
-    size_t num)
+স্থির শূন্য sha256_block_তথ্য_order(SHA256_CTX *ctx, ধ্রুবক শূন্য *in,
+    size_t অঙ্ক)
 {
     unsigned MD32_REG_T a, b, c, d, e, f, g, h, s0, s1, T1, T2;
     SHA_LONG X[16], l;
-    int i;
-    const unsigned char *data = in;
+    পূর্ণসংখ্যা i;
+    ধ্রুবক unsigned অক্ষর *তথ্য = in;
 
-    while (num--) {
+    যখন (অঙ্ক--) {
 
         a = ctx->h[0];
         b = ctx->h[1];
@@ -241,8 +241,8 @@ static void sha256_block_data_order(SHA256_CTX *ctx, const void *in,
         g = ctx->h[6];
         h = ctx->h[7];
 
-        for (i = 0; i < 16; i++) {
-            (void)HOST_c2l(data, l);
+        জন্য (i = 0; i < 16; i++) {
+            (শূন্য)HOST_c2l(তথ্য, l);
             T1 = X[i] = l;
             T1 += h + Sigma1(e) + Ch(e, f, g) + K256[i];
             T2 = Sigma0(a) + Maj(a, b, c);
@@ -256,7 +256,7 @@ static void sha256_block_data_order(SHA256_CTX *ctx, const void *in,
             a = T1 + T2;
         }
 
-        for (; i < 64; i++) {
+        জন্য (; i < 64; i++) {
             s0 = X[(i + 1) & 0x0f];
             s0 = sigma0(s0);
             s1 = X[(i + 14) & 0x0f];
@@ -286,40 +286,40 @@ static void sha256_block_data_order(SHA256_CTX *ctx, const void *in,
     }
 }
 
-#else
+#অন্যথা
 
 #define ROUND_00_15(i, a, b, c, d, e, f, g, h)       \
-    do {                                             \
+    করো {                                             \
         T1 += h + Sigma1(e) + Ch(e, f, g) + K256[i]; \
         h = Sigma0(a) + Maj(a, b, c);                \
         d += T1;                                     \
         h += T1;                                     \
-    } while (0)
+    } যখন (0)
 
 #define ROUND_16_63(i, a, b, c, d, e, f, g, h, X)          \
-    do {                                                   \
+    করো {                                                   \
         s0 = X[(i + 1) & 0x0f];                            \
         s0 = sigma0(s0);                                   \
         s1 = X[(i + 14) & 0x0f];                           \
         s1 = sigma1(s1);                                   \
         T1 = X[(i) & 0x0f] += s0 + s1 + X[(i + 9) & 0x0f]; \
         ROUND_00_15(i, a, b, c, d, e, f, g, h);            \
-    } while (0)
+    } যখন (0)
 
 #ifdef INCLUDE_C_SHA256
-void sha256_block_data_order_c(SHA256_CTX *ctx, const void *in, size_t num)
-#else
-static void sha256_block_data_order(SHA256_CTX *ctx, const void *in,
-    size_t num)
+শূন্য sha256_block_তথ্য_order_c(SHA256_CTX *ctx, ধ্রুবক শূন্য *in, size_t অঙ্ক)
+#অন্যথা
+স্থির শূন্য sha256_block_তথ্য_order(SHA256_CTX *ctx, ধ্রুবক শূন্য *in,
+    size_t অঙ্ক)
 #endif
 {
     unsigned MD32_REG_T a, b, c, d, e, f, g, h, s0, s1, T1;
     SHA_LONG X[16];
-    int i;
-    const unsigned char *data = in;
+    পূর্ণসংখ্যা i;
+    ধ্রুবক unsigned অক্ষর *তথ্য = in;
     DECLARE_IS_ENDIAN;
 
-    while (num--) {
+    যখন (অঙ্ক--) {
 
         a = ctx->h[0];
         b = ctx->h[1];
@@ -330,9 +330,9 @@ static void sha256_block_data_order(SHA256_CTX *ctx, const void *in,
         g = ctx->h[6];
         h = ctx->h[7];
 
-        if (!IS_LITTLE_ENDIAN && sizeof(SHA_LONG) == 4
+        যদি (!IS_LITTLE_ENDIAN && আকার(SHA_LONG) == 4
             && ((size_t)in % 4) == 0) {
-            const SHA_LONG *W = (const SHA_LONG *)data;
+            ধ্রুবক SHA_LONG *W = (ধ্রুবক SHA_LONG *)তথ্য;
 
             T1 = X[0] = W[0];
             ROUND_00_15(0, a, b, c, d, e, f, g, h);
@@ -367,61 +367,61 @@ static void sha256_block_data_order(SHA256_CTX *ctx, const void *in,
             T1 = X[15] = W[15];
             ROUND_00_15(15, b, c, d, e, f, g, h, a);
 
-            data += SHA256_CBLOCK;
-        } else {
+            তথ্য += SHA256_CBLOCK;
+        } অন্যথা {
             SHA_LONG l;
 
-            (void)HOST_c2l(data, l);
+            (শূন্য)HOST_c2l(তথ্য, l);
             T1 = X[0] = l;
             ROUND_00_15(0, a, b, c, d, e, f, g, h);
-            (void)HOST_c2l(data, l);
+            (শূন্য)HOST_c2l(তথ্য, l);
             T1 = X[1] = l;
             ROUND_00_15(1, h, a, b, c, d, e, f, g);
-            (void)HOST_c2l(data, l);
+            (শূন্য)HOST_c2l(তথ্য, l);
             T1 = X[2] = l;
             ROUND_00_15(2, g, h, a, b, c, d, e, f);
-            (void)HOST_c2l(data, l);
+            (শূন্য)HOST_c2l(তথ্য, l);
             T1 = X[3] = l;
             ROUND_00_15(3, f, g, h, a, b, c, d, e);
-            (void)HOST_c2l(data, l);
+            (শূন্য)HOST_c2l(তথ্য, l);
             T1 = X[4] = l;
             ROUND_00_15(4, e, f, g, h, a, b, c, d);
-            (void)HOST_c2l(data, l);
+            (শূন্য)HOST_c2l(তথ্য, l);
             T1 = X[5] = l;
             ROUND_00_15(5, d, e, f, g, h, a, b, c);
-            (void)HOST_c2l(data, l);
+            (শূন্য)HOST_c2l(তথ্য, l);
             T1 = X[6] = l;
             ROUND_00_15(6, c, d, e, f, g, h, a, b);
-            (void)HOST_c2l(data, l);
+            (শূন্য)HOST_c2l(তথ্য, l);
             T1 = X[7] = l;
             ROUND_00_15(7, b, c, d, e, f, g, h, a);
-            (void)HOST_c2l(data, l);
+            (শূন্য)HOST_c2l(তথ্য, l);
             T1 = X[8] = l;
             ROUND_00_15(8, a, b, c, d, e, f, g, h);
-            (void)HOST_c2l(data, l);
+            (শূন্য)HOST_c2l(তথ্য, l);
             T1 = X[9] = l;
             ROUND_00_15(9, h, a, b, c, d, e, f, g);
-            (void)HOST_c2l(data, l);
+            (শূন্য)HOST_c2l(তথ্য, l);
             T1 = X[10] = l;
             ROUND_00_15(10, g, h, a, b, c, d, e, f);
-            (void)HOST_c2l(data, l);
+            (শূন্য)HOST_c2l(তথ্য, l);
             T1 = X[11] = l;
             ROUND_00_15(11, f, g, h, a, b, c, d, e);
-            (void)HOST_c2l(data, l);
+            (শূন্য)HOST_c2l(তথ্য, l);
             T1 = X[12] = l;
             ROUND_00_15(12, e, f, g, h, a, b, c, d);
-            (void)HOST_c2l(data, l);
+            (শূন্য)HOST_c2l(তথ্য, l);
             T1 = X[13] = l;
             ROUND_00_15(13, d, e, f, g, h, a, b, c);
-            (void)HOST_c2l(data, l);
+            (শূন্য)HOST_c2l(তথ্য, l);
             T1 = X[14] = l;
             ROUND_00_15(14, c, d, e, f, g, h, a, b);
-            (void)HOST_c2l(data, l);
+            (শূন্য)HOST_c2l(তথ্য, l);
             T1 = X[15] = l;
             ROUND_00_15(15, b, c, d, e, f, g, h, a);
         }
 
-        for (i = 16; i < 64; i += 8) {
+        জন্য (i = 16; i < 64; i += 8) {
             ROUND_16_63(i + 0, a, b, c, d, e, f, g, h, X);
             ROUND_16_63(i + 1, h, a, b, c, d, e, f, g, X);
             ROUND_16_63(i + 2, g, h, a, b, c, d, e, f, X);
