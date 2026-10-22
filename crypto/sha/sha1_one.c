@@ -11,71 +11,71 @@
  * SHA-1 low level APIs are deprecated for public use, but still ok for
  * internal use.
  */
-#include "internal/deprecated.h"
+#అన్తర్భావ "internal/deprecated.h"
 
-#include <stdio.h>
-#include <string.h>
-#include <openssl/crypto.h>
-#include <openssl/sha.h>
-#include <openssl/evp.h>
-#include "crypto/sha.h"
+#అన్తర్భావ <stdio.h>
+#అన్తర్భావ <string.h>
+#అన్తర్భావ <openssl/crypto.h>
+#అన్తర్భావ <openssl/sha.h>
+#అన్తర్భావ <openssl/evp.h>
+#అన్తర్భావ "crypto/sha.h"
 
-unsigned char *ossl_sha1(const unsigned char *d, size_t n, unsigned char *md)
+గుర్తులేని అక్షరం *ossl_sha1(స్థిరరాశి గుర్తులేని అక్షరం *d, size_t n, గుర్తులేని అక్షరం *md)
 {
     SHA_CTX c;
-    static unsigned char m[SHA_DIGEST_LENGTH];
+    స్థిర గుర్తులేని అక్షరం m[SHA_DIGEST_నిడివి];
 
-    if (md == NULL)
+    ఒకవేళ (md == ఖాళీ)
         md = m;
-    if (!SHA1_Init(&c))
-        return NULL;
+    ఒకవేళ (!SHA1_Init(&c))
+        తిరిగి ఖాళీ;
     SHA1_Update(&c, d, n);
     SHA1_Final(md, &c);
-    OPENSSL_cleanse(&c, sizeof(c));
-    return md;
+    OPENSSL_cleanse(&c, పరిమాణం(c));
+    తిరిగి md;
 }
 
-unsigned char *SHA1(const unsigned char *d, size_t n, unsigned char *md)
+గుర్తులేని అక్షరం *SHA1(స్థిరరాశి గుర్తులేని అక్షరం *d, size_t n, గుర్తులేని అక్షరం *md)
 {
-    static unsigned char m[SHA_DIGEST_LENGTH];
+    స్థిర గుర్తులేని అక్షరం m[SHA_DIGEST_నిడివి];
 
-    if (md == NULL)
+    ఒకవేళ (md == ఖాళీ)
         md = m;
-    return EVP_Q_digest(NULL, "SHA1", NULL, d, n, md, NULL) ? md : NULL;
+    తిరిగి EVP_Q_digest(ఖాళీ, "SHA1", ఖాళీ, d, n, md, ఖాళీ) ? md : ఖాళీ;
 }
 
-unsigned char *SHA224(const unsigned char *d, size_t n, unsigned char *md)
+గుర్తులేని అక్షరం *SHA224(స్థిరరాశి గుర్తులేని అక్షరం *d, size_t n, గుర్తులేని అక్షరం *md)
 {
-    static unsigned char m[SHA224_DIGEST_LENGTH];
+    స్థిర గుర్తులేని అక్షరం m[SHA224_DIGEST_నిడివి];
 
-    if (md == NULL)
+    ఒకవేళ (md == ఖాళీ)
         md = m;
-    return EVP_Q_digest(NULL, "SHA224", NULL, d, n, md, NULL) ? md : NULL;
+    తిరిగి EVP_Q_digest(ఖాళీ, "SHA224", ఖాళీ, d, n, md, ఖాళీ) ? md : ఖాళీ;
 }
 
-unsigned char *SHA256(const unsigned char *d, size_t n, unsigned char *md)
+గుర్తులేని అక్షరం *SHA256(స్థిరరాశి గుర్తులేని అక్షరం *d, size_t n, గుర్తులేని అక్షరం *md)
 {
-    static unsigned char m[SHA256_DIGEST_LENGTH];
+    స్థిర గుర్తులేని అక్షరం m[SHA256_DIGEST_నిడివి];
 
-    if (md == NULL)
+    ఒకవేళ (md == ఖాళీ)
         md = m;
-    return EVP_Q_digest(NULL, "SHA256", NULL, d, n, md, NULL) ? md : NULL;
+    తిరిగి EVP_Q_digest(ఖాళీ, "SHA256", ఖాళీ, d, n, md, ఖాళీ) ? md : ఖాళీ;
 }
 
-unsigned char *SHA384(const unsigned char *d, size_t n, unsigned char *md)
+గుర్తులేని అక్షరం *SHA384(స్థిరరాశి గుర్తులేని అక్షరం *d, size_t n, గుర్తులేని అక్షరం *md)
 {
-    static unsigned char m[SHA384_DIGEST_LENGTH];
+    స్థిర గుర్తులేని అక్షరం m[SHA384_DIGEST_నిడివి];
 
-    if (md == NULL)
+    ఒకవేళ (md == ఖాళీ)
         md = m;
-    return EVP_Q_digest(NULL, "SHA384", NULL, d, n, md, NULL) ? md : NULL;
+    తిరిగి EVP_Q_digest(ఖాళీ, "SHA384", ఖాళీ, d, n, md, ఖాళీ) ? md : ఖాళీ;
 }
 
-unsigned char *SHA512(const unsigned char *d, size_t n, unsigned char *md)
+గుర్తులేని అక్షరం *SHA512(స్థిరరాశి గుర్తులేని అక్షరం *d, size_t n, గుర్తులేని అక్షరం *md)
 {
-    static unsigned char m[SHA512_DIGEST_LENGTH];
+    స్థిర గుర్తులేని అక్షరం m[SHA512_DIGEST_నిడివి];
 
-    if (md == NULL)
+    ఒకవేళ (md == ఖాళీ)
         md = m;
-    return EVP_Q_digest(NULL, "SHA512", NULL, d, n, md, NULL) ? md : NULL;
+    తిరిగి EVP_Q_digest(ఖాళీ, "SHA512", ఖాళీ, d, n, md, ఖాళీ) ? md : ఖాళీ;
 }

@@ -7,25 +7,25 @@
  * https://www.openssl.org/source/license.html
  */
 
-#include <stdlib.h>
-#include <string.h>
+#అన్తర్భావ <stdlib.h>
+#అన్తర్భావ <string.h>
 
-#include <openssl/opensslconf.h>
-#include <openssl/sha.h>
-#include "arch/ppc_arch.h"
+#అన్తర్భావ <openssl/opensslconf.h>
+#అన్తర్భావ <openssl/sha.h>
+#అన్తర్భావ "arch/ppc_arch.h"
 
-void sha256_block_p8(void *ctx, const void *inp, size_t len);
-void sha256_block_ppc(void *ctx, const void *inp, size_t len);
-void sha256_block_data_order(void *ctx, const void *inp, size_t len);
-void sha256_block_data_order(void *ctx, const void *inp, size_t len)
+శూన్య sha256_ఖండం_p8(శూన్య *ctx, స్థిరరాశి శూన్య *inp, size_t len);
+శూన్య sha256_ఖండం_ppc(శూన్య *ctx, స్థిరరాశి శూన్య *inp, size_t len);
+శూన్య sha256_ఖండం_దత్తాంశం_క్రమం(శూన్య *ctx, స్థిరరాశి శూన్య *inp, size_t len);
+శూన్య sha256_ఖండం_దత్తాంశం_క్రమం(శూన్య *ctx, స్థిరరాశి శూన్య *inp, size_t len)
 {
-    OPENSSL_ppccap_P &PPC_CRYPTO207 ? sha256_block_p8(ctx, inp, len) : sha256_block_ppc(ctx, inp, len);
+    OPENSSL_ppccap_P &PPC_CRYPTO207 ? sha256_ఖండం_p8(ctx, inp, len) : sha256_ఖండం_ppc(ctx, inp, len);
 }
 
-void sha512_block_p8(void *ctx, const void *inp, size_t len);
-void sha512_block_ppc(void *ctx, const void *inp, size_t len);
-void sha512_block_data_order(void *ctx, const void *inp, size_t len);
-void sha512_block_data_order(void *ctx, const void *inp, size_t len)
+శూన్య sha512_ఖండం_p8(శూన్య *ctx, స్థిరరాశి శూన్య *inp, size_t len);
+శూన్య sha512_ఖండం_ppc(శూన్య *ctx, స్థిరరాశి శూన్య *inp, size_t len);
+శూన్య sha512_ఖండం_దత్తాంశం_క్రమం(శూన్య *ctx, స్థిరరాశి శూన్య *inp, size_t len);
+శూన్య sha512_ఖండం_దత్తాంశం_క్రమం(శూన్య *ctx, స్థిరరాశి శూన్య *inp, size_t len)
 {
-    OPENSSL_ppccap_P &PPC_CRYPTO207 ? sha512_block_p8(ctx, inp, len) : sha512_block_ppc(ctx, inp, len);
+    OPENSSL_ppccap_P &PPC_CRYPTO207 ? sha512_ఖండం_p8(ctx, inp, len) : sha512_ఖండం_ppc(ctx, inp, len);
 }

@@ -7,35 +7,35 @@
  * https://www.openssl.org/source/license.html
  */
 
-#include <stdlib.h>
-#include <string.h>
+#అన్తర్భావ <stdlib.h>
+#అన్తర్భావ <string.h>
 
-#include <openssl/opensslconf.h>
-#include <openssl/sha.h>
-#include "arch/loongarch_arch.h"
+#అన్తర్భావ <openssl/opensslconf.h>
+#అన్తర్భావ <openssl/sha.h>
+#అన్తర్భావ "arch/loongarch_arch.h"
 
-void sha256_block_data_order_la64v100(void *ctx, const void *in, size_t num);
-void sha256_block_data_order_lsx(void *ctx, const void *in, size_t num);
-void sha256_block_data_order(void *ctx, const void *in, size_t num);
+శూన్య sha256_ఖండం_దత్తాంశం_క్రమం_la64v100(శూన్య *ctx, స్థిరరాశి శూన్య *లోపల, size_t అంకె);
+శూన్య sha256_ఖండం_దత్తాంశం_క్రమం_lsx(శూన్య *ctx, స్థిరరాశి శూన్య *లోపల, size_t అంకె);
+శూన్య sha256_ఖండం_దత్తాంశం_క్రమం(శూన్య *ctx, స్థిరరాశి శూన్య *లోపల, size_t అంకె);
 
-void sha256_block_data_order(void *ctx, const void *in, size_t num)
+శూన్య sha256_ఖండం_దత్తాంశం_క్రమం(శూన్య *ctx, స్థిరరాశి శూన్య *లోపల, size_t అంకె)
 {
-    if (OPENSSL_loongarch_hwcap_P & LOONGARCH_HWCAP_LSX) {
-        sha256_block_data_order_lsx(ctx, in, num);
-    } else {
-        sha256_block_data_order_la64v100(ctx, in, num);
+    ఒకవేళ (OPENSSL_loongarch_hwcap_P & LOONGARCH_HWCAP_LSX) {
+        sha256_ఖండం_దత్తాంశం_క్రమం_lsx(ctx, లోపల, అంకె);
+    } లేకపోతే {
+        sha256_ఖండం_దత్తాంశం_క్రమం_la64v100(ctx, లోపల, అంకె);
     }
 }
 
-void sha512_block_data_order_la64v100(void *ctx, const void *in, size_t num);
-void sha512_block_data_order_lsx(void *ctx, const void *in, size_t num);
-void sha512_block_data_order(void *ctx, const void *in, size_t num);
+శూన్య sha512_ఖండం_దత్తాంశం_క్రమం_la64v100(శూన్య *ctx, స్థిరరాశి శూన్య *లోపల, size_t అంకె);
+శూన్య sha512_ఖండం_దత్తాంశం_క్రమం_lsx(శూన్య *ctx, స్థిరరాశి శూన్య *లోపల, size_t అంకె);
+శూన్య sha512_ఖండం_దత్తాంశం_క్రమం(శూన్య *ctx, స్థిరరాశి శూన్య *లోపల, size_t అంకె);
 
-void sha512_block_data_order(void *ctx, const void *in, size_t num)
+శూన్య sha512_ఖండం_దత్తాంశం_క్రమం(శూన్య *ctx, స్థిరరాశి శూన్య *లోపల, size_t అంకె)
 {
-    if (OPENSSL_loongarch_hwcap_P & LOONGARCH_HWCAP_LSX) {
-        sha512_block_data_order_lsx(ctx, in, num);
-    } else {
-        sha512_block_data_order_la64v100(ctx, in, num);
+    ఒకవేళ (OPENSSL_loongarch_hwcap_P & LOONGARCH_HWCAP_LSX) {
+        sha512_ఖండం_దత్తాంశం_క్రమం_lsx(ctx, లోపల, అంకె);
+    } లేకపోతే {
+        sha512_ఖండం_దత్తాంశం_క్రమం_la64v100(ctx, లోపల, అంకె);
     }
 }

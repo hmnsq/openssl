@@ -8,32 +8,32 @@
  */
 
 /* including crypto/sha.h requires this for SHA256_CTX */
-#include "internal/deprecated.h"
+#అన్తర్భావ "internal/deprecated.h"
 
 /*
  * NIST.SP.800-185 Encoding/Padding Methods used for SHA3 derived functions
  * e.g. It is used by KMAC and cSHAKE
  */
 
-#include <string.h> /* memcpy */
-#include <openssl/err.h>
-#include <openssl/proverr.h>
-#include "crypto/sha.h"
-#include "internal/common.h" /* ossl_assert */
+#అన్తర్భావ <string.h> /* memcpy */
+#అన్తర్భావ <openssl/err.h>
+#అన్తర్భావ <openssl/proverr.h>
+#అన్తర్భావ "crypto/sha.h"
+#అన్తర్భావ "internal/common.h" /* ossl_assert */
 
 /* Returns the number of bytes required to store 'bits' into a byte array */
-static unsigned int get_encode_size(size_t bits)
+స్థిర గుర్తులేని పూర్ణాంకం get_encode_కొలత(size_t బిట్లు)
 {
-    unsigned int cnt = 0, sz = sizeof(size_t);
+    గుర్తులేని పూర్ణాంకం cnt = 0, sz = పరిమాణం(size_t);
 
-    while (bits && (cnt < sz)) {
+    అయితే (బిట్లు && (cnt < sz)) {
         ++cnt;
-        bits >>= 8;
+        బిట్లు >>= 8;
     }
     /* If bits is zero 1 byte is required */
-    if (cnt == 0)
+    ఒకవేళ (cnt == 0)
         cnt = 1;
-    return cnt;
+    తిరిగి cnt;
 }
 
 /*
@@ -43,29 +43,29 @@ static unsigned int get_encode_size(size_t bits)
  *
  * e.g if bits = 32, out[2] = { 0x20, 0x01 }
  */
-int ossl_sp800_185_right_encode(unsigned char *out,
-    size_t out_max_len, size_t *out_len,
-    size_t bits)
+పూర్ణాంకం ossl_sp800_185_కుడి_encode(గుర్తులేని అక్షరం *బహిర్గతం,
+    size_t బహిర్గతం_max_len, size_t *బహిర్గతం_len,
+    size_t బిట్లు)
 {
-    unsigned int len = get_encode_size(bits);
-    int i;
+    గుర్తులేని పూర్ణాంకం len = get_encode_కొలత(బిట్లు);
+    పూర్ణాంకం i;
 
-    if (len >= out_max_len) {
-        ERR_raise(ERR_LIB_PROV, PROV_R_LENGTH_TOO_LARGE);
-        return 0;
+    ఒకవేళ (len >= బహిర్గతం_max_len) {
+        ERR_raise(ERR_LIB_PROV, PROV_R_నిడివి_TOO_LARGE);
+        తిరిగి 0;
     }
 
     /* MSB's are at the start of the bytes array */
-    for (i = len - 1; i >= 0; --i) {
-        out[i] = (unsigned char)(bits & 0xFF);
-        bits >>= 8;
+    కొరకు (i = len - 1; i >= 0; --i) {
+        బహిర్గతం[i] = (గుర్తులేని అక్షరం)(బిట్లు & 0xFF);
+        బిట్లు >>= 8;
     }
     /* Tack the length onto the end */
-    out[len] = (unsigned char)len;
+    బహిర్గతం[len] = (గుర్తులేని అక్షరం)len;
 
     /* The Returned length includes the tacked on byte */
-    *out_len = len + 1;
-    return 1;
+    *బహిర్గతం_len = len + 1;
+    తిరిగి 1;
 }
 
 /*
@@ -75,33 +75,33 @@ int ossl_sp800_185_right_encode(unsigned char *out,
  * e.g- in="KMAC" gives out[6] = { 0x01, 0x20, 0x4B, 0x4D, 0x41, 0x43 }
  *                                 len   bits    K     M     A     C
  */
-int ossl_sp800_185_encode_string(unsigned char *out,
-    size_t out_max_len, size_t *out_len,
-    const unsigned char *in, size_t in_len)
+పూర్ణాంకం ossl_sp800_185_encode_string(గుర్తులేని అక్షరం *బహిర్గతం,
+    size_t బహిర్గతం_max_len, size_t *బహిర్గతం_len,
+    స్థిరరాశి గుర్తులేని అక్షరం *లోపల, size_t లోపల_len)
 {
-    if (in == NULL) {
-        *out_len = 0;
-    } else {
-        size_t i, bits, len, sz;
+    ఒకవేళ (లోపల == ఖాళీ) {
+        *బహిర్గతం_len = 0;
+    } లేకపోతే {
+        size_t i, బిట్లు, len, sz;
 
-        bits = 8 * in_len;
-        len = get_encode_size(bits);
-        sz = 1 + len + in_len;
+        బిట్లు = 8 * లోపల_len;
+        len = get_encode_కొలత(బిట్లు);
+        sz = 1 + len + లోపల_len;
 
-        if (sz > out_max_len) {
-            ERR_raise(ERR_LIB_PROV, PROV_R_LENGTH_TOO_LARGE);
-            return 0;
+        ఒకవేళ (sz > బహిర్గతం_max_len) {
+            ERR_raise(ERR_LIB_PROV, PROV_R_నిడివి_TOO_LARGE);
+            తిరిగి 0;
         }
 
-        out[0] = (unsigned char)len;
-        for (i = len; i > 0; --i) {
-            out[i] = (bits & 0xFF);
-            bits >>= 8;
+        బహిర్గతం[0] = (గుర్తులేని అక్షరం)len;
+        కొరకు (i = len; i > 0; --i) {
+            బహిర్గతం[i] = (బిట్లు & 0xFF);
+            బిట్లు >>= 8;
         }
-        memcpy(out + len + 1, in, in_len);
-        *out_len = sz;
+        జ్ఞాపకం_నకలు(బహిర్గతం + len + 1, లోపల, లోపల_len);
+        *బహిర్గతం_len = sz;
     }
-    return 1;
+    తిరిగి 1;
 }
 
 /*
@@ -112,47 +112,47 @@ int ossl_sp800_185_encode_string(unsigned char *out,
  * The returned output is:
  *    zero_padded(multiple of w, (left_encode(w) || in1 [|| in2])
  */
-int ossl_sp800_185_bytepad(unsigned char *out, size_t out_len_max, size_t *out_len,
-    const unsigned char *in1, size_t in1_len,
-    const unsigned char *in2, size_t in2_len,
+పూర్ణాంకం ossl_sp800_185_bytepad(గుర్తులేని అక్షరం *బహిర్గతం, size_t బహిర్గతం_len_max, size_t *బహిర్గతం_len,
+    స్థిరరాశి గుర్తులేని అక్షరం *in1, size_t in1_len,
+    స్థిరరాశి గుర్తులేని అక్షరం *in2, size_t in2_len,
     size_t w)
 {
     size_t len;
-    unsigned char *p = out;
+    గుర్తులేని అక్షరం *p = బహిర్గతం;
     size_t sz;
 
-    if (!ossl_assert(w <= 255))
-        return 0;
-    sz = (2 + in1_len + (in2 != NULL ? in2_len : 0) + w - 1) / w * w;
-    if (out_len_max != 0 && sz > out_len_max)
-        return 0;
+    ఒకవేళ (!ossl_assert(w <= 255))
+        తిరిగి 0;
+    sz = (2 + in1_len + (in2 != ఖాళీ ? in2_len : 0) + w - 1) / w * w;
+    ఒకవేళ (బహిర్గతం_len_max != 0 && sz > బహిర్గతం_len_max)
+        తిరిగి 0;
 
-    if (out == NULL) {
-        if (out_len == NULL) {
+    ఒకవేళ (బహిర్గతం == ఖాళీ) {
+        ఒకవేళ (బహిర్గతం_len == ఖాళీ) {
             ERR_raise(ERR_LIB_PROV, ERR_R_PASSED_NULL_PARAMETER);
-            return 0;
+            తిరిగి 0;
         }
-        *out_len = sz;
-        return 1;
+        *బహిర్గతం_len = sz;
+        తిరిగి 1;
     }
 
     /* Left encoded w */
     *p++ = 1;
-    *p++ = (unsigned char)w;
+    *p++ = (గుర్తులేని అక్షరం)w;
     /* || in1 */
-    memcpy(p, in1, in1_len);
+    జ్ఞాపకం_నకలు(p, in1, in1_len);
     p += in1_len;
     /* [ || in2 ] */
-    if (in2 != NULL && in2_len > 0) {
-        memcpy(p, in2, in2_len);
+    ఒకవేళ (in2 != ఖాళీ && in2_len > 0) {
+        జ్ఞాపకం_నకలు(p, in2, in2_len);
         p += in2_len;
     }
     /* Figure out the pad size (divisible by w) */
-    len = p - out;
+    len = p - బహిర్గతం;
     /* zero pad the end of the buffer */
-    if (sz != len)
+    ఒకవేళ (sz != len)
         memset(p, 0, sz - len);
-    if (out_len != NULL)
-        *out_len = sz;
-    return 1;
+    ఒకవేళ (బహిర్గతం_len != ఖాళీ)
+        *బహిర్గతం_len = sz;
+    తిరిగి 1;
 }
