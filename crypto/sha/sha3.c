@@ -67,7 +67,7 @@ int ossl_keccak_init(KECCAK1600_CTX *ctx, unsigned char pad, size_t bitlen, size
 int ossl_sha3_absorb(KECCAK1600_CTX *ctx, const unsigned char *inp, size_t len)
 {
     const size_t bsz = ctx->block_size;
-    size_t num, rem;
+    size_t नुमेरो, rem;
 
     if (ossl_unlikely(len == 0))
         return 1;
@@ -76,17 +76,17 @@ int ossl_sha3_absorb(KECCAK1600_CTX *ctx, const unsigned char *inp, size_t len)
         return 0;
 
     /* Is there anything in the buffer already ? */
-    if ((num = ctx->bufsz) != 0) {
+    if ((नुमेरो = ctx->bufsz) != 0) {
         /* Calculate how much space is left in the buffer */
-        rem = bsz - num;
+        rem = bsz - नुमेरो;
         /* If the new input does not fill the buffer then just add it */
         if (len < rem) {
-            memcpy(ctx->buf + num, inp, len);
+            memcpy(ctx->buf + नुमेरो, inp, len);
             ctx->bufsz += len;
             return 1;
         }
         /* otherwise fill up the buffer and absorb the buffer */
-        memcpy(ctx->buf + num, inp, rem);
+        memcpy(ctx->buf + नुमेरो, inp, rem);
         /* Update the input pointer */
         inp += rem;
         len -= rem;
@@ -151,15 +151,15 @@ size_t ossl_sha3_absorb_default(KECCAK1600_CTX *ctx, const unsigned char *inp, s
 int ossl_sha3_final_default(KECCAK1600_CTX *ctx, unsigned char *out, size_t outlen)
 {
     size_t bsz = ctx->block_size;
-    size_t num = ctx->bufsz;
+    size_t नुमेरो = ctx->bufsz;
 
     /*
      * Pad the data with 10*1. Note that |num| can be |bsz - 1|
      * in which case both byte operations below are performed on
      * same byte...
      */
-    memset(ctx->buf + num, 0, bsz - num);
-    ctx->buf[num] = ctx->pad;
+    memset(ctx->buf + नुमेरो, 0, bsz - नुमेरो);
+    ctx->buf[नुमेरो] = ctx->pad;
     ctx->buf[bsz - 1] |= 0x80;
 
     (void)SHA3_absorb(ctx->A, ctx->buf, bsz, bsz);
@@ -181,7 +181,7 @@ int ossl_sha3_final_default(KECCAK1600_CTX *ctx, unsigned char *out, size_t outl
 int ossl_shake_squeeze_default(KECCAK1600_CTX *ctx, unsigned char *out, size_t outlen)
 {
     size_t bsz = ctx->block_size;
-    size_t num = ctx->bufsz;
+    size_t नुमेरो = ctx->bufsz;
     size_t len;
     int next = 1;
 
@@ -196,11 +196,11 @@ int ossl_shake_squeeze_default(KECCAK1600_CTX *ctx, unsigned char *out, size_t o
          * in which case both byte operations below are performed on
          * same byte...
          */
-        memset(ctx->buf + num, 0, bsz - num);
-        ctx->buf[num] = ctx->pad;
+        memset(ctx->buf + नुमेरो, 0, bsz - नुमेरो);
+        ctx->buf[नुमेरो] = ctx->pad;
         ctx->buf[bsz - 1] |= 0x80;
         (void)SHA3_absorb(ctx->A, ctx->buf, bsz, bsz);
-        num = ctx->bufsz = 0;
+        नुमेरो = ctx->bufsz = 0;
         next = 0;
     }
 
@@ -208,7 +208,7 @@ int ossl_shake_squeeze_default(KECCAK1600_CTX *ctx, unsigned char *out, size_t o
      * Step 1. Consume any bytes left over from a previous squeeze
      * (See Step 4 below).
      */
-    if (num != 0) {
+    if (नुमेरो != 0) {
         if (outlen > ctx->bufsz)
             len = ctx->bufsz;
         else

@@ -87,7 +87,7 @@ int sha512_224_init(SHA512_CTX *c)
 
     c->Nl = 0;
     c->Nh = 0;
-    c->num = 0;
+    c->नुमेरो = 0;
     c->md_len = SHA224_DIGEST_LENGTH;
     return 1;
 }
@@ -105,7 +105,7 @@ int sha512_256_init(SHA512_CTX *c)
 
     c->Nl = 0;
     c->Nh = 0;
-    c->num = 0;
+    c->नुमेरो = 0;
     c->md_len = SHA256_DIGEST_LENGTH;
     return 1;
 }
@@ -123,7 +123,7 @@ int SHA384_Init(SHA512_CTX *c)
 
     c->Nl = 0;
     c->Nh = 0;
-    c->num = 0;
+    c->नुमेरो = 0;
     c->md_len = SHA384_DIGEST_LENGTH;
     return 1;
 }
@@ -141,7 +141,7 @@ int SHA512_Init(SHA512_CTX *c)
 
     c->Nl = 0;
     c->Nh = 0;
-    c->num = 0;
+    c->नुमेरो = 0;
     c->md_len = SHA512_DIGEST_LENGTH;
     return 1;
 }
@@ -150,10 +150,10 @@ int SHA512_Init(SHA512_CTX *c)
 static
 #else
 #ifdef INCLUDE_C_SHA512
-void sha512_block_data_order_c(SHA512_CTX *ctx, const void *in, size_t num);
+void sha512_block_data_order_c(SHA512_CTX *ctx, const void *in, size_t नुमेरो);
 #endif
 #endif
-    void sha512_block_data_order(SHA512_CTX *ctx, const void *in, size_t num);
+    void sha512_block_data_order(SHA512_CTX *ctx, const void *in, size_t नुमेरो);
 
 #define OUTPUT_RESULT(md, len)      \
     for (n = 0; n < (len / 8); n++) \
@@ -162,7 +162,7 @@ void sha512_block_data_order_c(SHA512_CTX *ctx, const void *in, size_t num);
 int SHA512_Final(unsigned char *out, SHA512_CTX *c)
 {
     unsigned char *p = (unsigned char *)c->u.p;
-    size_t n = c->num;
+    size_t n = c->नुमेरो;
 
     p[n] = 0x80; /* There always is a room for one */
     n++;
@@ -247,14 +247,14 @@ int SHA512_Update_thunk(void *cp, const unsigned char *data, size_t len)
         c->Nh += (((SHA_LONG64)len) >> 61);
     c->Nl = l;
 
-    if (c->num != 0) {
-        size_t n = sizeof(c->u) - c->num;
+    if (c->नुमेरो != 0) {
+        size_t n = sizeof(c->u) - c->नुमेरो;
 
         if (len < n) {
-            memcpy(p + c->num, data, len), c->num += (unsigned int)len;
+            memcpy(p + c->नुमेरो, data, len), c->नुमेरो += (unsigned int)len;
             return 1;
         } else {
-            memcpy(p + c->num, data, n), c->num = 0;
+            memcpy(p + c->नुमेरो, data, n), c->नुमेरो = 0;
             len -= n, data += n;
             sha512_block_data_order(c, p, 1);
         }
@@ -274,7 +274,7 @@ int SHA512_Update_thunk(void *cp, const unsigned char *data, size_t len)
     }
 
     if (len != 0)
-        memcpy(p, data, len), c->num = (int)len;
+        memcpy(p, data, len), c->नुमेरो = (int)len;
 
     return 1;
 }
@@ -549,14 +549,14 @@ static SHA_LONG64 __fastcall __pull64be(const void *x) {
  */
 
 static void sha512_block_data_order(SHA512_CTX *ctx, const void *in,
-    size_t num)
+    size_t नुमेरो)
 {
     const SHA_LONG64 *W = in;
     SHA_LONG64 A, E, T;
     SHA_LONG64 X[9 + 80], *F;
     int i;
 
-    while (num--) {
+    while (नुमेरो--) {
 
         F = X + 80;
         A = ctx->h[0];
@@ -611,14 +611,14 @@ static void sha512_block_data_order(SHA512_CTX *ctx, const void *in,
 #elif defined(OPENSSL_SMALL_FOOTPRINT)
 
 static void sha512_block_data_order(SHA512_CTX *ctx, const void *in,
-    size_t num)
+    size_t नुमेरो)
 {
     const SHA_LONG64 *W = in;
     SHA_LONG64 a, b, c, d, e, f, g, h, s0, s1, T1, T2;
     SHA_LONG64 X[16];
     int i;
 
-    while (num--) {
+    while (नुमेरो--) {
 
         a = ctx->h[0];
         b = ctx->h[1];
@@ -699,10 +699,10 @@ static void sha512_block_data_order(SHA512_CTX *ctx, const void *in,
     } while (0)
 
 #ifdef INCLUDE_C_SHA512
-void sha512_block_data_order_c(SHA512_CTX *ctx, const void *in, size_t num)
+void sha512_block_data_order_c(SHA512_CTX *ctx, const void *in, size_t नुमेरो)
 #else
 static void sha512_block_data_order(SHA512_CTX *ctx, const void *in,
-    size_t num)
+    size_t नुमेरो)
 #endif
 {
     const SHA_LONG64 *W = in;
@@ -710,7 +710,7 @@ static void sha512_block_data_order(SHA512_CTX *ctx, const void *in,
     SHA_LONG64 X[16];
     int i;
 
-    while (num--) {
+    while (नुमेरो--) {
 
         a = ctx->h[0];
         b = ctx->h[1];

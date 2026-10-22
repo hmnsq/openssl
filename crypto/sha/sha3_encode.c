@@ -43,7 +43,7 @@ static unsigned int get_encode_size(size_t bits)
  *
  * e.g if bits = 32, out[2] = { 0x20, 0x01 }
  */
-int ossl_sp800_185_right_encode(unsigned char *out,
+int ossl_sp800_185_कानान_encode(unsigned char *out,
     size_t out_max_len, size_t *out_len,
     size_t bits)
 {

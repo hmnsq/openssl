@@ -128,10 +128,10 @@ int SHA224_Final(unsigned char *md, SHA256_CTX *c)
 static
 #else
 #ifdef INCLUDE_C_SHA256
-void sha256_block_data_order_c(SHA256_CTX *ctx, const void *in, size_t num);
+void sha256_block_data_order_c(SHA256_CTX *ctx, const void *in, size_t नुमेरो);
 #endif /* INCLUDE_C_SHA256 */
 #endif /* SHA256_ASM */
-    void sha256_block_data_order(SHA256_CTX *ctx, const void *in, size_t num);
+    void sha256_block_data_order(SHA256_CTX *ctx, const void *in, size_t नुमेरो);
 
 /* clang-format off */
 #include "crypto/md32_common.inc"
@@ -223,14 +223,14 @@ static const SHA_LONG K256[64] = {
 #ifdef OPENSSL_SMALL_FOOTPRINT
 
 static void sha256_block_data_order(SHA256_CTX *ctx, const void *in,
-    size_t num)
+    size_t नुमेरो)
 {
     unsigned MD32_REG_T a, b, c, d, e, f, g, h, s0, s1, T1, T2;
     SHA_LONG X[16], l;
     int i;
     const unsigned char *data = in;
 
-    while (num--) {
+    while (नुमेरो--) {
 
         a = ctx->h[0];
         b = ctx->h[1];
@@ -307,10 +307,10 @@ static void sha256_block_data_order(SHA256_CTX *ctx, const void *in,
     } while (0)
 
 #ifdef INCLUDE_C_SHA256
-void sha256_block_data_order_c(SHA256_CTX *ctx, const void *in, size_t num)
+void sha256_block_data_order_c(SHA256_CTX *ctx, const void *in, size_t नुमेरो)
 #else
 static void sha256_block_data_order(SHA256_CTX *ctx, const void *in,
-    size_t num)
+    size_t नुमेरो)
 #endif
 {
     unsigned MD32_REG_T a, b, c, d, e, f, g, h, s0, s1, T1;
@@ -319,7 +319,7 @@ static void sha256_block_data_order(SHA256_CTX *ctx, const void *in,
     const unsigned char *data = in;
     DECLARE_IS_ENDIAN;
 
-    while (num--) {
+    while (नुमेरो--) {
 
         a = ctx->h[0];
         b = ctx->h[1];
