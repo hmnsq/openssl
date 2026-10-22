@@ -8,32 +8,32 @@
  */
 
 /* including crypto/sha.h requires this for SHA256_CTX */
-#include "internal/deprecated.h"
+#ಅನ್ತರ್ಭಾವ "internal/deprecated.h"
 
 /*
  * NIST.SP.800-185 Encoding/Padding Methods used for SHA3 derived functions
  * e.g. It is used by KMAC and cSHAKE
  */
 
-#include <string.h> /* memcpy */
-#include <openssl/err.h>
-#include <openssl/proverr.h>
-#include "crypto/sha.h"
-#include "internal/common.h" /* ossl_assert */
+#ಅನ್ತರ್ಭಾವ <string.h> /* memcpy */
+#ಅನ್ತರ್ಭಾವ <openssl/err.h>
+#ಅನ್ತರ್ಭಾವ <openssl/proverr.h>
+#ಅನ್ತರ್ಭಾವ "crypto/sha.h"
+#ಅನ್ತರ್ಭಾವ "internal/common.h" /* ossl_assert */
 
 /* Returns the number of bytes required to store 'bits' into a byte array */
-static unsigned int get_encode_size(size_t bits)
+ಸ್ಥಿರ ಚಿಹ್ನೆರಹಿತ ಪೂರ್ಣಾಂಕ get_encode_ಗಾತ್ರ(size_t ಬಿಟ್ಟುಗಳು)
 {
-    unsigned int cnt = 0, sz = sizeof(size_t);
+    ಚಿಹ್ನೆರಹಿತ ಪೂರ್ಣಾಂಕ cnt = 0, sz = ಗಾತ್ರ(size_t);
 
-    while (bits && (cnt < sz)) {
+    ಆಗ (ಬಿಟ್ಟುಗಳು && (cnt < sz)) {
         ++cnt;
-        bits >>= 8;
+        ಬಿಟ್ಟುಗಳು >>= 8;
     }
     /* If bits is zero 1 byte is required */
-    if (cnt == 0)
+    ಆದರೆ (cnt == 0)
         cnt = 1;
-    return cnt;
+    ಹಿಂತಿರುಗಿ cnt;
 }
 
 /*
@@ -43,29 +43,29 @@ static unsigned int get_encode_size(size_t bits)
  *
  * e.g if bits = 32, out[2] = { 0x20, 0x01 }
  */
-int ossl_sp800_185_right_encode(unsigned char *out,
-    size_t out_max_len, size_t *out_len,
-    size_t bits)
+ಪೂರ್ಣಾಂಕ ossl_sp800_185_ಬಲ_encode(ಚಿಹ್ನೆರಹಿತ ಅಕ್ಷರ *ಹೊರಹೋಗು,
+    size_t ಹೊರಹೋಗು_max_len, size_t *ಹೊರಹೋಗು_len,
+    size_t ಬಿಟ್ಟುಗಳು)
 {
-    unsigned int len = get_encode_size(bits);
-    int i;
+    ಚಿಹ್ನೆರಹಿತ ಪೂರ್ಣಾಂಕ len = get_encode_ಗಾತ್ರ(ಬಿಟ್ಟುಗಳು);
+    ಪೂರ್ಣಾಂಕ i;
 
-    if (len >= out_max_len) {
-        ERR_raise(ERR_LIB_PROV, PROV_R_LENGTH_TOO_LARGE);
-        return 0;
+    ಆದರೆ (len >= ಹೊರಹೋಗು_max_len) {
+        ERR_raise(ERR_LIB_PROV, PROV_R_ಉದ್ದಳತೆ_TOO_LARGE);
+        ಹಿಂತಿರುಗಿ 0;
     }
 
     /* MSB's are at the start of the bytes array */
-    for (i = len - 1; i >= 0; --i) {
-        out[i] = (unsigned char)(bits & 0xFF);
-        bits >>= 8;
+    ಗಾಗಿ (i = len - 1; i >= 0; --i) {
+        ಹೊರಹೋಗು[i] = (ಚಿಹ್ನೆರಹಿತ ಅಕ್ಷರ)(ಬಿಟ್ಟುಗಳು & 0xFF);
+        ಬಿಟ್ಟುಗಳು >>= 8;
     }
     /* Tack the length onto the end */
-    out[len] = (unsigned char)len;
+    ಹೊರಹೋಗು[len] = (ಚಿಹ್ನೆರಹಿತ ಅಕ್ಷರ)len;
 
     /* The Returned length includes the tacked on byte */
-    *out_len = len + 1;
-    return 1;
+    *ಹೊರಹೋಗು_len = len + 1;
+    ಹಿಂತಿರುಗಿ 1;
 }
 
 /*
@@ -75,33 +75,33 @@ int ossl_sp800_185_right_encode(unsigned char *out,
  * e.g- in="KMAC" gives out[6] = { 0x01, 0x20, 0x4B, 0x4D, 0x41, 0x43 }
  *                                 len   bits    K     M     A     C
  */
-int ossl_sp800_185_encode_string(unsigned char *out,
-    size_t out_max_len, size_t *out_len,
-    const unsigned char *in, size_t in_len)
+ಪೂರ್ಣಾಂಕ ossl_sp800_185_encode_string(ಚಿಹ್ನೆರಹಿತ ಅಕ್ಷರ *ಹೊರಹೋಗು,
+    size_t ಹೊರಹೋಗು_max_len, size_t *ಹೊರಹೋಗು_len,
+    ಸ್ಥಿರಾಂಕ ಚಿಹ್ನೆರಹಿತ ಅಕ್ಷರ *ಒಳ, size_t ಒಳ_len)
 {
-    if (in == NULL) {
-        *out_len = 0;
-    } else {
-        size_t i, bits, len, sz;
+    ಆದರೆ (ಒಳ == ಖಾಲಿ) {
+        *ಹೊರಹೋಗು_len = 0;
+    } ಇಲ್ಲದಿದ್ದರೆ {
+        size_t i, ಬಿಟ್ಟುಗಳು, len, sz;
 
-        bits = 8 * in_len;
-        len = get_encode_size(bits);
-        sz = 1 + len + in_len;
+        ಬಿಟ್ಟುಗಳು = 8 * ಒಳ_len;
+        len = get_encode_ಗಾತ್ರ(ಬಿಟ್ಟುಗಳು);
+        sz = 1 + len + ಒಳ_len;
 
-        if (sz > out_max_len) {
-            ERR_raise(ERR_LIB_PROV, PROV_R_LENGTH_TOO_LARGE);
-            return 0;
+        ಆದರೆ (sz > ಹೊರಹೋಗು_max_len) {
+            ERR_raise(ERR_LIB_PROV, PROV_R_ಉದ್ದಳತೆ_TOO_LARGE);
+            ಹಿಂತಿರುಗಿ 0;
         }
 
-        out[0] = (unsigned char)len;
-        for (i = len; i > 0; --i) {
-            out[i] = (bits & 0xFF);
-            bits >>= 8;
+        ಹೊರಹೋಗು[0] = (ಚಿಹ್ನೆರಹಿತ ಅಕ್ಷರ)len;
+        ಗಾಗಿ (i = len; i > 0; --i) {
+            ಹೊರಹೋಗು[i] = (ಬಿಟ್ಟುಗಳು & 0xFF);
+            ಬಿಟ್ಟುಗಳು >>= 8;
         }
-        memcpy(out + len + 1, in, in_len);
-        *out_len = sz;
+        ಸ್ಮರಣೆ_ನಕಲು(ಹೊರಹೋಗು + len + 1, ಒಳ, ಒಳ_len);
+        *ಹೊರಹೋಗು_len = sz;
     }
-    return 1;
+    ಹಿಂತಿರುಗಿ 1;
 }
 
 /*
@@ -112,47 +112,47 @@ int ossl_sp800_185_encode_string(unsigned char *out,
  * The returned output is:
  *    zero_padded(multiple of w, (left_encode(w) || in1 [|| in2])
  */
-int ossl_sp800_185_bytepad(unsigned char *out, size_t out_len_max, size_t *out_len,
-    const unsigned char *in1, size_t in1_len,
-    const unsigned char *in2, size_t in2_len,
+ಪೂರ್ಣಾಂಕ ossl_sp800_185_bytepad(ಚಿಹ್ನೆರಹಿತ ಅಕ್ಷರ *ಹೊರಹೋಗು, size_t ಹೊರಹೋಗು_len_max, size_t *ಹೊರಹೋಗು_len,
+    ಸ್ಥಿರಾಂಕ ಚಿಹ್ನೆರಹಿತ ಅಕ್ಷರ *in1, size_t in1_len,
+    ಸ್ಥಿರಾಂಕ ಚಿಹ್ನೆರಹಿತ ಅಕ್ಷರ *in2, size_t in2_len,
     size_t w)
 {
     size_t len;
-    unsigned char *p = out;
+    ಚಿಹ್ನೆರಹಿತ ಅಕ್ಷರ *p = ಹೊರಹೋಗು;
     size_t sz;
 
-    if (!ossl_assert(w <= 255))
-        return 0;
-    sz = (2 + in1_len + (in2 != NULL ? in2_len : 0) + w - 1) / w * w;
-    if (out_len_max != 0 && sz > out_len_max)
-        return 0;
+    ಆದರೆ (!ossl_assert(w <= 255))
+        ಹಿಂತಿರುಗಿ 0;
+    sz = (2 + in1_len + (in2 != ಖಾಲಿ ? in2_len : 0) + w - 1) / w * w;
+    ಆದರೆ (ಹೊರಹೋಗು_len_max != 0 && sz > ಹೊರಹೋಗು_len_max)
+        ಹಿಂತಿರುಗಿ 0;
 
-    if (out == NULL) {
-        if (out_len == NULL) {
+    ಆದರೆ (ಹೊರಹೋಗು == ಖಾಲಿ) {
+        ಆದರೆ (ಹೊರಹೋಗು_len == ಖಾಲಿ) {
             ERR_raise(ERR_LIB_PROV, ERR_R_PASSED_NULL_PARAMETER);
-            return 0;
+            ಹಿಂತಿರುಗಿ 0;
         }
-        *out_len = sz;
-        return 1;
+        *ಹೊರಹೋಗು_len = sz;
+        ಹಿಂತಿರುಗಿ 1;
     }
 
     /* Left encoded w */
     *p++ = 1;
-    *p++ = (unsigned char)w;
+    *p++ = (ಚಿಹ್ನೆರಹಿತ ಅಕ್ಷರ)w;
     /* || in1 */
-    memcpy(p, in1, in1_len);
+    ಸ್ಮರಣೆ_ನಕಲು(p, in1, in1_len);
     p += in1_len;
     /* [ || in2 ] */
-    if (in2 != NULL && in2_len > 0) {
-        memcpy(p, in2, in2_len);
+    ಆದರೆ (in2 != ಖಾಲಿ && in2_len > 0) {
+        ಸ್ಮರಣೆ_ನಕಲು(p, in2, in2_len);
         p += in2_len;
     }
     /* Figure out the pad size (divisible by w) */
-    len = p - out;
+    len = p - ಹೊರಹೋಗು;
     /* zero pad the end of the buffer */
-    if (sz != len)
+    ಆದರೆ (sz != len)
         memset(p, 0, sz - len);
-    if (out_len != NULL)
-        *out_len = sz;
-    return 1;
+    ಆದರೆ (ಹೊರಹೋಗು_len != ಖಾಲಿ)
+        *ಹೊರಹೋಗು_len = sz;
+    ಹಿಂತಿರುಗಿ 1;
 }

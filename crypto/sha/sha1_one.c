@@ -11,71 +11,71 @@
  * SHA-1 low level APIs are deprecated for public use, but still ok for
  * internal use.
  */
-#include "internal/deprecated.h"
+#ಅನ್ತರ್ಭಾವ "internal/deprecated.h"
 
-#include <stdio.h>
-#include <string.h>
-#include <openssl/crypto.h>
-#include <openssl/sha.h>
-#include <openssl/evp.h>
-#include "crypto/sha.h"
+#ಅನ್ತರ್ಭಾವ <stdio.h>
+#ಅನ್ತರ್ಭಾವ <string.h>
+#ಅನ್ತರ್ಭಾವ <openssl/crypto.h>
+#ಅನ್ತರ್ಭಾವ <openssl/sha.h>
+#ಅನ್ತರ್ಭಾವ <openssl/evp.h>
+#ಅನ್ತರ್ಭಾವ "crypto/sha.h"
 
-unsigned char *ossl_sha1(const unsigned char *d, size_t n, unsigned char *md)
+ಚಿಹ್ನೆರಹಿತ ಅಕ್ಷರ *ossl_sha1(ಸ್ಥಿರಾಂಕ ಚಿಹ್ನೆರಹಿತ ಅಕ್ಷರ *d, size_t n, ಚಿಹ್ನೆರಹಿತ ಅಕ್ಷರ *md)
 {
     SHA_CTX c;
-    static unsigned char m[SHA_DIGEST_LENGTH];
+    ಸ್ಥಿರ ಚಿಹ್ನೆರಹಿತ ಅಕ್ಷರ m[SHA_DIGEST_ಉದ್ದಳತೆ];
 
-    if (md == NULL)
+    ಆದರೆ (md == ಖಾಲಿ)
         md = m;
-    if (!SHA1_Init(&c))
-        return NULL;
+    ಆದರೆ (!SHA1_Init(&c))
+        ಹಿಂತಿರುಗಿ ಖಾಲಿ;
     SHA1_Update(&c, d, n);
     SHA1_Final(md, &c);
-    OPENSSL_cleanse(&c, sizeof(c));
-    return md;
+    OPENSSL_cleanse(&c, ಗಾತ್ರ(c));
+    ಹಿಂತಿರುಗಿ md;
 }
 
-unsigned char *SHA1(const unsigned char *d, size_t n, unsigned char *md)
+ಚಿಹ್ನೆರಹಿತ ಅಕ್ಷರ *SHA1(ಸ್ಥಿರಾಂಕ ಚಿಹ್ನೆರಹಿತ ಅಕ್ಷರ *d, size_t n, ಚಿಹ್ನೆರಹಿತ ಅಕ್ಷರ *md)
 {
-    static unsigned char m[SHA_DIGEST_LENGTH];
+    ಸ್ಥಿರ ಚಿಹ್ನೆರಹಿತ ಅಕ್ಷರ m[SHA_DIGEST_ಉದ್ದಳತೆ];
 
-    if (md == NULL)
+    ಆದರೆ (md == ಖಾಲಿ)
         md = m;
-    return EVP_Q_digest(NULL, "SHA1", NULL, d, n, md, NULL) ? md : NULL;
+    ಹಿಂತಿರುಗಿ EVP_Q_digest(ಖಾಲಿ, "SHA1", ಖಾಲಿ, d, n, md, ಖಾಲಿ) ? md : ಖಾಲಿ;
 }
 
-unsigned char *SHA224(const unsigned char *d, size_t n, unsigned char *md)
+ಚಿಹ್ನೆರಹಿತ ಅಕ್ಷರ *SHA224(ಸ್ಥಿರಾಂಕ ಚಿಹ್ನೆರಹಿತ ಅಕ್ಷರ *d, size_t n, ಚಿಹ್ನೆರಹಿತ ಅಕ್ಷರ *md)
 {
-    static unsigned char m[SHA224_DIGEST_LENGTH];
+    ಸ್ಥಿರ ಚಿಹ್ನೆರಹಿತ ಅಕ್ಷರ m[SHA224_DIGEST_ಉದ್ದಳತೆ];
 
-    if (md == NULL)
+    ಆದರೆ (md == ಖಾಲಿ)
         md = m;
-    return EVP_Q_digest(NULL, "SHA224", NULL, d, n, md, NULL) ? md : NULL;
+    ಹಿಂತಿರುಗಿ EVP_Q_digest(ಖಾಲಿ, "SHA224", ಖಾಲಿ, d, n, md, ಖಾಲಿ) ? md : ಖಾಲಿ;
 }
 
-unsigned char *SHA256(const unsigned char *d, size_t n, unsigned char *md)
+ಚಿಹ್ನೆರಹಿತ ಅಕ್ಷರ *SHA256(ಸ್ಥಿರಾಂಕ ಚಿಹ್ನೆರಹಿತ ಅಕ್ಷರ *d, size_t n, ಚಿಹ್ನೆರಹಿತ ಅಕ್ಷರ *md)
 {
-    static unsigned char m[SHA256_DIGEST_LENGTH];
+    ಸ್ಥಿರ ಚಿಹ್ನೆರಹಿತ ಅಕ್ಷರ m[SHA256_DIGEST_ಉದ್ದಳತೆ];
 
-    if (md == NULL)
+    ಆದರೆ (md == ಖಾಲಿ)
         md = m;
-    return EVP_Q_digest(NULL, "SHA256", NULL, d, n, md, NULL) ? md : NULL;
+    ಹಿಂತಿರುಗಿ EVP_Q_digest(ಖಾಲಿ, "SHA256", ಖಾಲಿ, d, n, md, ಖಾಲಿ) ? md : ಖಾಲಿ;
 }
 
-unsigned char *SHA384(const unsigned char *d, size_t n, unsigned char *md)
+ಚಿಹ್ನೆರಹಿತ ಅಕ್ಷರ *SHA384(ಸ್ಥಿರಾಂಕ ಚಿಹ್ನೆರಹಿತ ಅಕ್ಷರ *d, size_t n, ಚಿಹ್ನೆರಹಿತ ಅಕ್ಷರ *md)
 {
-    static unsigned char m[SHA384_DIGEST_LENGTH];
+    ಸ್ಥಿರ ಚಿಹ್ನೆರಹಿತ ಅಕ್ಷರ m[SHA384_DIGEST_ಉದ್ದಳತೆ];
 
-    if (md == NULL)
+    ಆದರೆ (md == ಖಾಲಿ)
         md = m;
-    return EVP_Q_digest(NULL, "SHA384", NULL, d, n, md, NULL) ? md : NULL;
+    ಹಿಂತಿರುಗಿ EVP_Q_digest(ಖಾಲಿ, "SHA384", ಖಾಲಿ, d, n, md, ಖಾಲಿ) ? md : ಖಾಲಿ;
 }
 
-unsigned char *SHA512(const unsigned char *d, size_t n, unsigned char *md)
+ಚಿಹ್ನೆರಹಿತ ಅಕ್ಷರ *SHA512(ಸ್ಥಿರಾಂಕ ಚಿಹ್ನೆರಹಿತ ಅಕ್ಷರ *d, size_t n, ಚಿಹ್ನೆರಹಿತ ಅಕ್ಷರ *md)
 {
-    static unsigned char m[SHA512_DIGEST_LENGTH];
+    ಸ್ಥಿರ ಚಿಹ್ನೆರಹಿತ ಅಕ್ಷರ m[SHA512_DIGEST_ಉದ್ದಳತೆ];
 
-    if (md == NULL)
+    ಆದರೆ (md == ಖಾಲಿ)
         md = m;
-    return EVP_Q_digest(NULL, "SHA512", NULL, d, n, md, NULL) ? md : NULL;
+    ಹಿಂತಿರುಗಿ EVP_Q_digest(ಖಾಲಿ, "SHA512", ಖಾಲಿ, d, n, md, ಖಾಲಿ) ? md : ಖಾಲಿ;
 }
