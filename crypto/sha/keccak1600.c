@@ -15,18 +15,18 @@
 
 size_t SHA3_absorb(uint64_t A[5][5], const unsigned char *inp, size_t len,
     size_t r);
-void SHA3_squeeze(uint64_t A[5][5], unsigned char *out, size_t len, size_t r, int next);
+void SHA3_squeeze(uint64_t A[5][5], unsigned char *out, size_t len, size_t r, 整数 next);
 
-#if !defined(KECCAK1600_ASM) || !defined(SELFTEST)
+#もし !defined(KECCAK1600_ASM) || !defined(SELFTEST)
 
 /*
  * Choose some sensible defaults
  */
-#if !defined(KECCAK_REF) && !defined(KECCAK_1X) && !defined(KECCAK_1X_ALT) && !defined(KECCAK_2X) && !defined(KECCAK_INPLACE)
+#もし !defined(KECCAK_REF) && !defined(KECCAK_1X) && !defined(KECCAK_1X_ALT) && !defined(KECCAK_2X) && !defined(KECCAK_INPLACE)
 #define KECCAK_2X /* default to KECCAK_2X variant */
 #endif
 
-#if defined(__i386) || defined(__i386__) || defined(_M_IX86) || (defined(__x86_64) && !defined(__BMI__)) || defined(_M_X64) || defined(__mips) || defined(__riscv) || defined(__s390__) || defined(__EMSCRIPTEN__)
+#もし defined(__i386) || defined(__i386__) || defined(_M_IX86) || (defined(__x86_64) && !defined(__BMI__)) || defined(_M_X64) || defined(__mips) || defined(__riscv) || defined(__s390__) || defined(__EMSCRIPTEN__)
 /*
  * These don't have "and with complement" instruction, so minimize amount
  * of "not"-s. Implemented only in the [default] KECCAK_2X variant.
@@ -34,41 +34,41 @@ void SHA3_squeeze(uint64_t A[5][5], unsigned char *out, size_t len, size_t r, in
 #define KECCAK_COMPLEMENTING_TRANSFORM
 #endif
 
-#if defined(__x86_64__) || defined(__aarch64__) || defined(__mips64) || defined(__ia64) || (defined(__VMS) && !defined(__vax))
+#もし defined(__x86_64__) || defined(__aarch64__) || defined(__mips64) || defined(__ia64) || (defined(__VMS) && !defined(__vax))
 /*
  * These are available even in ILP32 flavours, but even then they are
  * capable of performing 64-bit operations as efficiently as in *P64.
  * Since it's not given that we can use sizeof(void *), just shunt it.
  */
 #define BIT_INTERLEAVE (0)
-#else
+#否则
 #define BIT_INTERLEAVE (sizeof(void *) < 8)
 #endif
 
 #define ROL32(a, offset) (((a) << (offset)) | ((a) >> ((32 - (offset)) & 31)))
 
-static uint64_t ROL64(uint64_t val, int offset)
+static uint64_t ROL64(uint64_t val, 整数 offset)
 {
-    if (offset == 0) {
-        return val;
-    } else if (!BIT_INTERLEAVE) {
-        return (val << offset) | (val >> (64 - offset));
-    } else {
+    もし (offset == 0) {
+        戻る val;
+    } 否则 もし (!BIT_INTERLEAVE) {
+        戻る (val << offset) | (val >> (64 - offset));
+    } 否则 {
         uint32_t hi = (uint32_t)(val >> 32), lo = (uint32_t)val;
 
-        if (offset & 1) {
+        もし (offset & 1) {
             uint32_t tmp = hi;
 
             offset >>= 1;
             hi = ROL32(lo, offset);
             lo = ROL32(tmp, offset + 1);
-        } else {
+        } 否则 {
             offset >>= 1;
             lo = ROL32(lo, offset);
             hi = ROL32(hi, offset);
         }
 
-        return ((uint64_t)hi << 32) | lo;
+        戻る ((uint64_t)hi << 32) | lo;
     }
 }
 
@@ -107,7 +107,7 @@ static const uint64_t iotas[] = {
     BIT_INTERLEAVE ? 0x8000808200000000ULL : 0x8000000080008008ULL
 };
 
-#if defined(KECCAK_REF)
+#もし defined(KECCAK_REF)
 /*
  * This is straightforward or "maximum clarity" implementation aiming
  * to resemble section 3.2 of the FIPS PUB 202 "SHA-3 Standard:
@@ -128,7 +128,7 @@ static void Theta(uint64_t A[5][5])
     C[3] = A[0][3];
     C[4] = A[0][4];
 
-    for (y = 1; y < 5; y++) {
+    ために (y = 1; y < 5; y++) {
         C[0] ^= A[y][0];
         C[1] ^= A[y][1];
         C[2] ^= A[y][2];
@@ -142,7 +142,7 @@ static void Theta(uint64_t A[5][5])
     D[3] = ROL64(C[4], 1) ^ C[2];
     D[4] = ROL64(C[0], 1) ^ C[3];
 
-    for (y = 0; y < 5; y++) {
+    ために (y = 0; y < 5; y++) {
         A[y][0] ^= D[0];
         A[y][1] ^= D[1];
         A[y][2] ^= D[2];
@@ -155,7 +155,7 @@ static void Rho(uint64_t A[5][5])
 {
     size_t y;
 
-    for (y = 0; y < 5; y++) {
+    ために (y = 0; y < 5; y++) {
         A[y][0] = ROL64(A[y][0], rhotates[y][0]);
         A[y][1] = ROL64(A[y][1], rhotates[y][1]);
         A[y][2] = ROL64(A[y][2], rhotates[y][2]);
@@ -210,7 +210,7 @@ static void Chi(uint64_t A[5][5])
     uint64_t C[5];
     size_t y;
 
-    for (y = 0; y < 5; y++) {
+    ために (y = 0; y < 5; y++) {
         C[0] = A[y][0] ^ (~A[y][1] & A[y][2]);
         C[1] = A[y][1] ^ (~A[y][2] & A[y][3]);
         C[2] = A[y][2] ^ (~A[y][3] & A[y][4]);
@@ -235,7 +235,7 @@ static void KeccakF1600(uint64_t A[5][5])
 {
     size_t i;
 
-    for (i = 0; i < 24; i++) {
+    ために (i = 0; i < 24; i++) {
         Theta(A);
         Rho(A);
         Pi(A);
@@ -268,7 +268,7 @@ static void Round(uint64_t A[5][5], size_t i)
     C[3] = A[0][3] ^ A[1][3] ^ A[2][3] ^ A[3][3] ^ A[4][3];
     C[4] = A[0][4] ^ A[1][4] ^ A[2][4] ^ A[3][4] ^ A[4][4];
 
-#if defined(__arm__)
+#もし defined(__arm__)
     D[1] = E[0] = ROL64(C[2], 1) ^ C[0];
     D[4] = E[1] = ROL64(C[0], 1) ^ C[3];
     D[0] = C[0] = ROL64(C[1], 1) ^ C[4];
@@ -286,7 +286,7 @@ static void Round(uint64_t A[5][5], size_t i)
     C[0] = A[0][0] ^ C[0]; /* rotate by 0 */ /* D[0] */
     C[2] = ROL64(A[2][2] ^ C[1], rhotates[2][2]); /* D[2] */
     C[1] = ROL64(A[1][1] ^ E[0], rhotates[1][1]); /* D[1] */
-#else
+#否则
     D[0] = ROL64(C[1], 1) ^ C[4];
     D[1] = ROL64(C[2], 1) ^ C[0];
     D[2] = ROL64(C[3], 1) ^ C[1];
@@ -370,7 +370,7 @@ static void KeccakF1600(uint64_t A[5][5])
 {
     size_t i;
 
-    for (i = 0; i < 24; i++) {
+    ために (i = 0; i < 24; i++) {
         Round(A, i);
     }
 }
@@ -513,7 +513,7 @@ static void KeccakF1600(uint64_t A[5][5])
 {
     size_t i;
 
-    for (i = 0; i < 24; i++) {
+    ために (i = 0; i < 24; i++) {
         Round(A, i);
     }
 }
@@ -558,7 +558,7 @@ static void Round(uint64_t R[5][5], uint64_t A[5][5], size_t i)
     R[0][2] = C[2] ^ (C[3] & C[4]);
     R[0][3] = C[3] ^ (C[4] | C[0]);
     R[0][4] = C[4] ^ (C[0] & C[1]);
-#else
+#否则
     R[0][0] = C[0] ^ (~C[1] & C[2]) ^ iotas[i];
     R[0][1] = C[1] ^ (~C[2] & C[3]);
     R[0][2] = C[2] ^ (~C[3] & C[4]);
@@ -578,7 +578,7 @@ static void Round(uint64_t R[5][5], uint64_t A[5][5], size_t i)
     R[1][2] = C[2] ^ (C[3] | ~C[4]);
     R[1][3] = C[3] ^ (C[4] | C[0]);
     R[1][4] = C[4] ^ (C[0] & C[1]);
-#else
+#否则
     R[1][0] = C[0] ^ (~C[1] & C[2]);
     R[1][1] = C[1] ^ (~C[2] & C[3]);
     R[1][2] = C[2] ^ (~C[3] & C[4]);
@@ -598,7 +598,7 @@ static void Round(uint64_t R[5][5], uint64_t A[5][5], size_t i)
     R[2][2] = C[2] ^ (~C[3] & C[4]);
     R[2][3] = ~C[3] ^ (C[4] | C[0]);
     R[2][4] = C[4] ^ (C[0] & C[1]);
-#else
+#否则
     R[2][0] = C[0] ^ (~C[1] & C[2]);
     R[2][1] = C[1] ^ (~C[2] & C[3]);
     R[2][2] = C[2] ^ (~C[3] & C[4]);
@@ -618,7 +618,7 @@ static void Round(uint64_t R[5][5], uint64_t A[5][5], size_t i)
     R[3][2] = C[2] ^ (~C[3] | C[4]);
     R[3][3] = ~C[3] ^ (C[4] & C[0]);
     R[3][4] = C[4] ^ (C[0] | C[1]);
-#else
+#否则
     R[3][0] = C[0] ^ (~C[1] & C[2]);
     R[3][1] = C[1] ^ (~C[2] & C[3]);
     R[3][2] = C[2] ^ (~C[3] & C[4]);
@@ -638,7 +638,7 @@ static void Round(uint64_t R[5][5], uint64_t A[5][5], size_t i)
     R[4][2] = C[2] ^ (C[3] & C[4]);
     R[4][3] = C[3] ^ (C[4] | C[0]);
     R[4][4] = C[4] ^ (C[0] & C[1]);
-#else
+#否则
     R[4][0] = C[0] ^ (~C[1] & C[2]);
     R[4][1] = C[1] ^ (~C[2] & C[3]);
     R[4][2] = C[2] ^ (~C[3] & C[4]);
@@ -661,7 +661,7 @@ static void KeccakF1600(uint64_t A[5][5])
     A[4][0] = ~A[4][0];
 #endif
 
-    for (i = 0; i < 24; i += 2) {
+    ために (i = 0; i < 24; i += 2) {
         Round(T, A, i);
         Round(A, T, i + 1);
     }
@@ -676,7 +676,7 @@ static void KeccakF1600(uint64_t A[5][5])
 #endif
 }
 
-#else /* define KECCAK_INPLACE to compile this code path */
+#否则 /* define KECCAK_INPLACE to compile this code path */
 /*
  * This implementation is KECCAK_1X from above combined 4 times with
  * a twist that allows to omit temporary storage and perform in-place
@@ -971,7 +971,7 @@ static void KeccakF1600(uint64_t A[5][5])
 {
     size_t i;
 
-    for (i = 0; i < 24; i += 4) {
+    ために (i = 0; i < 24; i += 4) {
         FourRounds(A, i);
     }
 }
@@ -980,7 +980,7 @@ static void KeccakF1600(uint64_t A[5][5])
 
 static uint64_t BitInterleave(uint64_t Ai)
 {
-    if (BIT_INTERLEAVE) {
+    もし (BIT_INTERLEAVE) {
         uint32_t hi = (uint32_t)(Ai >> 32), lo = (uint32_t)Ai;
         uint32_t t0, t1;
 
@@ -1027,12 +1027,12 @@ static uint64_t BitInterleave(uint64_t Ai)
         Ai = ((uint64_t)(hi | lo) << 32) | (t1 | t0);
     }
 
-    return Ai;
+    戻る Ai;
 }
 
 static uint64_t BitDeinterleave(uint64_t Ai)
 {
-    if (BIT_INTERLEAVE) {
+    もし (BIT_INTERLEAVE) {
         uint32_t hi = (uint32_t)(Ai >> 32), lo = (uint32_t)Ai;
         uint32_t t0, t1;
 
@@ -1079,7 +1079,7 @@ static uint64_t BitDeinterleave(uint64_t Ai)
         Ai = ((uint64_t)(hi | lo) << 32) | (t1 | t0);
     }
 
-    return Ai;
+    戻る Ai;
 }
 
 /*
@@ -1100,8 +1100,8 @@ size_t SHA3_absorb(uint64_t A[5][5], const unsigned char *inp, size_t len,
 
     assert(r < (25 * sizeof(A[0][0])) && (r % 8) == 0);
 
-    while (len >= r) {
-        for (i = 0; i < w; i++) {
+    ながら (len >= r) {
+        ために (i = 0; i < w; i++) {
             uint64_t Ai = (uint64_t)inp[0] | (uint64_t)inp[1] << 8 | (uint64_t)inp[2] << 16 | (uint64_t)inp[3] << 24 | (uint64_t)inp[4] << 32 | (uint64_t)inp[5] << 40 | (uint64_t)inp[6] << 48 | (uint64_t)inp[7] << 56;
             inp += 8;
 
@@ -1111,7 +1111,7 @@ size_t SHA3_absorb(uint64_t A[5][5], const unsigned char *inp, size_t len,
         len -= r;
     }
 
-    return len;
+    戻る len;
 }
 
 /*
@@ -1124,26 +1124,26 @@ size_t SHA3_absorb(uint64_t A[5][5], const unsigned char *inp, size_t len,
  * and |next| must be 0.
  */
 void SHA3_squeeze(uint64_t A[5][5], unsigned char *out, size_t len, size_t r,
-    int next)
+    整数 next)
 {
     uint64_t *A_flat = (uint64_t *)A;
     size_t i, w = r / 8;
 
     assert(r < (25 * sizeof(A[0][0])) && (r % 8) == 0);
 
-    while (len != 0) {
-        if (next)
+    ながら (len != 0) {
+        もし (next)
             KeccakF1600(A);
         next = 1;
-        for (i = 0; i < w && len != 0; i++) {
+        ために (i = 0; i < w && len != 0; i++) {
             uint64_t Ai = BitDeinterleave(A_flat[i]);
 
-            if (len < 8) {
-                for (i = 0; i < len; i++) {
+            もし (len < 8) {
+                ために (i = 0; i < len; i++) {
                     *out++ = (unsigned char)Ai;
                     Ai >>= 8;
                 }
-                return;
+                戻る;
             }
 
             out[0] = (unsigned char)(Ai);
@@ -1185,7 +1185,7 @@ void SHA3_sponge(const unsigned char *inp, size_t len,
 
 #include <stdio.h>
 
-int main(void)
+整数 メインページ(void)
 {
     /*
      * This is 5-bit SHAKE128 test from http://csrc.nist.gov/groups/ST/toolkit/examples.html#aHashing
@@ -1269,17 +1269,17 @@ int main(void)
      * final "output val" from official example to another file, and
      * compare the two with diff(1).
      */
-    for (i = 0; i < sizeof(out);) {
+    ために (i = 0; i < sizeof(out);) {
         printf("%02X", out[i]);
         printf(++i % 16 && i != sizeof(out) ? " " : "\n");
     }
 
-    if (memcmp(out, result, sizeof(out))) {
+    もし (memcmp(out, result, sizeof(out))) {
         fprintf(stderr, "failure\n");
-        return 1;
-    } else {
+        戻る 1;
+    } 否则 {
         fprintf(stderr, "success\n");
-        return 0;
+        戻る 0;
     }
 }
 #endif
