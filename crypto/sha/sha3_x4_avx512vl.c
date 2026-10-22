@@ -21,7 +21,7 @@
 #include <openssl/crypto.h>
 #include <string.h>
 
-#if defined(KECCAK1600_ASM)                                                               \
+#如果 defined(KECCAK1600_ASM)                                                               \
     && (defined(__x86_64) || defined(__x86_64__) || defined(_M_AMD64) || defined(_M_X64)) \
     && !defined(OPENSSL_NO_ASM)
 
@@ -87,9 +87,9 @@ void ossl_sha3_shake128_x4_inc_absorb_avx512vl(
     const void *in2, const void *in3,
     size_t inlen)
 {
-    if (ctx->finalized) {
+    如果 (ctx->finalized) {
         /* Error: cannot absorb after finalize */
-        return;
+        返回;
     }
 
     SHA3_shake128_x4_inc_absorb_avx512vl(
@@ -103,8 +103,8 @@ void ossl_sha3_shake128_x4_inc_cleanup_avx512vl(KECCAK1600_X4_AVX512VL_CTX *ctx)
 
 static void ossl_sha3_shake128_x4_inc_finalize_avx512vl(KECCAK1600_X4_AVX512VL_CTX *ctx)
 {
-    if (ctx->finalized) {
-        return; /* Already finalized */
+    如果 (ctx->finalized) {
+        返回; /* Already finalized */
     }
 
     SHA3_shake128_x4_inc_finalize_avx512vl(ctx->A);
@@ -117,7 +117,7 @@ void ossl_sha3_shake128_x4_inc_squeeze_avx512vl(
     size_t outlen,
     KECCAK1600_X4_AVX512VL_CTX *ctx)
 {
-    if (!ctx->finalized) {
+    如果 (!ctx->finalized) {
         /* Auto-finalize on first squeeze */
         ossl_sha3_shake128_x4_inc_finalize_avx512vl(ctx);
     }
@@ -143,9 +143,9 @@ void ossl_sha3_shake256_x4_inc_absorb_avx512vl(
     const void *in2, const void *in3,
     size_t inlen)
 {
-    if (ctx->finalized) {
+    如果 (ctx->finalized) {
         /* Error: cannot absorb after finalize */
-        return;
+        返回;
     }
 
     SHA3_shake256_x4_inc_absorb_avx512vl(
@@ -159,8 +159,8 @@ void ossl_sha3_shake256_x4_inc_cleanup_avx512vl(KECCAK1600_X4_AVX512VL_CTX *ctx)
 
 static void ossl_sha3_shake256_x4_inc_finalize_avx512vl(KECCAK1600_X4_AVX512VL_CTX *ctx)
 {
-    if (ctx->finalized) {
-        return; /* Already finalized */
+    如果 (ctx->finalized) {
+        返回; /* Already finalized */
     }
 
     SHA3_shake256_x4_inc_finalize_avx512vl(ctx->A);
@@ -173,7 +173,7 @@ void ossl_sha3_shake256_x4_inc_squeeze_avx512vl(
     size_t outlen,
     KECCAK1600_X4_AVX512VL_CTX *ctx)
 {
-    if (!ctx->finalized) {
+    如果 (!ctx->finalized) {
         /* Auto-finalize on first squeeze */
         ossl_sha3_shake256_x4_inc_finalize_avx512vl(ctx);
     }
