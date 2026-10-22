@@ -7,26 +7,26 @@
  * https://www.openssl.org/source/license.html
  */
 
-#include <openssl/e_os2.h>
-#include <string.h>
-#include <assert.h>
+#অন্তর্ভাৱ <openssl/e_os2.h>
+#অন্তর্ভাৱ <string.h>
+#অন্তর্ভাৱ <assert.h>
 
-#include "internal/nelem.h"
+#অন্তর্ভাৱ "internal/nelem.h"
 
-size_t SHA3_absorb(uint64_t A[5][5], const unsigned char *inp, size_t len,
+size_t SHA3_absorb(uint64_t A[5][5], ধ্রুৱ unsigned ৱর্ণ *inp, size_t len,
     size_t r);
-void SHA3_squeeze(uint64_t A[5][5], unsigned char *out, size_t len, size_t r, int next);
+শূন্য SHA3_squeeze(uint64_t A[5][5], unsigned ৱর্ণ *out, size_t len, size_t r, পূর্ণাঙ্ক next);
 
-#if !defined(KECCAK1600_ASM) || !defined(SELFTEST)
+#যদি !defined(KECCAK1600_ASM) || !defined(SELFTEST)
 
 /*
  * Choose some sensible defaults
  */
-#if !defined(KECCAK_REF) && !defined(KECCAK_1X) && !defined(KECCAK_1X_ALT) && !defined(KECCAK_2X) && !defined(KECCAK_INPLACE)
+#যদি !defined(KECCAK_REF) && !defined(KECCAK_1X) && !defined(KECCAK_1X_ALT) && !defined(KECCAK_2X) && !defined(KECCAK_INPLACE)
 #define KECCAK_2X /* default to KECCAK_2X variant */
 #endif
 
-#if defined(__i386) || defined(__i386__) || defined(_M_IX86) || (defined(__x86_64) && !defined(__BMI__)) || defined(_M_X64) || defined(__mips) || defined(__riscv) || defined(__s390__) || defined(__EMSCRIPTEN__)
+#যদি defined(__i386) || defined(__i386__) || defined(_M_IX86) || (defined(__x86_64) && !defined(__BMI__)) || defined(_M_X64) || defined(__mips) || defined(__riscv) || defined(__s390__) || defined(__EMSCRIPTEN__)
 /*
  * These don't have "and with complement" instruction, so minimize amount
  * of "not"-s. Implemented only in the [default] KECCAK_2X variant.
@@ -34,45 +34,45 @@ void SHA3_squeeze(uint64_t A[5][5], unsigned char *out, size_t len, size_t r, in
 #define KECCAK_COMPLEMENTING_TRANSFORM
 #endif
 
-#if defined(__x86_64__) || defined(__aarch64__) || defined(__mips64) || defined(__ia64) || (defined(__VMS) && !defined(__vax))
+#যদি defined(__x86_64__) || defined(__aarch64__) || defined(__mips64) || defined(__ia64) || (defined(__VMS) && !defined(__vax))
 /*
  * These are available even in ILP32 flavours, but even then they are
  * capable of performing 64-bit operations as efficiently as in *P64.
  * Since it's not given that we can use sizeof(void *), just shunt it.
  */
 #define BIT_INTERLEAVE (0)
-#else
-#define BIT_INTERLEAVE (sizeof(void *) < 8)
+#অন্যথা
+#define BIT_INTERLEAVE (পরিমাণ(শূন্য *) < 8)
 #endif
 
 #define ROL32(a, offset) (((a) << (offset)) | ((a) >> ((32 - (offset)) & 31)))
 
-static uint64_t ROL64(uint64_t val, int offset)
+স্থির uint64_t ROL64(uint64_t val, পূর্ণাঙ্ক offset)
 {
-    if (offset == 0) {
-        return val;
-    } else if (!BIT_INTERLEAVE) {
-        return (val << offset) | (val >> (64 - offset));
-    } else {
+    যদি (offset == 0) {
+        ঘূৰাই val;
+    } অন্যথা যদি (!BIT_INTERLEAVE) {
+        ঘূৰাই (val << offset) | (val >> (64 - offset));
+    } অন্যথা {
         uint32_t hi = (uint32_t)(val >> 32), lo = (uint32_t)val;
 
-        if (offset & 1) {
+        যদি (offset & 1) {
             uint32_t tmp = hi;
 
             offset >>= 1;
             hi = ROL32(lo, offset);
             lo = ROL32(tmp, offset + 1);
-        } else {
+        } অন্যথা {
             offset >>= 1;
             lo = ROL32(lo, offset);
             hi = ROL32(hi, offset);
         }
 
-        return ((uint64_t)hi << 32) | lo;
+        ঘূৰাই ((uint64_t)hi << 32) | lo;
     }
 }
 
-static const unsigned char rhotates[5][5] = {
+স্থির ধ্রুৱ unsigned ৱর্ণ rhotates[5][5] = {
     { 0, 1, 62, 28, 27 },
     { 36, 44, 6, 55, 20 },
     { 3, 10, 43, 25, 39 },
@@ -80,7 +80,7 @@ static const unsigned char rhotates[5][5] = {
     { 18, 2, 61, 56, 14 }
 };
 
-static const uint64_t iotas[] = {
+স্থির ধ্রুৱ uint64_t iotas[] = {
     BIT_INTERLEAVE ? 0x0000000000000001ULL : 0x0000000000000001ULL,
     BIT_INTERLEAVE ? 0x0000008900000000ULL : 0x0000000000008082ULL,
     BIT_INTERLEAVE ? 0x8000008b00000000ULL : 0x800000000000808aULL,
@@ -107,7 +107,7 @@ static const uint64_t iotas[] = {
     BIT_INTERLEAVE ? 0x8000808200000000ULL : 0x8000000080008008ULL
 };
 
-#if defined(KECCAK_REF)
+#যদি defined(KECCAK_REF)
 /*
  * This is straightforward or "maximum clarity" implementation aiming
  * to resemble section 3.2 of the FIPS PUB 202 "SHA-3 Standard:
@@ -117,7 +117,7 @@ static const uint64_t iotas[] = {
  * Implementation unrolls inner x-loops so that modulo 5 operations are
  * explicitly pre-computed.
  */
-static void Theta(uint64_t A[5][5])
+স্থির শূন্য Theta(uint64_t A[5][5])
 {
     uint64_t C[5], D[5];
     size_t y;
@@ -128,7 +128,7 @@ static void Theta(uint64_t A[5][5])
     C[3] = A[0][3];
     C[4] = A[0][4];
 
-    for (y = 1; y < 5; y++) {
+    বাবে (y = 1; y < 5; y++) {
         C[0] ^= A[y][0];
         C[1] ^= A[y][1];
         C[2] ^= A[y][2];
@@ -142,7 +142,7 @@ static void Theta(uint64_t A[5][5])
     D[3] = ROL64(C[4], 1) ^ C[2];
     D[4] = ROL64(C[0], 1) ^ C[3];
 
-    for (y = 0; y < 5; y++) {
+    বাবে (y = 0; y < 5; y++) {
         A[y][0] ^= D[0];
         A[y][1] ^= D[1];
         A[y][2] ^= D[2];
@@ -151,11 +151,11 @@ static void Theta(uint64_t A[5][5])
     }
 }
 
-static void Rho(uint64_t A[5][5])
+স্থির শূন্য Rho(uint64_t A[5][5])
 {
     size_t y;
 
-    for (y = 0; y < 5; y++) {
+    বাবে (y = 0; y < 5; y++) {
         A[y][0] = ROL64(A[y][0], rhotates[y][0]);
         A[y][1] = ROL64(A[y][1], rhotates[y][1]);
         A[y][2] = ROL64(A[y][2], rhotates[y][2]);
@@ -164,7 +164,7 @@ static void Rho(uint64_t A[5][5])
     }
 }
 
-static void Pi(uint64_t A[5][5])
+স্থির শূন্য Pi(uint64_t A[5][5])
 {
     uint64_t T[5][5];
 
@@ -172,7 +172,7 @@ static void Pi(uint64_t A[5][5])
      * T = A
      * A[y][x] = T[x][(3*y+x)%5]
      */
-    memcpy(T, A, sizeof(T));
+    memcpy(T, A, পরিমাণ(T));
 
     A[0][0] = T[0][0];
     A[0][1] = T[1][1];
@@ -205,12 +205,12 @@ static void Pi(uint64_t A[5][5])
     A[4][4] = T[4][1];
 }
 
-static void Chi(uint64_t A[5][5])
+স্থির শূন্য Chi(uint64_t A[5][5])
 {
     uint64_t C[5];
     size_t y;
 
-    for (y = 0; y < 5; y++) {
+    বাবে (y = 0; y < 5; y++) {
         C[0] = A[y][0] ^ (~A[y][1] & A[y][2]);
         C[1] = A[y][1] ^ (~A[y][2] & A[y][3]);
         C[2] = A[y][2] ^ (~A[y][3] & A[y][4]);
@@ -225,17 +225,17 @@ static void Chi(uint64_t A[5][5])
     }
 }
 
-static void Iota(uint64_t A[5][5], size_t i)
+স্থির শূন্য Iota(uint64_t A[5][5], size_t i)
 {
-    assert(i < OSSL_NELEM(iotas));
+    প্রতিজ্ঞা(i < OSSL_NELEM(iotas));
     A[0][0] ^= iotas[i];
 }
 
-static void KeccakF1600(uint64_t A[5][5])
+স্থির শূন্য KeccakF1600(uint64_t A[5][5])
 {
     size_t i;
 
-    for (i = 0; i < 24; i++) {
+    বাবে (i = 0; i < 24; i++) {
         Theta(A);
         Rho(A);
         Pi(A);
@@ -244,7 +244,7 @@ static void KeccakF1600(uint64_t A[5][5])
     }
 }
 
-#elif defined(KECCAK_1X)
+#নোচেদ্যদি defined(KECCAK_1X)
 /*
  * This implementation is optimization of above code featuring unroll
  * of even y-loops, their fusion and code motion. It also minimizes
@@ -255,12 +255,12 @@ static void KeccakF1600(uint64_t A[5][5])
  * equivalent of "plane-per-plane processing" approach discussed in
  * section 2.4 of "Keccak implementation overview".
  */
-static void Round(uint64_t A[5][5], size_t i)
+স্থির শূন্য Round(uint64_t A[5][5], size_t i)
 {
     uint64_t C[5], E[2]; /* registers */
     uint64_t D[5], T[2][5]; /* memory    */
 
-    assert(i < OSSL_NELEM(iotas));
+    প্রতিজ্ঞা(i < OSSL_NELEM(iotas));
 
     C[0] = A[0][0] ^ A[1][0] ^ A[2][0] ^ A[3][0] ^ A[4][0];
     C[1] = A[0][1] ^ A[1][1] ^ A[2][1] ^ A[3][1] ^ A[4][1];
@@ -268,7 +268,7 @@ static void Round(uint64_t A[5][5], size_t i)
     C[3] = A[0][3] ^ A[1][3] ^ A[2][3] ^ A[3][3] ^ A[4][3];
     C[4] = A[0][4] ^ A[1][4] ^ A[2][4] ^ A[3][4] ^ A[4][4];
 
-#if defined(__arm__)
+#যদি defined(__arm__)
     D[1] = E[0] = ROL64(C[2], 1) ^ C[0];
     D[4] = E[1] = ROL64(C[0], 1) ^ C[3];
     D[0] = C[0] = ROL64(C[1], 1) ^ C[4];
@@ -286,7 +286,7 @@ static void Round(uint64_t A[5][5], size_t i)
     C[0] = A[0][0] ^ C[0]; /* rotate by 0 */ /* D[0] */
     C[2] = ROL64(A[2][2] ^ C[1], rhotates[2][2]); /* D[2] */
     C[1] = ROL64(A[1][1] ^ E[0], rhotates[1][1]); /* D[1] */
-#else
+#অন্যথা
     D[0] = ROL64(C[1], 1) ^ C[4];
     D[1] = ROL64(C[2], 1) ^ C[0];
     D[2] = ROL64(C[3], 1) ^ C[1];
@@ -366,16 +366,16 @@ static void Round(uint64_t A[5][5], size_t i)
     A[4][4] = C[4] ^ (~C[0] & C[1]);
 }
 
-static void KeccakF1600(uint64_t A[5][5])
+স্থির শূন্য KeccakF1600(uint64_t A[5][5])
 {
     size_t i;
 
-    for (i = 0; i < 24; i++) {
+    বাবে (i = 0; i < 24; i++) {
         Round(A, i);
     }
 }
 
-#elif defined(KECCAK_1X_ALT)
+#নোচেদ্যদি defined(KECCAK_1X_ALT)
 /*
  * This is variant of above KECCAK_1X that reduces requirement for
  * temporary storage even further, but at cost of more updates to A[][].
@@ -383,11 +383,11 @@ static void KeccakF1600(uint64_t A[5][5])
  * register bound.
  */
 
-static void Round(uint64_t A[5][5], size_t i)
+স্থির শূন্য Round(uint64_t A[5][5], size_t i)
 {
     uint64_t C[5], D[5];
 
-    assert(i < OSSL_NELEM(iotas));
+    প্রতিজ্ঞা(i < OSSL_NELEM(iotas));
 
     C[0] = A[0][0] ^ A[1][0] ^ A[2][0] ^ A[3][0] ^ A[4][0];
     C[1] = A[0][1] ^ A[1][1] ^ A[2][1] ^ A[3][1] ^ A[4][1];
@@ -509,16 +509,16 @@ static void Round(uint64_t A[5][5], size_t i)
     A[0][0] ^= iotas[i];
 }
 
-static void KeccakF1600(uint64_t A[5][5])
+স্থির শূন্য KeccakF1600(uint64_t A[5][5])
 {
     size_t i;
 
-    for (i = 0; i < 24; i++) {
+    বাবে (i = 0; i < 24; i++) {
         Round(A, i);
     }
 }
 
-#elif defined(KECCAK_2X)
+#নোচেদ্যদি defined(KECCAK_2X)
 /*
  * This implementation is variant of KECCAK_1X above with outer-most
  * round loop unrolled twice. This allows to take temporary storage
@@ -528,11 +528,11 @@ static void KeccakF1600(uint64_t A[5][5])
  * play best with compilers [as well as provide best instruction per
  * processed byte ratio at minimal round unroll factor]...
  */
-static void Round(uint64_t R[5][5], uint64_t A[5][5], size_t i)
+স্থির শূন্য Round(uint64_t R[5][5], uint64_t A[5][5], size_t i)
 {
     uint64_t C[5], D[5];
 
-    assert(i < OSSL_NELEM(iotas));
+    প্রতিজ্ঞা(i < OSSL_NELEM(iotas));
 
     C[0] = A[0][0] ^ A[1][0] ^ A[2][0] ^ A[3][0] ^ A[4][0];
     C[1] = A[0][1] ^ A[1][1] ^ A[2][1] ^ A[3][1] ^ A[4][1];
@@ -558,7 +558,7 @@ static void Round(uint64_t R[5][5], uint64_t A[5][5], size_t i)
     R[0][2] = C[2] ^ (C[3] & C[4]);
     R[0][3] = C[3] ^ (C[4] | C[0]);
     R[0][4] = C[4] ^ (C[0] & C[1]);
-#else
+#অন্যথা
     R[0][0] = C[0] ^ (~C[1] & C[2]) ^ iotas[i];
     R[0][1] = C[1] ^ (~C[2] & C[3]);
     R[0][2] = C[2] ^ (~C[3] & C[4]);
@@ -578,7 +578,7 @@ static void Round(uint64_t R[5][5], uint64_t A[5][5], size_t i)
     R[1][2] = C[2] ^ (C[3] | ~C[4]);
     R[1][3] = C[3] ^ (C[4] | C[0]);
     R[1][4] = C[4] ^ (C[0] & C[1]);
-#else
+#অন্যথা
     R[1][0] = C[0] ^ (~C[1] & C[2]);
     R[1][1] = C[1] ^ (~C[2] & C[3]);
     R[1][2] = C[2] ^ (~C[3] & C[4]);
@@ -598,7 +598,7 @@ static void Round(uint64_t R[5][5], uint64_t A[5][5], size_t i)
     R[2][2] = C[2] ^ (~C[3] & C[4]);
     R[2][3] = ~C[3] ^ (C[4] | C[0]);
     R[2][4] = C[4] ^ (C[0] & C[1]);
-#else
+#অন্যথা
     R[2][0] = C[0] ^ (~C[1] & C[2]);
     R[2][1] = C[1] ^ (~C[2] & C[3]);
     R[2][2] = C[2] ^ (~C[3] & C[4]);
@@ -618,7 +618,7 @@ static void Round(uint64_t R[5][5], uint64_t A[5][5], size_t i)
     R[3][2] = C[2] ^ (~C[3] | C[4]);
     R[3][3] = ~C[3] ^ (C[4] & C[0]);
     R[3][4] = C[4] ^ (C[0] | C[1]);
-#else
+#অন্যথা
     R[3][0] = C[0] ^ (~C[1] & C[2]);
     R[3][1] = C[1] ^ (~C[2] & C[3]);
     R[3][2] = C[2] ^ (~C[3] & C[4]);
@@ -638,7 +638,7 @@ static void Round(uint64_t R[5][5], uint64_t A[5][5], size_t i)
     R[4][2] = C[2] ^ (C[3] & C[4]);
     R[4][3] = C[3] ^ (C[4] | C[0]);
     R[4][4] = C[4] ^ (C[0] & C[1]);
-#else
+#অন্যথা
     R[4][0] = C[0] ^ (~C[1] & C[2]);
     R[4][1] = C[1] ^ (~C[2] & C[3]);
     R[4][2] = C[2] ^ (~C[3] & C[4]);
@@ -647,7 +647,7 @@ static void Round(uint64_t R[5][5], uint64_t A[5][5], size_t i)
 #endif
 }
 
-static void KeccakF1600(uint64_t A[5][5])
+স্থির শূন্য KeccakF1600(uint64_t A[5][5])
 {
     uint64_t T[5][5];
     size_t i;
@@ -661,7 +661,7 @@ static void KeccakF1600(uint64_t A[5][5])
     A[4][0] = ~A[4][0];
 #endif
 
-    for (i = 0; i < 24; i += 2) {
+    বাবে (i = 0; i < 24; i += 2) {
         Round(T, A, i);
         Round(A, T, i + 1);
     }
@@ -676,7 +676,7 @@ static void KeccakF1600(uint64_t A[5][5])
 #endif
 }
 
-#else /* define KECCAK_INPLACE to compile this code path */
+#অন্যথা /* define KECCAK_INPLACE to compile this code path */
 /*
  * This implementation is KECCAK_1X from above combined 4 times with
  * a twist that allows to omit temporary storage and perform in-place
@@ -686,11 +686,11 @@ static void KeccakF1600(uint64_t A[5][5])
  * bank can as well use KECCAK_1X_ALT, it would be as fast but much
  * more compact...
  */
-static void FourRounds(uint64_t A[5][5], size_t i)
+স্থির শূন্য FourRounds(uint64_t A[5][5], size_t i)
 {
     uint64_t B[5], C[5], D[5];
 
-    assert(i <= OSSL_NELEM(iotas) - 4);
+    প্রতিজ্ঞা(i <= OSSL_NELEM(iotas) - 4);
 
     /* Round 4*n */
     C[0] = A[0][0] ^ A[1][0] ^ A[2][0] ^ A[3][0] ^ A[4][0];
@@ -967,20 +967,20 @@ static void FourRounds(uint64_t A[5][5], size_t i)
     /* C[4] ^= */ A[4][4] = B[4] ^ (~B[0] & B[1]);
 }
 
-static void KeccakF1600(uint64_t A[5][5])
+স্থির শূন্য KeccakF1600(uint64_t A[5][5])
 {
     size_t i;
 
-    for (i = 0; i < 24; i += 4) {
+    বাবে (i = 0; i < 24; i += 4) {
         FourRounds(A, i);
     }
 }
 
 #endif
 
-static uint64_t BitInterleave(uint64_t Ai)
+স্থির uint64_t BitInterleave(uint64_t Ai)
 {
-    if (BIT_INTERLEAVE) {
+    যদি (BIT_INTERLEAVE) {
         uint32_t hi = (uint32_t)(Ai >> 32), lo = (uint32_t)Ai;
         uint32_t t0, t1;
 
@@ -1027,12 +1027,12 @@ static uint64_t BitInterleave(uint64_t Ai)
         Ai = ((uint64_t)(hi | lo) << 32) | (t1 | t0);
     }
 
-    return Ai;
+    ঘূৰাই Ai;
 }
 
-static uint64_t BitDeinterleave(uint64_t Ai)
+স্থির uint64_t BitDeinterleave(uint64_t Ai)
 {
-    if (BIT_INTERLEAVE) {
+    যদি (BIT_INTERLEAVE) {
         uint32_t hi = (uint32_t)(Ai >> 32), lo = (uint32_t)Ai;
         uint32_t t0, t1;
 
@@ -1079,7 +1079,7 @@ static uint64_t BitDeinterleave(uint64_t Ai)
         Ai = ((uint64_t)(hi | lo) << 32) | (t1 | t0);
     }
 
-    return Ai;
+    ঘূৰাই Ai;
 }
 
 /*
@@ -1092,16 +1092,16 @@ static uint64_t BitDeinterleave(uint64_t Ai)
  * padding and intermediate sub-block buffering, byte- or bitwise, is
  * caller's responsibility.
  */
-size_t SHA3_absorb(uint64_t A[5][5], const unsigned char *inp, size_t len,
+size_t SHA3_absorb(uint64_t A[5][5], ধ্রুৱ unsigned ৱর্ণ *inp, size_t len,
     size_t r)
 {
     uint64_t *A_flat = (uint64_t *)A;
     size_t i, w = r / 8;
 
-    assert(r < (25 * sizeof(A[0][0])) && (r % 8) == 0);
+    প্রতিজ্ঞা(r < (25 * পরিমাণ(A[0][0])) && (r % 8) == 0);
 
-    while (len >= r) {
-        for (i = 0; i < w; i++) {
+    যেতিয়ালৈ (len >= r) {
+        বাবে (i = 0; i < w; i++) {
             uint64_t Ai = (uint64_t)inp[0] | (uint64_t)inp[1] << 8 | (uint64_t)inp[2] << 16 | (uint64_t)inp[3] << 24 | (uint64_t)inp[4] << 32 | (uint64_t)inp[5] << 40 | (uint64_t)inp[6] << 48 | (uint64_t)inp[7] << 56;
             inp += 8;
 
@@ -1111,7 +1111,7 @@ size_t SHA3_absorb(uint64_t A[5][5], const unsigned char *inp, size_t len,
         len -= r;
     }
 
-    return len;
+    ঘূৰাই len;
 }
 
 /*
@@ -1123,37 +1123,37 @@ size_t SHA3_absorb(uint64_t A[5][5], const unsigned char *inp, size_t len,
  * When only a single call to SHA3_squeeze is required, |len| can be any size
  * and |next| must be 0.
  */
-void SHA3_squeeze(uint64_t A[5][5], unsigned char *out, size_t len, size_t r,
-    int next)
+শূন্য SHA3_squeeze(uint64_t A[5][5], unsigned ৱর্ণ *out, size_t len, size_t r,
+    পূর্ণাঙ্ক next)
 {
     uint64_t *A_flat = (uint64_t *)A;
     size_t i, w = r / 8;
 
-    assert(r < (25 * sizeof(A[0][0])) && (r % 8) == 0);
+    প্রতিজ্ঞা(r < (25 * পরিমাণ(A[0][0])) && (r % 8) == 0);
 
-    while (len != 0) {
-        if (next)
+    যেতিয়ালৈ (len != 0) {
+        যদি (next)
             KeccakF1600(A);
         next = 1;
-        for (i = 0; i < w && len != 0; i++) {
+        বাবে (i = 0; i < w && len != 0; i++) {
             uint64_t Ai = BitDeinterleave(A_flat[i]);
 
-            if (len < 8) {
-                for (i = 0; i < len; i++) {
-                    *out++ = (unsigned char)Ai;
+            যদি (len < 8) {
+                বাবে (i = 0; i < len; i++) {
+                    *out++ = (unsigned ৱর্ণ)Ai;
                     Ai >>= 8;
                 }
-                return;
+                ঘূৰাই;
             }
 
-            out[0] = (unsigned char)(Ai);
-            out[1] = (unsigned char)(Ai >> 8);
-            out[2] = (unsigned char)(Ai >> 16);
-            out[3] = (unsigned char)(Ai >> 24);
-            out[4] = (unsigned char)(Ai >> 32);
-            out[5] = (unsigned char)(Ai >> 40);
-            out[6] = (unsigned char)(Ai >> 48);
-            out[7] = (unsigned char)(Ai >> 56);
+            out[0] = (unsigned ৱর্ণ)(Ai);
+            out[1] = (unsigned ৱর্ণ)(Ai >> 8);
+            out[2] = (unsigned ৱর্ণ)(Ai >> 16);
+            out[3] = (unsigned ৱর্ণ)(Ai >> 24);
+            out[4] = (unsigned ৱর্ণ)(Ai >> 32);
+            out[5] = (unsigned ৱর্ণ)(Ai >> 40);
+            out[6] = (unsigned ৱর্ণ)(Ai >> 48);
+            out[7] = (unsigned ৱর্ণ)(Ai >> 56);
             out += 8;
             len -= 8;
         }
@@ -1173,27 +1173,27 @@ void SHA3_squeeze(uint64_t A[5][5], unsigned char *out, size_t len, size_t r,
  * SHAKE_256    SHA3_sponge(inp, len, out, d, (1600-512)/8);
  */
 
-void SHA3_sponge(const unsigned char *inp, size_t len,
-    unsigned char *out, size_t d, size_t r)
+শূন্য SHA3_sponge(ধ্রুৱ unsigned ৱর্ণ *inp, size_t len,
+    unsigned ৱর্ণ *out, size_t d, size_t r)
 {
     uint64_t A[5][5];
 
-    memset(A, 0, sizeof(A));
+    memset(A, 0, পরিমাণ(A));
     SHA3_absorb(A, inp, len, r);
     SHA3_squeeze(A, out, d, r);
 }
 
-#include <stdio.h>
+#অন্তর্ভাৱ <stdio.h>
 
-int main(void)
+পূর্ণাঙ্ক main(শূন্য)
 {
     /*
      * This is 5-bit SHAKE128 test from http://csrc.nist.gov/groups/ST/toolkit/examples.html#aHashing
      */
-    unsigned char test[168] = { '\xf3', '\x3' };
-    unsigned char out[512];
+    unsigned ৱর্ণ test[168] = { '\xf3', '\x3' };
+    unsigned ৱর্ণ out[512];
     size_t i;
-    static const unsigned char result[512] = {
+    স্থির ধ্রুৱ unsigned ৱর্ণ result[512] = {
         0x2E, 0x0A, 0xBF, 0xBA, 0x83, 0xE6, 0x72, 0x0B,
         0xFB, 0xC2, 0x25, 0xFF, 0x6B, 0x7A, 0xB9, 0xFF,
         0xCE, 0x58, 0xBA, 0x02, 0x7E, 0xE3, 0xD8, 0x98,
@@ -1261,7 +1261,7 @@ int main(void)
     };
 
     test[167] = '\x80';
-    SHA3_sponge(test, sizeof(test), out, sizeof(out), sizeof(test));
+    SHA3_sponge(test, পরিমাণ(test), out, পরিমাণ(out), পরিমাণ(test));
 
     /*
      * Rationale behind keeping output [formatted as below] is that
@@ -1269,17 +1269,17 @@ int main(void)
      * final "output val" from official example to another file, and
      * compare the two with diff(1).
      */
-    for (i = 0; i < sizeof(out);) {
+    বাবে (i = 0; i < পরিমাণ(out);) {
         printf("%02X", out[i]);
-        printf(++i % 16 && i != sizeof(out) ? " " : "\n");
+        printf(++i % 16 && i != পরিমাণ(out) ? " " : "\n");
     }
 
-    if (memcmp(out, result, sizeof(out))) {
+    যদি (memcmp(out, result, পরিমাণ(out))) {
         fprintf(stderr, "failure\n");
-        return 1;
-    } else {
+        ঘূৰাই 1;
+    } অন্যথা {
         fprintf(stderr, "success\n");
-        return 0;
+        ঘূৰাই 0;
     }
 }
 #endif
