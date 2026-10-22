@@ -11,71 +11,71 @@
  * SHA-1 low level APIs are deprecated for public use, but still ok for
  * internal use.
  */
-#include "internal/deprecated.h"
+#अन्तर्भाव "internal/deprecated.h"
 
-#include <stdio.h>
-#include <string.h>
-#include <openssl/crypto.h>
-#include <openssl/sha.h>
-#include <openssl/evp.h>
-#include "crypto/sha.h"
+#अन्तर्भाव <stdio.h>
+#अन्तर्भाव <string.h>
+#अन्तर्भाव <openssl/crypto.h>
+#अन्तर्भाव <openssl/sha.h>
+#अन्तर्भाव <openssl/evp.h>
+#अन्तर्भाव "crypto/sha.h"
 
-unsigned char *ossl_sha1(const unsigned char *d, size_t n, unsigned char *md)
+unsigned वर्ण *ossl_sha1(ध्रुव unsigned वर्ण *d, size_t n, unsigned वर्ण *md)
 {
     SHA_CTX c;
-    static unsigned char m[SHA_DIGEST_LENGTH];
+    स्थिर unsigned वर्ण m[SHA_DIGEST_LENGTH];
 
-    if (md == NULL)
+    सचे (md == रिक्त)
         md = m;
-    if (!SHA1_Init(&c))
-        return NULL;
+    सचे (!SHA1_Init(&c))
+        पटिनिवत्त रिक्त;
     SHA1_Update(&c, d, n);
     SHA1_Final(md, &c);
-    OPENSSL_cleanse(&c, sizeof(c));
-    return md;
+    OPENSSL_cleanse(&c, परिमाण(c));
+    पटिनिवत्त md;
 }
 
-unsigned char *SHA1(const unsigned char *d, size_t n, unsigned char *md)
+unsigned वर्ण *SHA1(ध्रुव unsigned वर्ण *d, size_t n, unsigned वर्ण *md)
 {
-    static unsigned char m[SHA_DIGEST_LENGTH];
+    स्थिर unsigned वर्ण m[SHA_DIGEST_LENGTH];
 
-    if (md == NULL)
+    सचे (md == रिक्त)
         md = m;
-    return EVP_Q_digest(NULL, "SHA1", NULL, d, n, md, NULL) ? md : NULL;
+    पटिनिवत्त EVP_Q_digest(रिक्त, "SHA1", रिक्त, d, n, md, रिक्त) ? md : रिक्त;
 }
 
-unsigned char *SHA224(const unsigned char *d, size_t n, unsigned char *md)
+unsigned वर्ण *SHA224(ध्रुव unsigned वर्ण *d, size_t n, unsigned वर्ण *md)
 {
-    static unsigned char m[SHA224_DIGEST_LENGTH];
+    स्थिर unsigned वर्ण m[SHA224_DIGEST_LENGTH];
 
-    if (md == NULL)
+    सचे (md == रिक्त)
         md = m;
-    return EVP_Q_digest(NULL, "SHA224", NULL, d, n, md, NULL) ? md : NULL;
+    पटिनिवत्त EVP_Q_digest(रिक्त, "SHA224", रिक्त, d, n, md, रिक्त) ? md : रिक्त;
 }
 
-unsigned char *SHA256(const unsigned char *d, size_t n, unsigned char *md)
+unsigned वर्ण *SHA256(ध्रुव unsigned वर्ण *d, size_t n, unsigned वर्ण *md)
 {
-    static unsigned char m[SHA256_DIGEST_LENGTH];
+    स्थिर unsigned वर्ण m[SHA256_DIGEST_LENGTH];
 
-    if (md == NULL)
+    सचे (md == रिक्त)
         md = m;
-    return EVP_Q_digest(NULL, "SHA256", NULL, d, n, md, NULL) ? md : NULL;
+    पटिनिवत्त EVP_Q_digest(रिक्त, "SHA256", रिक्त, d, n, md, रिक्त) ? md : रिक्त;
 }
 
-unsigned char *SHA384(const unsigned char *d, size_t n, unsigned char *md)
+unsigned वर्ण *SHA384(ध्रुव unsigned वर्ण *d, size_t n, unsigned वर्ण *md)
 {
-    static unsigned char m[SHA384_DIGEST_LENGTH];
+    स्थिर unsigned वर्ण m[SHA384_DIGEST_LENGTH];
 
-    if (md == NULL)
+    सचे (md == रिक्त)
         md = m;
-    return EVP_Q_digest(NULL, "SHA384", NULL, d, n, md, NULL) ? md : NULL;
+    पटिनिवत्त EVP_Q_digest(रिक्त, "SHA384", रिक्त, d, n, md, रिक्त) ? md : रिक्त;
 }
 
-unsigned char *SHA512(const unsigned char *d, size_t n, unsigned char *md)
+unsigned वर्ण *SHA512(ध्रुव unsigned वर्ण *d, size_t n, unsigned वर्ण *md)
 {
-    static unsigned char m[SHA512_DIGEST_LENGTH];
+    स्थिर unsigned वर्ण m[SHA512_DIGEST_LENGTH];
 
-    if (md == NULL)
+    सचे (md == रिक्त)
         md = m;
-    return EVP_Q_digest(NULL, "SHA512", NULL, d, n, md, NULL) ? md : NULL;
+    पटिनिवत्त EVP_Q_digest(रिक्त, "SHA512", रिक्त, d, n, md, रिक्त) ? md : रिक्त;
 }
