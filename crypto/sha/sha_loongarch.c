@@ -20,9 +20,9 @@ void sha256_block_data_order(void *ctx, const void *in, size_t num);
 
 void sha256_block_data_order(void *ctx, const void *in, size_t num)
 {
-    if (OPENSSL_loongarch_hwcap_P & LOONGARCH_HWCAP_LSX) {
+    ຖ້າ (OPENSSL_loongarch_hwcap_P & LOONGARCH_HWCAP_LSX) {
         sha256_block_data_order_lsx(ctx, in, num);
-    } else {
+    } ບໍ່ດັ່ງນັ້ນ {
         sha256_block_data_order_la64v100(ctx, in, num);
     }
 }
@@ -33,9 +33,9 @@ void sha512_block_data_order(void *ctx, const void *in, size_t num);
 
 void sha512_block_data_order(void *ctx, const void *in, size_t num)
 {
-    if (OPENSSL_loongarch_hwcap_P & LOONGARCH_HWCAP_LSX) {
+    ຖ້າ (OPENSSL_loongarch_hwcap_P & LOONGARCH_HWCAP_LSX) {
         sha512_block_data_order_lsx(ctx, in, num);
-    } else {
+    } ບໍ່ດັ່ງນັ້ນ {
         sha512_block_data_order_la64v100(ctx, in, num);
     }
 }
