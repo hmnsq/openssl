@@ -11,71 +11,71 @@
  * SHA-1 low level APIs are deprecated for public use, but still ok for
  * internal use.
  */
-#include "internal/deprecated.h"
+#شامل "internal/deprecated.h"
 
-#include <stdio.h>
-#include <string.h>
-#include <openssl/crypto.h>
-#include <openssl/sha.h>
-#include <openssl/evp.h>
-#include "crypto/sha.h"
+#شامل <stdio.h>
+#شامل <string.h>
+#شامل <openssl/crypto.h>
+#شامل <openssl/sha.h>
+#شامل <openssl/evp.h>
+#شامل "crypto/sha.h"
 
-unsigned char *ossl_sha1(const unsigned char *d, size_t n, unsigned char *md)
+unsigned نویسه *ossl_sha1(ثابت unsigned نویسه *d, size_t n, unsigned نویسه *md)
 {
     SHA_CTX c;
-    static unsigned char m[SHA_DIGEST_LENGTH];
+    ایستا unsigned نویسه m[SHA_DIGEST_LENGTH];
 
-    if (md == NULL)
+    اگر (md == پوچ)
         md = m;
-    if (!SHA1_Init(&c))
-        return NULL;
+    اگر (!SHA1_Init(&c))
+        بازگشت پوچ;
     SHA1_Update(&c, d, n);
     SHA1_Final(md, &c);
-    OPENSSL_cleanse(&c, sizeof(c));
-    return md;
+    OPENSSL_cleanse(&c, اندازه(c));
+    بازگشت md;
 }
 
-unsigned char *SHA1(const unsigned char *d, size_t n, unsigned char *md)
+unsigned نویسه *SHA1(ثابت unsigned نویسه *d, size_t n, unsigned نویسه *md)
 {
-    static unsigned char m[SHA_DIGEST_LENGTH];
+    ایستا unsigned نویسه m[SHA_DIGEST_LENGTH];
 
-    if (md == NULL)
+    اگر (md == پوچ)
         md = m;
-    return EVP_Q_digest(NULL, "SHA1", NULL, d, n, md, NULL) ? md : NULL;
+    بازگشت EVP_Q_digest(پوچ, "SHA1", پوچ, d, n, md, پوچ) ? md : پوچ;
 }
 
-unsigned char *SHA224(const unsigned char *d, size_t n, unsigned char *md)
+unsigned نویسه *SHA224(ثابت unsigned نویسه *d, size_t n, unsigned نویسه *md)
 {
-    static unsigned char m[SHA224_DIGEST_LENGTH];
+    ایستا unsigned نویسه m[SHA224_DIGEST_LENGTH];
 
-    if (md == NULL)
+    اگر (md == پوچ)
         md = m;
-    return EVP_Q_digest(NULL, "SHA224", NULL, d, n, md, NULL) ? md : NULL;
+    بازگشت EVP_Q_digest(پوچ, "SHA224", پوچ, d, n, md, پوچ) ? md : پوچ;
 }
 
-unsigned char *SHA256(const unsigned char *d, size_t n, unsigned char *md)
+unsigned نویسه *SHA256(ثابت unsigned نویسه *d, size_t n, unsigned نویسه *md)
 {
-    static unsigned char m[SHA256_DIGEST_LENGTH];
+    ایستا unsigned نویسه m[SHA256_DIGEST_LENGTH];
 
-    if (md == NULL)
+    اگر (md == پوچ)
         md = m;
-    return EVP_Q_digest(NULL, "SHA256", NULL, d, n, md, NULL) ? md : NULL;
+    بازگشت EVP_Q_digest(پوچ, "SHA256", پوچ, d, n, md, پوچ) ? md : پوچ;
 }
 
-unsigned char *SHA384(const unsigned char *d, size_t n, unsigned char *md)
+unsigned نویسه *SHA384(ثابت unsigned نویسه *d, size_t n, unsigned نویسه *md)
 {
-    static unsigned char m[SHA384_DIGEST_LENGTH];
+    ایستا unsigned نویسه m[SHA384_DIGEST_LENGTH];
 
-    if (md == NULL)
+    اگر (md == پوچ)
         md = m;
-    return EVP_Q_digest(NULL, "SHA384", NULL, d, n, md, NULL) ? md : NULL;
+    بازگشت EVP_Q_digest(پوچ, "SHA384", پوچ, d, n, md, پوچ) ? md : پوچ;
 }
 
-unsigned char *SHA512(const unsigned char *d, size_t n, unsigned char *md)
+unsigned نویسه *SHA512(ثابت unsigned نویسه *d, size_t n, unsigned نویسه *md)
 {
-    static unsigned char m[SHA512_DIGEST_LENGTH];
+    ایستا unsigned نویسه m[SHA512_DIGEST_LENGTH];
 
-    if (md == NULL)
+    اگر (md == پوچ)
         md = m;
-    return EVP_Q_digest(NULL, "SHA512", NULL, d, n, md, NULL) ? md : NULL;
+    بازگشت EVP_Q_digest(پوچ, "SHA512", پوچ, d, n, md, پوچ) ? md : پوچ;
 }

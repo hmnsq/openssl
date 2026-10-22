@@ -11,22 +11,22 @@
  * SHA256 low level APIs are deprecated for public use, but still ok for
  * internal use.
  */
-#include "internal/deprecated.h"
+#شامل "internal/deprecated.h"
 
-#include <openssl/opensslconf.h>
+#شامل <openssl/opensslconf.h>
 
-#include <stdlib.h>
-#include <string.h>
+#شامل <stdlib.h>
+#شامل <string.h>
 
-#include <openssl/crypto.h>
-#include <openssl/sha.h>
-#include <openssl/opensslv.h>
-#include "internal/endian.h"
-#include "crypto/sha.h"
+#شامل <openssl/crypto.h>
+#شامل <openssl/sha.h>
+#شامل <openssl/opensslv.h>
+#شامل "internal/endian.h"
+#شامل "crypto/sha.h"
 
-int SHA224_Init(SHA256_CTX *c)
+صحیح SHA224_Init(SHA256_CTX *c)
 {
-    memset(c, 0, sizeof(*c));
+    memset(c, 0, اندازه(*c));
     c->h[0] = 0xc1059ed8UL;
     c->h[1] = 0x367cd507UL;
     c->h[2] = 0x3070dd17UL;
@@ -36,12 +36,12 @@ int SHA224_Init(SHA256_CTX *c)
     c->h[6] = 0x64f98fa7UL;
     c->h[7] = 0xbefa4fa4UL;
     c->md_len = SHA224_DIGEST_LENGTH;
-    return 1;
+    بازگشت 1;
 }
 
-int SHA256_Init(SHA256_CTX *c)
+صحیح SHA256_Init(SHA256_CTX *c)
 {
-    memset(c, 0, sizeof(*c));
+    memset(c, 0, اندازه(*c));
     c->h[0] = 0x6a09e667UL;
     c->h[1] = 0xbb67ae85UL;
     c->h[2] = 0x3c6ef372UL;
@@ -51,24 +51,24 @@ int SHA256_Init(SHA256_CTX *c)
     c->h[6] = 0x1f83d9abUL;
     c->h[7] = 0x5be0cd19UL;
     c->md_len = SHA256_DIGEST_LENGTH;
-    return 1;
+    بازگشت 1;
 }
 
-int ossl_sha256_192_init(SHA256_CTX *c)
+صحیح ossl_sha256_192_init(SHA256_CTX *c)
 {
     SHA256_Init(c);
     c->md_len = SHA256_192_DIGEST_LENGTH;
-    return 1;
+    بازگشت 1;
 }
 
-int SHA224_Update(SHA256_CTX *c, const void *data, size_t len)
+صحیح SHA224_Update(SHA256_CTX *c, ثابت تهی *data, size_t len)
 {
-    return SHA256_Update(c, data, len);
+    بازگشت SHA256_Update(c, data, len);
 }
 
-int SHA224_Final(unsigned char *md, SHA256_CTX *c)
+صحیح SHA224_Final(unsigned نویسه *md, SHA256_CTX *c)
 {
-    return SHA256_Final(md, c);
+    بازگشت SHA256_Final(md, c);
 }
 
 #define DATA_ORDER_IS_BIG_ENDIAN
@@ -86,38 +86,38 @@ int SHA224_Final(unsigned char *md, SHA256_CTX *c)
  * compiler decide if it's appropriate to unroll small loops.
  */
 #define HASH_MAKE_STRING(c, s)                                      \
-    do {                                                            \
+    انجامبده {                                                            \
         unsigned long ll;                                           \
-        unsigned int nn;                                            \
-        switch ((c)->md_len) {                                      \
-        case SHA256_192_DIGEST_LENGTH:                              \
-            for (nn = 0; nn < SHA256_192_DIGEST_LENGTH / 4; nn++) { \
+        unsigned صحیح nn;                                            \
+        انتخاب ((c)->md_len) {                                      \
+        حالت SHA256_192_DIGEST_LENGTH:                              \
+            برای (nn = 0; nn < SHA256_192_DIGEST_LENGTH / 4; nn++) { \
                 ll = (c)->h[nn];                                    \
-                (void)HOST_l2c(ll, (s));                            \
+                (تهی)HOST_l2c(ll, (s));                            \
             }                                                       \
-            break;                                                  \
-        case SHA224_DIGEST_LENGTH:                                  \
-            for (nn = 0; nn < SHA224_DIGEST_LENGTH / 4; nn++) {     \
+            بشکن;                                                  \
+        حالت SHA224_DIGEST_LENGTH:                                  \
+            برای (nn = 0; nn < SHA224_DIGEST_LENGTH / 4; nn++) {     \
                 ll = (c)->h[nn];                                    \
-                (void)HOST_l2c(ll, (s));                            \
+                (تهی)HOST_l2c(ll, (s));                            \
             }                                                       \
-            break;                                                  \
-        case SHA256_DIGEST_LENGTH:                                  \
-            for (nn = 0; nn < SHA256_DIGEST_LENGTH / 4; nn++) {     \
+            بشکن;                                                  \
+        حالت SHA256_DIGEST_LENGTH:                                  \
+            برای (nn = 0; nn < SHA256_DIGEST_LENGTH / 4; nn++) {     \
                 ll = (c)->h[nn];                                    \
-                (void)HOST_l2c(ll, (s));                            \
+                (تهی)HOST_l2c(ll, (s));                            \
             }                                                       \
-            break;                                                  \
-        default:                                                    \
-            if ((c)->md_len > SHA256_DIGEST_LENGTH)                 \
-                return 0;                                           \
-            for (nn = 0; nn < (c)->md_len / 4; nn++) {              \
+            بشکن;                                                  \
+        پیشفرض:                                                    \
+            اگر ((c)->md_len > SHA256_DIGEST_LENGTH)                 \
+                بازگشت 0;                                           \
+            برای (nn = 0; nn < (c)->md_len / 4; nn++) {              \
                 ll = (c)->h[nn];                                    \
-                (void)HOST_l2c(ll, (s));                            \
+                (تهی)HOST_l2c(ll, (s));                            \
             }                                                       \
-            break;                                                  \
+            بشکن;                                                  \
         }                                                           \
-    } while (0)
+    } وقتی (0)
 
 #define HASH_UPDATE_THUNK
 #define HASH_UPDATE SHA256_Update_thunk
@@ -125,26 +125,26 @@ int SHA224_Final(unsigned char *md, SHA256_CTX *c)
 #define HASH_FINAL SHA256_Final
 #define HASH_BLOCK_DATA_ORDER sha256_block_data_order
 #ifndef SHA256_ASM
-static
-#else
+ایستا
+#وگرنه
 #ifdef INCLUDE_C_SHA256
-void sha256_block_data_order_c(SHA256_CTX *ctx, const void *in, size_t num);
+تهی sha256_block_data_order_c(SHA256_CTX *ctx, ثابت تهی *in, size_t رقم);
 #endif /* INCLUDE_C_SHA256 */
 #endif /* SHA256_ASM */
-    void sha256_block_data_order(SHA256_CTX *ctx, const void *in, size_t num);
+    تهی sha256_block_data_order(SHA256_CTX *ctx, ثابت تهی *in, size_t رقم);
 
 /* clang-format off */
-#include "crypto/md32_common.inc"
+#شامل "crypto/md32_common.inc"
 /* clang-format on */
 #undef HASH_UPDATE_THUNK
 
-int SHA256_Update(SHA256_CTX *ctx, const void *data, size_t sz)
+صحیح SHA256_Update(SHA256_CTX *ctx, ثابت تهی *data, size_t sz)
 {
-    return SHA256_Update_thunk((void *)ctx, (const unsigned char *)data, sz);
+    بازگشت SHA256_Update_thunk((تهی *)ctx, (ثابت unsigned نویسه *)data, sz);
 }
 
-#if !defined(SHA256_ASM) || defined(INCLUDE_C_SHA256)
-static const SHA_LONG K256[64] = {
+#اگر !defined(SHA256_ASM) || defined(INCLUDE_C_SHA256)
+ایستا ثابت SHA_LONG K256[64] = {
     0x428a2f98UL, 0x71374491UL, 0xb5c0fbcfUL, 0xe9b5dba5UL,
     0x3956c25bUL, 0x59f111f1UL, 0x923f82a4UL, 0xab1c5ed5UL,
     0xd807aa98UL, 0x12835b01UL, 0x243185beUL, 0x550c7dc3UL,
@@ -164,8 +164,8 @@ static const SHA_LONG K256[64] = {
 };
 
 #ifndef PEDANTIC
-#if defined(__GNUC__) && !defined(OPENSSL_NO_ASM) && !defined(OPENSSL_NO_INLINE_ASM)
-#if defined(__riscv_zknh)
+#اگر defined(__GNUC__) && !defined(OPENSSL_NO_ASM) && !defined(OPENSSL_NO_INLINE_ASM)
+#اگر defined(__riscv_zknh)
 #define Sigma0(x) ({ MD32_REG_T ret;            \
                         asm ("sha256sum0 %0, %1"    \
                         : "=r"(ret)                 \
@@ -183,7 +183,7 @@ static const SHA_LONG K256[64] = {
                         : "=r"(ret)                 \
                         : "r"(x)); ret; })
 #endif
-#if defined(__riscv_zbt) || defined(__riscv_zpn)
+#اگر defined(__riscv_zbt) || defined(__riscv_zpn)
 #define Ch(x, y, z) ({  MD32_REG_T ret;                           \
                         asm (".insn r4 0x33, 1, 0x3, %0, %2, %1, %3"\
                         : "=r"(ret)                                 \
@@ -222,15 +222,15 @@ static const SHA_LONG K256[64] = {
 
 #ifdef OPENSSL_SMALL_FOOTPRINT
 
-static void sha256_block_data_order(SHA256_CTX *ctx, const void *in,
-    size_t num)
+ایستا تهی sha256_block_data_order(SHA256_CTX *ctx, ثابت تهی *in,
+    size_t رقم)
 {
     unsigned MD32_REG_T a, b, c, d, e, f, g, h, s0, s1, T1, T2;
     SHA_LONG X[16], l;
-    int i;
-    const unsigned char *data = in;
+    صحیح i;
+    ثابت unsigned نویسه *data = in;
 
-    while (num--) {
+    وقتی (رقم--) {
 
         a = ctx->h[0];
         b = ctx->h[1];
@@ -241,8 +241,8 @@ static void sha256_block_data_order(SHA256_CTX *ctx, const void *in,
         g = ctx->h[6];
         h = ctx->h[7];
 
-        for (i = 0; i < 16; i++) {
-            (void)HOST_c2l(data, l);
+        برای (i = 0; i < 16; i++) {
+            (تهی)HOST_c2l(data, l);
             T1 = X[i] = l;
             T1 += h + Sigma1(e) + Ch(e, f, g) + K256[i];
             T2 = Sigma0(a) + Maj(a, b, c);
@@ -256,7 +256,7 @@ static void sha256_block_data_order(SHA256_CTX *ctx, const void *in,
             a = T1 + T2;
         }
 
-        for (; i < 64; i++) {
+        برای (; i < 64; i++) {
             s0 = X[(i + 1) & 0x0f];
             s0 = sigma0(s0);
             s1 = X[(i + 14) & 0x0f];
@@ -286,40 +286,40 @@ static void sha256_block_data_order(SHA256_CTX *ctx, const void *in,
     }
 }
 
-#else
+#وگرنه
 
 #define ROUND_00_15(i, a, b, c, d, e, f, g, h)       \
-    do {                                             \
+    انجامبده {                                             \
         T1 += h + Sigma1(e) + Ch(e, f, g) + K256[i]; \
         h = Sigma0(a) + Maj(a, b, c);                \
         d += T1;                                     \
         h += T1;                                     \
-    } while (0)
+    } وقتی (0)
 
 #define ROUND_16_63(i, a, b, c, d, e, f, g, h, X)          \
-    do {                                                   \
+    انجامبده {                                                   \
         s0 = X[(i + 1) & 0x0f];                            \
         s0 = sigma0(s0);                                   \
         s1 = X[(i + 14) & 0x0f];                           \
         s1 = sigma1(s1);                                   \
         T1 = X[(i) & 0x0f] += s0 + s1 + X[(i + 9) & 0x0f]; \
         ROUND_00_15(i, a, b, c, d, e, f, g, h);            \
-    } while (0)
+    } وقتی (0)
 
 #ifdef INCLUDE_C_SHA256
-void sha256_block_data_order_c(SHA256_CTX *ctx, const void *in, size_t num)
-#else
-static void sha256_block_data_order(SHA256_CTX *ctx, const void *in,
-    size_t num)
+تهی sha256_block_data_order_c(SHA256_CTX *ctx, ثابت تهی *in, size_t رقم)
+#وگرنه
+ایستا تهی sha256_block_data_order(SHA256_CTX *ctx, ثابت تهی *in,
+    size_t رقم)
 #endif
 {
     unsigned MD32_REG_T a, b, c, d, e, f, g, h, s0, s1, T1;
     SHA_LONG X[16];
-    int i;
-    const unsigned char *data = in;
+    صحیح i;
+    ثابت unsigned نویسه *data = in;
     DECLARE_IS_ENDIAN;
 
-    while (num--) {
+    وقتی (رقم--) {
 
         a = ctx->h[0];
         b = ctx->h[1];
@@ -330,9 +330,9 @@ static void sha256_block_data_order(SHA256_CTX *ctx, const void *in,
         g = ctx->h[6];
         h = ctx->h[7];
 
-        if (!IS_LITTLE_ENDIAN && sizeof(SHA_LONG) == 4
+        اگر (!IS_LITTLE_ENDIAN && اندازه(SHA_LONG) == 4
             && ((size_t)in % 4) == 0) {
-            const SHA_LONG *W = (const SHA_LONG *)data;
+            ثابت SHA_LONG *W = (ثابت SHA_LONG *)data;
 
             T1 = X[0] = W[0];
             ROUND_00_15(0, a, b, c, d, e, f, g, h);
@@ -368,60 +368,60 @@ static void sha256_block_data_order(SHA256_CTX *ctx, const void *in,
             ROUND_00_15(15, b, c, d, e, f, g, h, a);
 
             data += SHA256_CBLOCK;
-        } else {
+        } وگرنه {
             SHA_LONG l;
 
-            (void)HOST_c2l(data, l);
+            (تهی)HOST_c2l(data, l);
             T1 = X[0] = l;
             ROUND_00_15(0, a, b, c, d, e, f, g, h);
-            (void)HOST_c2l(data, l);
+            (تهی)HOST_c2l(data, l);
             T1 = X[1] = l;
             ROUND_00_15(1, h, a, b, c, d, e, f, g);
-            (void)HOST_c2l(data, l);
+            (تهی)HOST_c2l(data, l);
             T1 = X[2] = l;
             ROUND_00_15(2, g, h, a, b, c, d, e, f);
-            (void)HOST_c2l(data, l);
+            (تهی)HOST_c2l(data, l);
             T1 = X[3] = l;
             ROUND_00_15(3, f, g, h, a, b, c, d, e);
-            (void)HOST_c2l(data, l);
+            (تهی)HOST_c2l(data, l);
             T1 = X[4] = l;
             ROUND_00_15(4, e, f, g, h, a, b, c, d);
-            (void)HOST_c2l(data, l);
+            (تهی)HOST_c2l(data, l);
             T1 = X[5] = l;
             ROUND_00_15(5, d, e, f, g, h, a, b, c);
-            (void)HOST_c2l(data, l);
+            (تهی)HOST_c2l(data, l);
             T1 = X[6] = l;
             ROUND_00_15(6, c, d, e, f, g, h, a, b);
-            (void)HOST_c2l(data, l);
+            (تهی)HOST_c2l(data, l);
             T1 = X[7] = l;
             ROUND_00_15(7, b, c, d, e, f, g, h, a);
-            (void)HOST_c2l(data, l);
+            (تهی)HOST_c2l(data, l);
             T1 = X[8] = l;
             ROUND_00_15(8, a, b, c, d, e, f, g, h);
-            (void)HOST_c2l(data, l);
+            (تهی)HOST_c2l(data, l);
             T1 = X[9] = l;
             ROUND_00_15(9, h, a, b, c, d, e, f, g);
-            (void)HOST_c2l(data, l);
+            (تهی)HOST_c2l(data, l);
             T1 = X[10] = l;
             ROUND_00_15(10, g, h, a, b, c, d, e, f);
-            (void)HOST_c2l(data, l);
+            (تهی)HOST_c2l(data, l);
             T1 = X[11] = l;
             ROUND_00_15(11, f, g, h, a, b, c, d, e);
-            (void)HOST_c2l(data, l);
+            (تهی)HOST_c2l(data, l);
             T1 = X[12] = l;
             ROUND_00_15(12, e, f, g, h, a, b, c, d);
-            (void)HOST_c2l(data, l);
+            (تهی)HOST_c2l(data, l);
             T1 = X[13] = l;
             ROUND_00_15(13, d, e, f, g, h, a, b, c);
-            (void)HOST_c2l(data, l);
+            (تهی)HOST_c2l(data, l);
             T1 = X[14] = l;
             ROUND_00_15(14, c, d, e, f, g, h, a, b);
-            (void)HOST_c2l(data, l);
+            (تهی)HOST_c2l(data, l);
             T1 = X[15] = l;
             ROUND_00_15(15, b, c, d, e, f, g, h, a);
         }
 
-        for (i = 16; i < 64; i += 8) {
+        برای (i = 16; i < 64; i += 8) {
             ROUND_16_63(i + 0, a, b, c, d, e, f, g, h, X);
             ROUND_16_63(i + 1, h, a, b, c, d, e, f, g, X);
             ROUND_16_63(i + 2, g, h, a, b, c, d, e, f, X);
