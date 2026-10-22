@@ -7,35 +7,35 @@
  * https://www.openssl.org/source/license.html
  */
 
-#include <stdlib.h>
-#include <string.h>
+#ضمن <stdlib.h>
+#ضمن <string.h>
 
-#include <openssl/opensslconf.h>
-#include <openssl/sha.h>
-#include "arch/loongarch_arch.h"
+#ضمن <openssl/opensslconf.h>
+#ضمن <openssl/sha.h>
+#ضمن "arch/loongarch_arch.h"
 
-void sha256_block_data_order_la64v100(void *ctx, const void *in, size_t num);
-void sha256_block_data_order_lsx(void *ctx, const void *in, size_t num);
-void sha256_block_data_order(void *ctx, const void *in, size_t num);
+فراغ sha256_بلاڪ_معلومات_ترتيب_la64v100(فراغ *ctx, ثابت فراغ *اندريون, size_t انگ);
+فراغ sha256_بلاڪ_معلومات_ترتيب_lsx(فراغ *ctx, ثابت فراغ *اندريون, size_t انگ);
+فراغ sha256_بلاڪ_معلومات_ترتيب(فراغ *ctx, ثابت فراغ *اندريون, size_t انگ);
 
-void sha256_block_data_order(void *ctx, const void *in, size_t num)
+فراغ sha256_بلاڪ_معلومات_ترتيب(فراغ *ctx, ثابت فراغ *اندريون, size_t انگ)
 {
-    if (OPENSSL_loongarch_hwcap_P & LOONGARCH_HWCAP_LSX) {
-        sha256_block_data_order_lsx(ctx, in, num);
-    } else {
-        sha256_block_data_order_la64v100(ctx, in, num);
+    إذا (OPENSSL_loongarch_hwcap_P & LOONGARCH_HWCAP_LSX) {
+        sha256_بلاڪ_معلومات_ترتيب_lsx(ctx, اندريون, انگ);
+    } وإلا {
+        sha256_بلاڪ_معلومات_ترتيب_la64v100(ctx, اندريون, انگ);
     }
 }
 
-void sha512_block_data_order_la64v100(void *ctx, const void *in, size_t num);
-void sha512_block_data_order_lsx(void *ctx, const void *in, size_t num);
-void sha512_block_data_order(void *ctx, const void *in, size_t num);
+فراغ sha512_بلاڪ_معلومات_ترتيب_la64v100(فراغ *ctx, ثابت فراغ *اندريون, size_t انگ);
+فراغ sha512_بلاڪ_معلومات_ترتيب_lsx(فراغ *ctx, ثابت فراغ *اندريون, size_t انگ);
+فراغ sha512_بلاڪ_معلومات_ترتيب(فراغ *ctx, ثابت فراغ *اندريون, size_t انگ);
 
-void sha512_block_data_order(void *ctx, const void *in, size_t num)
+فراغ sha512_بلاڪ_معلومات_ترتيب(فراغ *ctx, ثابت فراغ *اندريون, size_t انگ)
 {
-    if (OPENSSL_loongarch_hwcap_P & LOONGARCH_HWCAP_LSX) {
-        sha512_block_data_order_lsx(ctx, in, num);
-    } else {
-        sha512_block_data_order_la64v100(ctx, in, num);
+    إذا (OPENSSL_loongarch_hwcap_P & LOONGARCH_HWCAP_LSX) {
+        sha512_بلاڪ_معلومات_ترتيب_lsx(ctx, اندريون, انگ);
+    } وإلا {
+        sha512_بلاڪ_معلومات_ترتيب_la64v100(ctx, اندريون, انگ);
     }
 }

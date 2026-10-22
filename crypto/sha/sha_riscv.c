@@ -7,42 +7,42 @@
  * https://www.openssl.org/source/license.html
  */
 
-#include <stdlib.h>
-#include <string.h>
+#ضمن <stdlib.h>
+#ضمن <string.h>
 
-#include <openssl/opensslconf.h>
-#include <openssl/sha.h>
-#include "arch/riscv_arch.h"
+#ضمن <openssl/opensslconf.h>
+#ضمن <openssl/sha.h>
+#ضمن "arch/riscv_arch.h"
 
-void sha256_block_data_order_zvkb_zvknha_or_zvknhb(void *ctx, const void *in,
-    size_t num);
-void sha256_block_data_order_zbb(void *ctx, const void *in, size_t num);
-void sha256_block_data_order_riscv64(void *ctx, const void *in, size_t num);
-void sha256_block_data_order(void *ctx, const void *in, size_t num);
+فراغ sha256_بلاڪ_معلومات_ترتيب_zvkb_zvknha_or_zvknhb(فراغ *ctx, ثابت فراغ *اندريون,
+    size_t انگ);
+فراغ sha256_بلاڪ_معلومات_ترتيب_zbb(فراغ *ctx, ثابت فراغ *اندريون, size_t انگ);
+فراغ sha256_بلاڪ_معلومات_ترتيب_riscv64(فراغ *ctx, ثابت فراغ *اندريون, size_t انگ);
+فراغ sha256_بلاڪ_معلومات_ترتيب(فراغ *ctx, ثابت فراغ *اندريون, size_t انگ);
 
-void sha256_block_data_order(void *ctx, const void *in, size_t num)
+فراغ sha256_بلاڪ_معلومات_ترتيب(فراغ *ctx, ثابت فراغ *اندريون, size_t انگ)
 {
-    if (RISCV_HAS_ZVKB() && (RISCV_HAS_ZVKNHA() || RISCV_HAS_ZVKNHB()) && riscv_vlen() >= 128) {
-        sha256_block_data_order_zvkb_zvknha_or_zvknhb(ctx, in, num);
-    } else if (RISCV_HAS_ZBB()) {
-        sha256_block_data_order_zbb(ctx, in, num);
-    } else {
-        sha256_block_data_order_riscv64(ctx, in, num);
+    إذا (RISCV_HAS_ZVKB() && (RISCV_HAS_ZVKNHA() || RISCV_HAS_ZVKNHB()) && riscv_vlen() >= 128) {
+        sha256_بلاڪ_معلومات_ترتيب_zvkb_zvknha_or_zvknhb(ctx, اندريون, انگ);
+    } وإلا إذا (RISCV_HAS_ZBB()) {
+        sha256_بلاڪ_معلومات_ترتيب_zbb(ctx, اندريون, انگ);
+    } وإلا {
+        sha256_بلاڪ_معلومات_ترتيب_riscv64(ctx, اندريون, انگ);
     }
 }
 
-void sha512_block_data_order_zvkb_zvknhb(void *ctx, const void *in, size_t num);
-void sha512_block_data_order_zbb(void *ctx, const void *in, size_t num);
-void sha512_block_data_order_c(void *ctx, const void *in, size_t num);
-void sha512_block_data_order(void *ctx, const void *in, size_t num);
+فراغ sha512_بلاڪ_معلومات_ترتيب_zvkb_zvknhb(فراغ *ctx, ثابت فراغ *اندريون, size_t انگ);
+فراغ sha512_بلاڪ_معلومات_ترتيب_zbb(فراغ *ctx, ثابت فراغ *اندريون, size_t انگ);
+فراغ sha512_بلاڪ_معلومات_ترتيب_c(فراغ *ctx, ثابت فراغ *اندريون, size_t انگ);
+فراغ sha512_بلاڪ_معلومات_ترتيب(فراغ *ctx, ثابت فراغ *اندريون, size_t انگ);
 
-void sha512_block_data_order(void *ctx, const void *in, size_t num)
+فراغ sha512_بلاڪ_معلومات_ترتيب(فراغ *ctx, ثابت فراغ *اندريون, size_t انگ)
 {
-    if (RISCV_HAS_ZVKB_AND_ZVKNHB() && riscv_vlen() >= 128) {
-        sha512_block_data_order_zvkb_zvknhb(ctx, in, num);
-    } else if (RISCV_HAS_ZBB()) {
-        sha512_block_data_order_zbb(ctx, in, num);
-    } else {
-        sha512_block_data_order_c(ctx, in, num);
+    إذا (RISCV_HAS_ZVKB_AND_ZVKNHB() && riscv_vlen() >= 128) {
+        sha512_بلاڪ_معلومات_ترتيب_zvkb_zvknhb(ctx, اندريون, انگ);
+    } وإلا إذا (RISCV_HAS_ZBB()) {
+        sha512_بلاڪ_معلومات_ترتيب_zbb(ctx, اندريون, انگ);
+    } وإلا {
+        sha512_بلاڪ_معلومات_ترتيب_c(ctx, اندريون, انگ);
     }
 }
