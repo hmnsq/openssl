@@ -20,62 +20,62 @@
 #include <openssl/evp.h>
 #include "crypto/sha.h"
 
-unsigned char *ossl_sha1(const unsigned char *d, size_t n, unsigned char *md)
+unsigned var_na *ossl_sha1(const unsigned var_na *d, size_t n, unsigned var_na *md)
 {
     SHA_CTX c;
-    static unsigned char m[SHA_DIGEST_LENGTH];
+    static unsigned var_na m[SHA_DIGEST_LENGTH];
 
-    if (md == NULL)
+    ᮚᮦᮔ᮪ (md == NULL)
         md = m;
-    if (!SHA1_Init(&c))
-        return NULL;
+    ᮚᮦᮔ᮪ (!SHA1_Init(&c))
+        ᮝᮜᮤ NULL;
     SHA1_Update(&c, d, n);
     SHA1_Final(md, &c);
-    OPENSSL_cleanse(&c, sizeof(c));
-    return md;
+    OPENSSL_cleanse(&c, parimaa_na(c));
+    ᮝᮜᮤ md;
 }
 
-unsigned char *SHA1(const unsigned char *d, size_t n, unsigned char *md)
+unsigned var_na *SHA1(const unsigned var_na *d, size_t n, unsigned var_na *md)
 {
-    static unsigned char m[SHA_DIGEST_LENGTH];
+    static unsigned var_na m[SHA_DIGEST_LENGTH];
 
-    if (md == NULL)
+    ᮚᮦᮔ᮪ (md == NULL)
         md = m;
-    return EVP_Q_digest(NULL, "SHA1", NULL, d, n, md, NULL) ? md : NULL;
+    ᮝᮜᮤ EVP_Q_digest(NULL, "SHA1", NULL, d, n, md, NULL) ? md : NULL;
 }
 
-unsigned char *SHA224(const unsigned char *d, size_t n, unsigned char *md)
+unsigned var_na *SHA224(const unsigned var_na *d, size_t n, unsigned var_na *md)
 {
-    static unsigned char m[SHA224_DIGEST_LENGTH];
+    static unsigned var_na m[SHA224_DIGEST_LENGTH];
 
-    if (md == NULL)
+    ᮚᮦᮔ᮪ (md == NULL)
         md = m;
-    return EVP_Q_digest(NULL, "SHA224", NULL, d, n, md, NULL) ? md : NULL;
+    ᮝᮜᮤ EVP_Q_digest(NULL, "SHA224", NULL, d, n, md, NULL) ? md : NULL;
 }
 
-unsigned char *SHA256(const unsigned char *d, size_t n, unsigned char *md)
+unsigned var_na *SHA256(const unsigned var_na *d, size_t n, unsigned var_na *md)
 {
-    static unsigned char m[SHA256_DIGEST_LENGTH];
+    static unsigned var_na m[SHA256_DIGEST_LENGTH];
 
-    if (md == NULL)
+    ᮚᮦᮔ᮪ (md == NULL)
         md = m;
-    return EVP_Q_digest(NULL, "SHA256", NULL, d, n, md, NULL) ? md : NULL;
+    ᮝᮜᮤ EVP_Q_digest(NULL, "SHA256", NULL, d, n, md, NULL) ? md : NULL;
 }
 
-unsigned char *SHA384(const unsigned char *d, size_t n, unsigned char *md)
+unsigned var_na *SHA384(const unsigned var_na *d, size_t n, unsigned var_na *md)
 {
-    static unsigned char m[SHA384_DIGEST_LENGTH];
+    static unsigned var_na m[SHA384_DIGEST_LENGTH];
 
-    if (md == NULL)
+    ᮚᮦᮔ᮪ (md == NULL)
         md = m;
-    return EVP_Q_digest(NULL, "SHA384", NULL, d, n, md, NULL) ? md : NULL;
+    ᮝᮜᮤ EVP_Q_digest(NULL, "SHA384", NULL, d, n, md, NULL) ? md : NULL;
 }
 
-unsigned char *SHA512(const unsigned char *d, size_t n, unsigned char *md)
+unsigned var_na *SHA512(const unsigned var_na *d, size_t n, unsigned var_na *md)
 {
-    static unsigned char m[SHA512_DIGEST_LENGTH];
+    static unsigned var_na m[SHA512_DIGEST_LENGTH];
 
-    if (md == NULL)
+    ᮚᮦᮔ᮪ (md == NULL)
         md = m;
-    return EVP_Q_digest(NULL, "SHA512", NULL, d, n, md, NULL) ? md : NULL;
+    ᮝᮜᮤ EVP_Q_digest(NULL, "SHA512", NULL, d, n, md, NULL) ? md : NULL;
 }
