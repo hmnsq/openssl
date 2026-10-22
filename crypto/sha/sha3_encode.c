@@ -8,32 +8,32 @@
  */
 
 /* including crypto/sha.h requires this for SHA256_CTX */
-#include "internal/deprecated.h"
+#ضمن "internal/deprecated.h"
 
 /*
  * NIST.SP.800-185 Encoding/Padding Methods used for SHA3 derived functions
  * e.g. It is used by KMAC and cSHAKE
  */
 
-#include <string.h> /* memcpy */
-#include <openssl/err.h>
-#include <openssl/proverr.h>
-#include "crypto/sha.h"
-#include "internal/common.h" /* ossl_assert */
+#ضمن <string.h> /* memcpy */
+#ضمن <openssl/err.h>
+#ضمن <openssl/proverr.h>
+#ضمن "crypto/sha.h"
+#ضمن "internal/common.h" /* ossl_assert */
 
 /* Returns the number of bytes required to store 'bits' into a byte array */
-static unsigned int get_encode_size(size_t bits)
+ساكن unsigned صحيح get_encode_size(size_t bits)
 {
-    unsigned int cnt = 0, sz = sizeof(size_t);
+    unsigned صحيح cnt = 0, sz = حجم(size_t);
 
-    while (bits && (cnt < sz)) {
+    طالما (bits && (cnt < sz)) {
         ++cnt;
         bits >>= 8;
     }
     /* If bits is zero 1 byte is required */
-    if (cnt == 0)
+    إذا (cnt == 0)
         cnt = 1;
-    return cnt;
+    أرجع cnt;
 }
 
 /*
@@ -43,29 +43,29 @@ static unsigned int get_encode_size(size_t bits)
  *
  * e.g if bits = 32, out[2] = { 0x20, 0x01 }
  */
-int ossl_sp800_185_right_encode(unsigned char *out,
+صحيح ossl_sp800_185_ڕاست_encode(unsigned حرف *out,
     size_t out_max_len, size_t *out_len,
     size_t bits)
 {
-    unsigned int len = get_encode_size(bits);
-    int i;
+    unsigned صحيح len = get_encode_size(bits);
+    صحيح i;
 
-    if (len >= out_max_len) {
+    إذا (len >= out_max_len) {
         ERR_raise(ERR_LIB_PROV, PROV_R_LENGTH_TOO_LARGE);
-        return 0;
+        أرجع 0;
     }
 
     /* MSB's are at the start of the bytes array */
-    for (i = len - 1; i >= 0; --i) {
-        out[i] = (unsigned char)(bits & 0xFF);
+    لكل (i = len - 1; i >= 0; --i) {
+        out[i] = (unsigned حرف)(bits & 0xFF);
         bits >>= 8;
     }
     /* Tack the length onto the end */
-    out[len] = (unsigned char)len;
+    out[len] = (unsigned حرف)len;
 
     /* The Returned length includes the tacked on byte */
     *out_len = len + 1;
-    return 1;
+    أرجع 1;
 }
 
 /*
@@ -75,33 +75,33 @@ int ossl_sp800_185_right_encode(unsigned char *out,
  * e.g- in="KMAC" gives out[6] = { 0x01, 0x20, 0x4B, 0x4D, 0x41, 0x43 }
  *                                 len   bits    K     M     A     C
  */
-int ossl_sp800_185_encode_string(unsigned char *out,
+صحيح ossl_sp800_185_encode_string(unsigned حرف *out,
     size_t out_max_len, size_t *out_len,
-    const unsigned char *in, size_t in_len)
+    ثابت unsigned حرف *in, size_t in_len)
 {
-    if (in == NULL) {
+    إذا (in == عدم) {
         *out_len = 0;
-    } else {
+    } وإلا {
         size_t i, bits, len, sz;
 
         bits = 8 * in_len;
         len = get_encode_size(bits);
         sz = 1 + len + in_len;
 
-        if (sz > out_max_len) {
+        إذا (sz > out_max_len) {
             ERR_raise(ERR_LIB_PROV, PROV_R_LENGTH_TOO_LARGE);
-            return 0;
+            أرجع 0;
         }
 
-        out[0] = (unsigned char)len;
-        for (i = len; i > 0; --i) {
+        out[0] = (unsigned حرف)len;
+        لكل (i = len; i > 0; --i) {
             out[i] = (bits & 0xFF);
             bits >>= 8;
         }
         memcpy(out + len + 1, in, in_len);
         *out_len = sz;
     }
-    return 1;
+    أرجع 1;
 }
 
 /*
@@ -112,47 +112,47 @@ int ossl_sp800_185_encode_string(unsigned char *out,
  * The returned output is:
  *    zero_padded(multiple of w, (left_encode(w) || in1 [|| in2])
  */
-int ossl_sp800_185_bytepad(unsigned char *out, size_t out_len_max, size_t *out_len,
-    const unsigned char *in1, size_t in1_len,
-    const unsigned char *in2, size_t in2_len,
+صحيح ossl_sp800_185_bytepad(unsigned حرف *out, size_t out_len_max, size_t *out_len,
+    ثابت unsigned حرف *in1, size_t in1_len,
+    ثابت unsigned حرف *in2, size_t in2_len,
     size_t w)
 {
     size_t len;
-    unsigned char *p = out;
+    unsigned حرف *p = out;
     size_t sz;
 
-    if (!ossl_assert(w <= 255))
-        return 0;
-    sz = (2 + in1_len + (in2 != NULL ? in2_len : 0) + w - 1) / w * w;
-    if (out_len_max != 0 && sz > out_len_max)
-        return 0;
+    إذا (!ossl_assert(w <= 255))
+        أرجع 0;
+    sz = (2 + in1_len + (in2 != عدم ? in2_len : 0) + w - 1) / w * w;
+    إذا (out_len_max != 0 && sz > out_len_max)
+        أرجع 0;
 
-    if (out == NULL) {
-        if (out_len == NULL) {
+    إذا (out == عدم) {
+        إذا (out_len == عدم) {
             ERR_raise(ERR_LIB_PROV, ERR_R_PASSED_NULL_PARAMETER);
-            return 0;
+            أرجع 0;
         }
         *out_len = sz;
-        return 1;
+        أرجع 1;
     }
 
     /* Left encoded w */
     *p++ = 1;
-    *p++ = (unsigned char)w;
+    *p++ = (unsigned حرف)w;
     /* || in1 */
     memcpy(p, in1, in1_len);
     p += in1_len;
     /* [ || in2 ] */
-    if (in2 != NULL && in2_len > 0) {
+    إذا (in2 != عدم && in2_len > 0) {
         memcpy(p, in2, in2_len);
         p += in2_len;
     }
     /* Figure out the pad size (divisible by w) */
     len = p - out;
     /* zero pad the end of the buffer */
-    if (sz != len)
+    إذا (sz != len)
         memset(p, 0, sz - len);
-    if (out_len != NULL)
+    إذا (out_len != عدم)
         *out_len = sz;
-    return 1;
+    أرجع 1;
 }
