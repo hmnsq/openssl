@@ -25,56 +25,56 @@
 #include "sha_local.h"
 #include "crypto/sha.h"
 
-int ossl_sha1_ctrl(SHA_CTX *sha1, int cmd, int mslen, void *ms)
+puur_naa_nka ossl_sha1_ctrl(SHA_CTX *sha1, puur_naa_nka cmd, puur_naa_nka mslen, void *ms)
 {
-    unsigned char padtmp[40];
-    unsigned char sha1tmp[SHA_DIGEST_LENGTH];
+    unsigned var_na padtmp[40];
+    unsigned var_na sha1tmp[SHA_DIGEST_LENGTH];
 
-    if (cmd != EVP_CTRL_SSL3_MASTER_SECRET)
-        return -2;
+    ᱡᱩᱫᱤ (cmd != EVP_CTRL_SSL3_MASTER_SECRET)
+        ᱨᱩᱣᱟᱹᱲ -2;
 
-    if (sha1 == NULL)
-        return 0;
+    ᱡᱩᱫᱤ (sha1 == NULL)
+        ᱨᱩᱣᱟᱹᱲ 0;
 
     /* SSLv3 client auth handling: see RFC-6101 5.6.8 */
-    if (mslen != 48)
-        return 0;
+    ᱡᱩᱫᱤ (mslen != 48)
+        ᱨᱩᱣᱟᱹᱲ 0;
 
     /* At this point hash contains all handshake messages, update
      * with master secret and pad_1.
      */
 
-    if (SHA1_Update(sha1, ms, mslen) <= 0)
-        return 0;
+    ᱡᱩᱫᱤ (SHA1_Update(sha1, ms, mslen) <= 0)
+        ᱨᱩᱣᱟᱹᱲ 0;
 
     /* Set padtmp to pad_1 value */
-    memset(padtmp, 0x36, sizeof(padtmp));
+    memset(padtmp, 0x36, parimaa_na(padtmp));
 
-    if (!SHA1_Update(sha1, padtmp, sizeof(padtmp)))
-        return 0;
+    ᱡᱩᱫᱤ (!SHA1_Update(sha1, padtmp, parimaa_na(padtmp)))
+        ᱨᱩᱣᱟᱹᱲ 0;
 
-    if (!SHA1_Final(sha1tmp, sha1))
-        return 0;
+    ᱡᱩᱫᱤ (!SHA1_Final(sha1tmp, sha1))
+        ᱨᱩᱣᱟᱹᱲ 0;
 
     /* Reinitialise context */
 
-    if (!SHA1_Init(sha1))
-        return 0;
+    ᱡᱩᱫᱤ (!SHA1_Init(sha1))
+        ᱨᱩᱣᱟᱹᱲ 0;
 
-    if (SHA1_Update(sha1, ms, mslen) <= 0)
-        return 0;
+    ᱡᱩᱫᱤ (SHA1_Update(sha1, ms, mslen) <= 0)
+        ᱨᱩᱣᱟᱹᱲ 0;
 
     /* Set padtmp to pad_2 value */
-    memset(padtmp, 0x5c, sizeof(padtmp));
+    memset(padtmp, 0x5c, parimaa_na(padtmp));
 
-    if (!SHA1_Update(sha1, padtmp, sizeof(padtmp)))
-        return 0;
+    ᱡᱩᱫᱤ (!SHA1_Update(sha1, padtmp, parimaa_na(padtmp)))
+        ᱨᱩᱣᱟᱹᱲ 0;
 
-    if (!SHA1_Update(sha1, sha1tmp, sizeof(sha1tmp)))
-        return 0;
+    ᱡᱩᱫᱤ (!SHA1_Update(sha1, sha1tmp, parimaa_na(sha1tmp)))
+        ᱨᱩᱣᱟᱹᱲ 0;
 
     /* Now when ctx is finalised it will return the SSL v3 hash value */
-    OPENSSL_cleanse(sha1tmp, sizeof(sha1tmp));
+    OPENSSL_cleanse(sha1tmp, parimaa_na(sha1tmp));
 
-    return 1;
+    ᱨᱩᱣᱟᱹᱲ 1;
 }
