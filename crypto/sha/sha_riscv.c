@@ -7,42 +7,42 @@
  * https://www.openssl.org/source/license.html
  */
 
-#include <stdlib.h>
-#include <string.h>
+#അന്തര്ഭാവ <stdlib.h>
+#അന്തര്ഭാവ <string.h>
 
-#include <openssl/opensslconf.h>
-#include <openssl/sha.h>
-#include "arch/riscv_arch.h"
+#അന്തര്ഭാവ <openssl/opensslconf.h>
+#അന്തര്ഭാവ <openssl/sha.h>
+#അന്തര്ഭാവ "arch/riscv_arch.h"
 
-void sha256_block_data_order_zvkb_zvknha_or_zvknhb(void *ctx, const void *in,
-    size_t num);
-void sha256_block_data_order_zbb(void *ctx, const void *in, size_t num);
-void sha256_block_data_order_riscv64(void *ctx, const void *in, size_t num);
-void sha256_block_data_order(void *ctx, const void *in, size_t num);
+ശൂന്യം sha256_block_data_order_zvkb_zvknha_or_zvknhb(ശൂന്യം *ctx, സ്ഥിരം ശൂന്യം *in,
+    size_t അക്കം);
+ശൂന്യം sha256_block_data_order_zbb(ശൂന്യം *ctx, സ്ഥിരം ശൂന്യം *in, size_t അക്കം);
+ശൂന്യം sha256_block_data_order_riscv64(ശൂന്യം *ctx, സ്ഥിരം ശൂന്യം *in, size_t അക്കം);
+ശൂന്യം sha256_block_data_order(ശൂന്യം *ctx, സ്ഥിരം ശൂന്യം *in, size_t അക്കം);
 
-void sha256_block_data_order(void *ctx, const void *in, size_t num)
+ശൂന്യം sha256_block_data_order(ശൂന്യം *ctx, സ്ഥിരം ശൂന്യം *in, size_t അക്കം)
 {
-    if (RISCV_HAS_ZVKB() && (RISCV_HAS_ZVKNHA() || RISCV_HAS_ZVKNHB()) && riscv_vlen() >= 128) {
-        sha256_block_data_order_zvkb_zvknha_or_zvknhb(ctx, in, num);
-    } else if (RISCV_HAS_ZBB()) {
-        sha256_block_data_order_zbb(ctx, in, num);
-    } else {
-        sha256_block_data_order_riscv64(ctx, in, num);
+    എങ്കിൽ (RISCV_HAS_ZVKB() && (RISCV_HAS_ZVKNHA() || RISCV_HAS_ZVKNHB()) && riscv_vlen() >= 128) {
+        sha256_block_data_order_zvkb_zvknha_or_zvknhb(ctx, in, അക്കം);
+    } അല്ലെങ്കിൽ എങ്കിൽ (RISCV_HAS_ZBB()) {
+        sha256_block_data_order_zbb(ctx, in, അക്കം);
+    } അല്ലെങ്കിൽ {
+        sha256_block_data_order_riscv64(ctx, in, അക്കം);
     }
 }
 
-void sha512_block_data_order_zvkb_zvknhb(void *ctx, const void *in, size_t num);
-void sha512_block_data_order_zbb(void *ctx, const void *in, size_t num);
-void sha512_block_data_order_c(void *ctx, const void *in, size_t num);
-void sha512_block_data_order(void *ctx, const void *in, size_t num);
+ശൂന്യം sha512_block_data_order_zvkb_zvknhb(ശൂന്യം *ctx, സ്ഥിരം ശൂന്യം *in, size_t അക്കം);
+ശൂന്യം sha512_block_data_order_zbb(ശൂന്യം *ctx, സ്ഥിരം ശൂന്യം *in, size_t അക്കം);
+ശൂന്യം sha512_block_data_order_c(ശൂന്യം *ctx, സ്ഥിരം ശൂന്യം *in, size_t അക്കം);
+ശൂന്യം sha512_block_data_order(ശൂന്യം *ctx, സ്ഥിരം ശൂന്യം *in, size_t അക്കം);
 
-void sha512_block_data_order(void *ctx, const void *in, size_t num)
+ശൂന്യം sha512_block_data_order(ശൂന്യം *ctx, സ്ഥിരം ശൂന്യം *in, size_t അക്കം)
 {
-    if (RISCV_HAS_ZVKB_AND_ZVKNHB() && riscv_vlen() >= 128) {
-        sha512_block_data_order_zvkb_zvknhb(ctx, in, num);
-    } else if (RISCV_HAS_ZBB()) {
-        sha512_block_data_order_zbb(ctx, in, num);
-    } else {
-        sha512_block_data_order_c(ctx, in, num);
+    എങ്കിൽ (RISCV_HAS_ZVKB_AND_ZVKNHB() && riscv_vlen() >= 128) {
+        sha512_block_data_order_zvkb_zvknhb(ctx, in, അക്കം);
+    } അല്ലെങ്കിൽ എങ്കിൽ (RISCV_HAS_ZBB()) {
+        sha512_block_data_order_zbb(ctx, in, അക്കം);
+    } അല്ലെങ്കിൽ {
+        sha512_block_data_order_c(ctx, in, അക്കം);
     }
 }

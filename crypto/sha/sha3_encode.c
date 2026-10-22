@@ -8,32 +8,32 @@
  */
 
 /* including crypto/sha.h requires this for SHA256_CTX */
-#include "internal/deprecated.h"
+#അന്തര്ഭാവ "internal/deprecated.h"
 
 /*
  * NIST.SP.800-185 Encoding/Padding Methods used for SHA3 derived functions
  * e.g. It is used by KMAC and cSHAKE
  */
 
-#include <string.h> /* memcpy */
-#include <openssl/err.h>
-#include <openssl/proverr.h>
-#include "crypto/sha.h"
-#include "internal/common.h" /* ossl_assert */
+#അന്തര്ഭാവ <string.h> /* memcpy */
+#അന്തര്ഭാവ <openssl/err.h>
+#അന്തര്ഭാവ <openssl/proverr.h>
+#അന്തര്ഭാവ "crypto/sha.h"
+#അന്തര്ഭാവ "internal/common.h" /* ossl_assert */
 
 /* Returns the number of bytes required to store 'bits' into a byte array */
-static unsigned int get_encode_size(size_t bits)
+സ്ഥിതം unsigned പൂർണ്ണസംഖ്യ get_encode_size(size_t bits)
 {
-    unsigned int cnt = 0, sz = sizeof(size_t);
+    unsigned പൂർണ്ണസംഖ്യ cnt = 0, sz = വലുപ്പം(size_t);
 
-    while (bits && (cnt < sz)) {
+    ആകുമ്പോൾ (bits && (cnt < sz)) {
         ++cnt;
         bits >>= 8;
     }
     /* If bits is zero 1 byte is required */
-    if (cnt == 0)
+    എങ്കിൽ (cnt == 0)
         cnt = 1;
-    return cnt;
+    തിരികെ cnt;
 }
 
 /*
@@ -43,29 +43,29 @@ static unsigned int get_encode_size(size_t bits)
  *
  * e.g if bits = 32, out[2] = { 0x20, 0x01 }
  */
-int ossl_sp800_185_right_encode(unsigned char *out,
+പൂർണ്ണസംഖ്യ ossl_sp800_185_വലത്_encode(unsigned അക്ഷരം *out,
     size_t out_max_len, size_t *out_len,
     size_t bits)
 {
-    unsigned int len = get_encode_size(bits);
-    int i;
+    unsigned പൂർണ്ണസംഖ്യ len = get_encode_size(bits);
+    പൂർണ്ണസംഖ്യ i;
 
-    if (len >= out_max_len) {
+    എങ്കിൽ (len >= out_max_len) {
         ERR_raise(ERR_LIB_PROV, PROV_R_LENGTH_TOO_LARGE);
-        return 0;
+        തിരികെ 0;
     }
 
     /* MSB's are at the start of the bytes array */
-    for (i = len - 1; i >= 0; --i) {
-        out[i] = (unsigned char)(bits & 0xFF);
+    വേണ്ടി (i = len - 1; i >= 0; --i) {
+        out[i] = (unsigned അക്ഷരം)(bits & 0xFF);
         bits >>= 8;
     }
     /* Tack the length onto the end */
-    out[len] = (unsigned char)len;
+    out[len] = (unsigned അക്ഷരം)len;
 
     /* The Returned length includes the tacked on byte */
     *out_len = len + 1;
-    return 1;
+    തിരികെ 1;
 }
 
 /*
@@ -75,33 +75,33 @@ int ossl_sp800_185_right_encode(unsigned char *out,
  * e.g- in="KMAC" gives out[6] = { 0x01, 0x20, 0x4B, 0x4D, 0x41, 0x43 }
  *                                 len   bits    K     M     A     C
  */
-int ossl_sp800_185_encode_string(unsigned char *out,
+പൂർണ്ണസംഖ്യ ossl_sp800_185_encode_string(unsigned അക്ഷരം *out,
     size_t out_max_len, size_t *out_len,
-    const unsigned char *in, size_t in_len)
+    സ്ഥിരം unsigned അക്ഷരം *in, size_t in_len)
 {
-    if (in == NULL) {
+    എങ്കിൽ (in == ശൂന്യ) {
         *out_len = 0;
-    } else {
+    } അല്ലെങ്കിൽ {
         size_t i, bits, len, sz;
 
         bits = 8 * in_len;
         len = get_encode_size(bits);
         sz = 1 + len + in_len;
 
-        if (sz > out_max_len) {
+        എങ്കിൽ (sz > out_max_len) {
             ERR_raise(ERR_LIB_PROV, PROV_R_LENGTH_TOO_LARGE);
-            return 0;
+            തിരികെ 0;
         }
 
-        out[0] = (unsigned char)len;
-        for (i = len; i > 0; --i) {
+        out[0] = (unsigned അക്ഷരം)len;
+        വേണ്ടി (i = len; i > 0; --i) {
             out[i] = (bits & 0xFF);
             bits >>= 8;
         }
         memcpy(out + len + 1, in, in_len);
         *out_len = sz;
     }
-    return 1;
+    തിരികെ 1;
 }
 
 /*
@@ -112,47 +112,47 @@ int ossl_sp800_185_encode_string(unsigned char *out,
  * The returned output is:
  *    zero_padded(multiple of w, (left_encode(w) || in1 [|| in2])
  */
-int ossl_sp800_185_bytepad(unsigned char *out, size_t out_len_max, size_t *out_len,
-    const unsigned char *in1, size_t in1_len,
-    const unsigned char *in2, size_t in2_len,
+പൂർണ്ണസംഖ്യ ossl_sp800_185_bytepad(unsigned അക്ഷരം *out, size_t out_len_max, size_t *out_len,
+    സ്ഥിരം unsigned അക്ഷരം *in1, size_t in1_len,
+    സ്ഥിരം unsigned അക്ഷരം *in2, size_t in2_len,
     size_t w)
 {
     size_t len;
-    unsigned char *p = out;
+    unsigned അക്ഷരം *p = out;
     size_t sz;
 
-    if (!ossl_assert(w <= 255))
-        return 0;
-    sz = (2 + in1_len + (in2 != NULL ? in2_len : 0) + w - 1) / w * w;
-    if (out_len_max != 0 && sz > out_len_max)
-        return 0;
+    എങ്കിൽ (!ossl_assert(w <= 255))
+        തിരികെ 0;
+    sz = (2 + in1_len + (in2 != ശൂന്യ ? in2_len : 0) + w - 1) / w * w;
+    എങ്കിൽ (out_len_max != 0 && sz > out_len_max)
+        തിരികെ 0;
 
-    if (out == NULL) {
-        if (out_len == NULL) {
+    എങ്കിൽ (out == ശൂന്യ) {
+        എങ്കിൽ (out_len == ശൂന്യ) {
             ERR_raise(ERR_LIB_PROV, ERR_R_PASSED_NULL_PARAMETER);
-            return 0;
+            തിരികെ 0;
         }
         *out_len = sz;
-        return 1;
+        തിരികെ 1;
     }
 
     /* Left encoded w */
     *p++ = 1;
-    *p++ = (unsigned char)w;
+    *p++ = (unsigned അക്ഷരം)w;
     /* || in1 */
     memcpy(p, in1, in1_len);
     p += in1_len;
     /* [ || in2 ] */
-    if (in2 != NULL && in2_len > 0) {
+    എങ്കിൽ (in2 != ശൂന്യ && in2_len > 0) {
         memcpy(p, in2, in2_len);
         p += in2_len;
     }
     /* Figure out the pad size (divisible by w) */
     len = p - out;
     /* zero pad the end of the buffer */
-    if (sz != len)
+    എങ്കിൽ (sz != len)
         memset(p, 0, sz - len);
-    if (out_len != NULL)
+    എങ്കിൽ (out_len != ശൂന്യ)
         *out_len = sz;
-    return 1;
+    തിരികെ 1;
 }

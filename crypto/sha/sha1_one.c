@@ -11,71 +11,71 @@
  * SHA-1 low level APIs are deprecated for public use, but still ok for
  * internal use.
  */
-#include "internal/deprecated.h"
+#അന്തര്ഭാവ "internal/deprecated.h"
 
-#include <stdio.h>
-#include <string.h>
-#include <openssl/crypto.h>
-#include <openssl/sha.h>
-#include <openssl/evp.h>
-#include "crypto/sha.h"
+#അന്തര്ഭാവ <stdio.h>
+#അന്തര്ഭാവ <string.h>
+#അന്തര്ഭാവ <openssl/crypto.h>
+#അന്തര്ഭാവ <openssl/sha.h>
+#അന്തര്ഭാവ <openssl/evp.h>
+#അന്തര്ഭാവ "crypto/sha.h"
 
-unsigned char *ossl_sha1(const unsigned char *d, size_t n, unsigned char *md)
+unsigned അക്ഷരം *ossl_sha1(സ്ഥിരം unsigned അക്ഷരം *d, size_t n, unsigned അക്ഷരം *md)
 {
     SHA_CTX c;
-    static unsigned char m[SHA_DIGEST_LENGTH];
+    സ്ഥിതം unsigned അക്ഷരം m[SHA_DIGEST_LENGTH];
 
-    if (md == NULL)
+    എങ്കിൽ (md == ശൂന്യ)
         md = m;
-    if (!SHA1_Init(&c))
-        return NULL;
+    എങ്കിൽ (!SHA1_Init(&c))
+        തിരികെ ശൂന്യ;
     SHA1_Update(&c, d, n);
     SHA1_Final(md, &c);
-    OPENSSL_cleanse(&c, sizeof(c));
-    return md;
+    OPENSSL_cleanse(&c, വലുപ്പം(c));
+    തിരികെ md;
 }
 
-unsigned char *SHA1(const unsigned char *d, size_t n, unsigned char *md)
+unsigned അക്ഷരം *SHA1(സ്ഥിരം unsigned അക്ഷരം *d, size_t n, unsigned അക്ഷരം *md)
 {
-    static unsigned char m[SHA_DIGEST_LENGTH];
+    സ്ഥിതം unsigned അക്ഷരം m[SHA_DIGEST_LENGTH];
 
-    if (md == NULL)
+    എങ്കിൽ (md == ശൂന്യ)
         md = m;
-    return EVP_Q_digest(NULL, "SHA1", NULL, d, n, md, NULL) ? md : NULL;
+    തിരികെ EVP_Q_digest(ശൂന്യ, "SHA1", ശൂന്യ, d, n, md, ശൂന്യ) ? md : ശൂന്യ;
 }
 
-unsigned char *SHA224(const unsigned char *d, size_t n, unsigned char *md)
+unsigned അക്ഷരം *SHA224(സ്ഥിരം unsigned അക്ഷരം *d, size_t n, unsigned അക്ഷരം *md)
 {
-    static unsigned char m[SHA224_DIGEST_LENGTH];
+    സ്ഥിതം unsigned അക്ഷരം m[SHA224_DIGEST_LENGTH];
 
-    if (md == NULL)
+    എങ്കിൽ (md == ശൂന്യ)
         md = m;
-    return EVP_Q_digest(NULL, "SHA224", NULL, d, n, md, NULL) ? md : NULL;
+    തിരികെ EVP_Q_digest(ശൂന്യ, "SHA224", ശൂന്യ, d, n, md, ശൂന്യ) ? md : ശൂന്യ;
 }
 
-unsigned char *SHA256(const unsigned char *d, size_t n, unsigned char *md)
+unsigned അക്ഷരം *SHA256(സ്ഥിരം unsigned അക്ഷരം *d, size_t n, unsigned അക്ഷരം *md)
 {
-    static unsigned char m[SHA256_DIGEST_LENGTH];
+    സ്ഥിതം unsigned അക്ഷരം m[SHA256_DIGEST_LENGTH];
 
-    if (md == NULL)
+    എങ്കിൽ (md == ശൂന്യ)
         md = m;
-    return EVP_Q_digest(NULL, "SHA256", NULL, d, n, md, NULL) ? md : NULL;
+    തിരികെ EVP_Q_digest(ശൂന്യ, "SHA256", ശൂന്യ, d, n, md, ശൂന്യ) ? md : ശൂന്യ;
 }
 
-unsigned char *SHA384(const unsigned char *d, size_t n, unsigned char *md)
+unsigned അക്ഷരം *SHA384(സ്ഥിരം unsigned അക്ഷരം *d, size_t n, unsigned അക്ഷരം *md)
 {
-    static unsigned char m[SHA384_DIGEST_LENGTH];
+    സ്ഥിതം unsigned അക്ഷരം m[SHA384_DIGEST_LENGTH];
 
-    if (md == NULL)
+    എങ്കിൽ (md == ശൂന്യ)
         md = m;
-    return EVP_Q_digest(NULL, "SHA384", NULL, d, n, md, NULL) ? md : NULL;
+    തിരികെ EVP_Q_digest(ശൂന്യ, "SHA384", ശൂന്യ, d, n, md, ശൂന്യ) ? md : ശൂന്യ;
 }
 
-unsigned char *SHA512(const unsigned char *d, size_t n, unsigned char *md)
+unsigned അക്ഷരം *SHA512(സ്ഥിരം unsigned അക്ഷരം *d, size_t n, unsigned അക്ഷരം *md)
 {
-    static unsigned char m[SHA512_DIGEST_LENGTH];
+    സ്ഥിതം unsigned അക്ഷരം m[SHA512_DIGEST_LENGTH];
 
-    if (md == NULL)
+    എങ്കിൽ (md == ശൂന്യ)
         md = m;
-    return EVP_Q_digest(NULL, "SHA512", NULL, d, n, md, NULL) ? md : NULL;
+    തിരികെ EVP_Q_digest(ശൂന്യ, "SHA512", ശൂന്യ, d, n, md, ശൂന്യ) ? md : ശൂന്യ;
 }
