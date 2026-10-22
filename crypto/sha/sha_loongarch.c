@@ -7,35 +7,35 @@
  * https://www.openssl.org/source/license.html
  */
 
-#include <stdlib.h>
-#include <string.h>
+#شامل <stdlib.h>
+#شامل <string.h>
 
-#include <openssl/opensslconf.h>
-#include <openssl/sha.h>
-#include "arch/loongarch_arch.h"
+#شامل <openssl/opensslconf.h>
+#شامل <openssl/sha.h>
+#شامل "arch/loongarch_arch.h"
 
-void sha256_block_data_order_la64v100(void *ctx, const void *in, size_t num);
-void sha256_block_data_order_lsx(void *ctx, const void *in, size_t num);
-void sha256_block_data_order(void *ctx, const void *in, size_t num);
+خالی sha256_بلاک_ڈیٹا_ترتیب_la64v100(خالی *ctx, ثابت خالی *اندر, size_t عدد);
+خالی sha256_بلاک_ڈیٹا_ترتیب_lsx(خالی *ctx, ثابت خالی *اندر, size_t عدد);
+خالی sha256_بلاک_ڈیٹا_ترتیب(خالی *ctx, ثابت خالی *اندر, size_t عدد);
 
-void sha256_block_data_order(void *ctx, const void *in, size_t num)
+خالی sha256_بلاک_ڈیٹا_ترتیب(خالی *ctx, ثابت خالی *اندر, size_t عدد)
 {
-    if (OPENSSL_loongarch_hwcap_P & LOONGARCH_HWCAP_LSX) {
-        sha256_block_data_order_lsx(ctx, in, num);
-    } else {
-        sha256_block_data_order_la64v100(ctx, in, num);
+    اگر (OPENSSL_loongarch_hwcap_P & LOONGARCH_HWCAP_LSX) {
+        sha256_بلاک_ڈیٹا_ترتیب_lsx(ctx, اندر, عدد);
+    } ورنہ {
+        sha256_بلاک_ڈیٹا_ترتیب_la64v100(ctx, اندر, عدد);
     }
 }
 
-void sha512_block_data_order_la64v100(void *ctx, const void *in, size_t num);
-void sha512_block_data_order_lsx(void *ctx, const void *in, size_t num);
-void sha512_block_data_order(void *ctx, const void *in, size_t num);
+خالی sha512_بلاک_ڈیٹا_ترتیب_la64v100(خالی *ctx, ثابت خالی *اندر, size_t عدد);
+خالی sha512_بلاک_ڈیٹا_ترتیب_lsx(خالی *ctx, ثابت خالی *اندر, size_t عدد);
+خالی sha512_بلاک_ڈیٹا_ترتیب(خالی *ctx, ثابت خالی *اندر, size_t عدد);
 
-void sha512_block_data_order(void *ctx, const void *in, size_t num)
+خالی sha512_بلاک_ڈیٹا_ترتیب(خالی *ctx, ثابت خالی *اندر, size_t عدد)
 {
-    if (OPENSSL_loongarch_hwcap_P & LOONGARCH_HWCAP_LSX) {
-        sha512_block_data_order_lsx(ctx, in, num);
-    } else {
-        sha512_block_data_order_la64v100(ctx, in, num);
+    اگر (OPENSSL_loongarch_hwcap_P & LOONGARCH_HWCAP_LSX) {
+        sha512_بلاک_ڈیٹا_ترتیب_lsx(ctx, اندر, عدد);
+    } ورنہ {
+        sha512_بلاک_ڈیٹا_ترتیب_la64v100(ctx, اندر, عدد);
     }
 }

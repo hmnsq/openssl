@@ -11,22 +11,22 @@
  * SHA256 low level APIs are deprecated for public use, but still ok for
  * internal use.
  */
-#include "internal/deprecated.h"
+#شامل "internal/deprecated.h"
 
-#include <openssl/opensslconf.h>
+#شامل <openssl/opensslconf.h>
 
-#include <stdlib.h>
-#include <string.h>
+#شامل <stdlib.h>
+#شامل <string.h>
 
-#include <openssl/crypto.h>
-#include <openssl/sha.h>
-#include <openssl/opensslv.h>
-#include "internal/endian.h"
-#include "crypto/sha.h"
+#شامل <openssl/crypto.h>
+#شامل <openssl/sha.h>
+#شامل <openssl/opensslv.h>
+#شامل "internal/endian.h"
+#شامل "crypto/sha.h"
 
-int SHA224_Init(SHA256_CTX *c)
+صحیح SHA224_Init(SHA256_CTX *c)
 {
-    memset(c, 0, sizeof(*c));
+    memset(c, 0, حجم(*c));
     c->h[0] = 0xc1059ed8UL;
     c->h[1] = 0x367cd507UL;
     c->h[2] = 0x3070dd17UL;
@@ -35,13 +35,13 @@ int SHA224_Init(SHA256_CTX *c)
     c->h[5] = 0x68581511UL;
     c->h[6] = 0x64f98fa7UL;
     c->h[7] = 0xbefa4fa4UL;
-    c->md_len = SHA224_DIGEST_LENGTH;
-    return 1;
+    c->md_len = SHA224_DIGEST_لمبائی;
+    واپس 1;
 }
 
-int SHA256_Init(SHA256_CTX *c)
+صحیح SHA256_Init(SHA256_CTX *c)
 {
-    memset(c, 0, sizeof(*c));
+    memset(c, 0, حجم(*c));
     c->h[0] = 0x6a09e667UL;
     c->h[1] = 0xbb67ae85UL;
     c->h[2] = 0x3c6ef372UL;
@@ -50,32 +50,32 @@ int SHA256_Init(SHA256_CTX *c)
     c->h[5] = 0x9b05688cUL;
     c->h[6] = 0x1f83d9abUL;
     c->h[7] = 0x5be0cd19UL;
-    c->md_len = SHA256_DIGEST_LENGTH;
-    return 1;
+    c->md_len = SHA256_DIGEST_لمبائی;
+    واپس 1;
 }
 
-int ossl_sha256_192_init(SHA256_CTX *c)
+صحیح ossl_sha256_192_init(SHA256_CTX *c)
 {
     SHA256_Init(c);
-    c->md_len = SHA256_192_DIGEST_LENGTH;
-    return 1;
+    c->md_len = SHA256_192_DIGEST_لمبائی;
+    واپس 1;
 }
 
-int SHA224_Update(SHA256_CTX *c, const void *data, size_t len)
+صحیح SHA224_Update(SHA256_CTX *c, ثابت خالی *ڈیٹا, size_t len)
 {
-    return SHA256_Update(c, data, len);
+    واپس SHA256_Update(c, ڈیٹا, len);
 }
 
-int SHA224_Final(unsigned char *md, SHA256_CTX *c)
+صحیح SHA224_Final(غیرعلامتی حرف *md, SHA256_CTX *c)
 {
-    return SHA256_Final(md, c);
+    واپس SHA256_Final(md, c);
 }
 
-#define DATA_ORDER_IS_BIG_ENDIAN
+#تعریف_کرو ڈیٹا_ترتیب_IS_BIG_ENDIAN
 
-#define HASH_LONG SHA_LONG
-#define HASH_CTX SHA256_CTX
-#define HASH_CBLOCK SHA_CBLOCK
+#تعریف_کرو HASH_LONG SHA_LONG
+#تعریف_کرو HASH_CTX SHA256_CTX
+#تعریف_کرو HASH_CBLOCK SHA_CBLOCK
 
 /*
  * Note that FIPS180-2 discusses "Truncation of the Hash Function Output."
@@ -85,66 +85,66 @@ int SHA224_Final(unsigned char *md, SHA256_CTX *c)
  * Idea behind separate cases for pre-defined lengths is to let the
  * compiler decide if it's appropriate to unroll small loops.
  */
-#define HASH_MAKE_STRING(c, s)                                      \
-    do {                                                            \
-        unsigned long ll;                                           \
-        unsigned int nn;                                            \
-        switch ((c)->md_len) {                                      \
-        case SHA256_192_DIGEST_LENGTH:                              \
-            for (nn = 0; nn < SHA256_192_DIGEST_LENGTH / 4; nn++) { \
+#تعریف_کرو HASH_MAKE_STRING(c, s)                                      \
+    کرو {                                                            \
+        غیرعلامتی طویل ll;                                           \
+        غیرعلامتی صحیح nn;                                            \
+        انتخاب ((c)->md_len) {                                      \
+        حالت SHA256_192_DIGEST_لمبائی:                              \
+            برائے (nn = 0; nn < SHA256_192_DIGEST_لمبائی / 4; nn++) { \
                 ll = (c)->h[nn];                                    \
-                (void)HOST_l2c(ll, (s));                            \
+                (خالی)HOST_l2c(ll, (s));                            \
             }                                                       \
-            break;                                                  \
-        case SHA224_DIGEST_LENGTH:                                  \
-            for (nn = 0; nn < SHA224_DIGEST_LENGTH / 4; nn++) {     \
+            توڑو;                                                  \
+        حالت SHA224_DIGEST_لمبائی:                                  \
+            برائے (nn = 0; nn < SHA224_DIGEST_لمبائی / 4; nn++) {     \
                 ll = (c)->h[nn];                                    \
-                (void)HOST_l2c(ll, (s));                            \
+                (خالی)HOST_l2c(ll, (s));                            \
             }                                                       \
-            break;                                                  \
-        case SHA256_DIGEST_LENGTH:                                  \
-            for (nn = 0; nn < SHA256_DIGEST_LENGTH / 4; nn++) {     \
+            توڑو;                                                  \
+        حالت SHA256_DIGEST_لمبائی:                                  \
+            برائے (nn = 0; nn < SHA256_DIGEST_لمبائی / 4; nn++) {     \
                 ll = (c)->h[nn];                                    \
-                (void)HOST_l2c(ll, (s));                            \
+                (خالی)HOST_l2c(ll, (s));                            \
             }                                                       \
-            break;                                                  \
-        default:                                                    \
-            if ((c)->md_len > SHA256_DIGEST_LENGTH)                 \
-                return 0;                                           \
-            for (nn = 0; nn < (c)->md_len / 4; nn++) {              \
+            توڑو;                                                  \
+        طےشدہ:                                                    \
+            اگر ((c)->md_len > SHA256_DIGEST_لمبائی)                 \
+                واپس 0;                                           \
+            برائے (nn = 0; nn < (c)->md_len / 4; nn++) {              \
                 ll = (c)->h[nn];                                    \
-                (void)HOST_l2c(ll, (s));                            \
+                (خالی)HOST_l2c(ll, (s));                            \
             }                                                       \
-            break;                                                  \
+            توڑو;                                                  \
         }                                                           \
-    } while (0)
+    } جب (0)
 
-#define HASH_UPDATE_THUNK
-#define HASH_UPDATE SHA256_Update_thunk
-#define HASH_TRANSFORM SHA256_Transform
-#define HASH_FINAL SHA256_Final
-#define HASH_BLOCK_DATA_ORDER sha256_block_data_order
-#ifndef SHA256_ASM
-static
-#else
-#ifdef INCLUDE_C_SHA256
-void sha256_block_data_order_c(SHA256_CTX *ctx, const void *in, size_t num);
-#endif /* INCLUDE_C_SHA256 */
-#endif /* SHA256_ASM */
-    void sha256_block_data_order(SHA256_CTX *ctx, const void *in, size_t num);
+#تعریف_کرو HASH_UPDATE_THUNK
+#تعریف_کرو HASH_UPDATE SHA256_Update_thunk
+#تعریف_کرو HASH_TRANSFORM SHA256_Transform
+#تعریف_کرو HASH_FINAL SHA256_Final
+#تعریف_کرو HASH_بلاک_ڈیٹا_ترتیب sha256_بلاک_ڈیٹا_ترتیب
+#اگر_غیر_تعریف_شدہ SHA256_ASM
+ساکن
+#ورنہ
+#اگر_تعریف_شدہ INCLUDE_C_SHA256
+خالی sha256_بلاک_ڈیٹا_ترتیب_c(SHA256_CTX *ctx, ثابت خالی *اندر, size_t عدد);
+#اگر_ختم /* INCLUDE_C_SHA256 */
+#اگر_ختم /* SHA256_ASM */
+    خالی sha256_بلاک_ڈیٹا_ترتیب(SHA256_CTX *ctx, ثابت خالی *اندر, size_t عدد);
 
 /* clang-format off */
-#include "crypto/md32_common.inc"
+#شامل "crypto/md32_common.inc"
 /* clang-format on */
-#undef HASH_UPDATE_THUNK
+#تعریف_منسوخ HASH_UPDATE_THUNK
 
-int SHA256_Update(SHA256_CTX *ctx, const void *data, size_t sz)
+صحیح SHA256_Update(SHA256_CTX *ctx, ثابت خالی *ڈیٹا, size_t sz)
 {
-    return SHA256_Update_thunk((void *)ctx, (const unsigned char *)data, sz);
+    واپس SHA256_Update_thunk((خالی *)ctx, (ثابت غیرعلامتی حرف *)ڈیٹا, sz);
 }
 
-#if !defined(SHA256_ASM) || defined(INCLUDE_C_SHA256)
-static const SHA_LONG K256[64] = {
+#اگر !defined(SHA256_ASM) || defined(INCLUDE_C_SHA256)
+ساکن ثابت SHA_LONG K256[64] = {
     0x428a2f98UL, 0x71374491UL, 0xb5c0fbcfUL, 0xe9b5dba5UL,
     0x3956c25bUL, 0x59f111f1UL, 0x923f82a4UL, 0xab1c5ed5UL,
     0xd807aa98UL, 0x12835b01UL, 0x243185beUL, 0x550c7dc3UL,
@@ -163,74 +163,74 @@ static const SHA_LONG K256[64] = {
     0x90befffaUL, 0xa4506cebUL, 0xbef9a3f7UL, 0xc67178f2UL
 };
 
-#ifndef PEDANTIC
-#if defined(__GNUC__) && !defined(OPENSSL_NO_ASM) && !defined(OPENSSL_NO_INLINE_ASM)
-#if defined(__riscv_zknh)
-#define Sigma0(x) ({ MD32_REG_T ret;            \
+#اگر_غیر_تعریف_شدہ PEDANTIC
+#اگر defined(__GNUC__) && !defined(OPENSSL_NO_ASM) && !defined(OPENSSL_NO_INLINE_ASM)
+#اگر defined(__riscv_zknh)
+#تعریف_کرو Sigma0(x) ({ MD32_REG_T ret;            \
                         asm ("sha256sum0 %0, %1"    \
                         : "=r"(ret)                 \
                         : "r"(x)); ret; })
-#define Sigma1(x) ({ MD32_REG_T ret;            \
+#تعریف_کرو Sigma1(x) ({ MD32_REG_T ret;            \
                         asm ("sha256sum1 %0, %1"    \
                         : "=r"(ret)                 \
                         : "r"(x)); ret; })
-#define sigma0(x) ({ MD32_REG_T ret;            \
+#تعریف_کرو sigma0(x) ({ MD32_REG_T ret;            \
                         asm ("sha256sig0 %0, %1"    \
                         : "=r"(ret)                 \
                         : "r"(x)); ret; })
-#define sigma1(x) ({ MD32_REG_T ret;            \
+#تعریف_کرو sigma1(x) ({ MD32_REG_T ret;            \
                         asm ("sha256sig1 %0, %1"    \
                         : "=r"(ret)                 \
                         : "r"(x)); ret; })
-#endif
-#if defined(__riscv_zbt) || defined(__riscv_zpn)
-#define Ch(x, y, z) ({  MD32_REG_T ret;                           \
+#اگر_ختم
+#اگر defined(__riscv_zbt) || defined(__riscv_zpn)
+#تعریف_کرو Ch(x, y, z) ({  MD32_REG_T ret;                           \
                         asm (".insn r4 0x33, 1, 0x3, %0, %2, %1, %3"\
                         : "=r"(ret)                                 \
                         : "r"(x), "r"(y), "r"(z)); ret; })
-#define Maj(x, y, z) ({ MD32_REG_T ret;                           \
+#تعریف_کرو Maj(x, y, z) ({ MD32_REG_T ret;                           \
                         asm (".insn r4 0x33, 1, 0x3, %0, %2, %1, %3"\
                         : "=r"(ret)                                 \
                         : "r"(x^z), "r"(y), "r"(x)); ret; })
-#endif
-#endif
-#endif
+#اگر_ختم
+#اگر_ختم
+#اگر_ختم
 
 /*
  * FIPS specification refers to right rotations, while our ROTATE macro
  * is left one. This is why you might notice that rotation coefficients
  * differ from those observed in FIPS document by 32-N...
  */
-#ifndef Sigma0
-#define Sigma0(x) (ROTATE((x), 30) ^ ROTATE((x), 19) ^ ROTATE((x), 10))
-#endif
-#ifndef Sigma1
-#define Sigma1(x) (ROTATE((x), 26) ^ ROTATE((x), 21) ^ ROTATE((x), 7))
-#endif
-#ifndef sigma0
-#define sigma0(x) (ROTATE((x), 25) ^ ROTATE((x), 14) ^ ((x) >> 3))
-#endif
-#ifndef sigma1
-#define sigma1(x) (ROTATE((x), 15) ^ ROTATE((x), 13) ^ ((x) >> 10))
-#endif
-#ifndef Ch
-#define Ch(x, y, z) (((x) & (y)) ^ ((~(x)) & (z)))
-#endif
-#ifndef Maj
-#define Maj(x, y, z) (((x) & (y)) ^ ((x) & (z)) ^ ((y) & (z)))
-#endif
+#اگر_غیر_تعریف_شدہ Sigma0
+#تعریف_کرو Sigma0(x) (ROTATE((x), 30) ^ ROTATE((x), 19) ^ ROTATE((x), 10))
+#اگر_ختم
+#اگر_غیر_تعریف_شدہ Sigma1
+#تعریف_کرو Sigma1(x) (ROTATE((x), 26) ^ ROTATE((x), 21) ^ ROTATE((x), 7))
+#اگر_ختم
+#اگر_غیر_تعریف_شدہ sigma0
+#تعریف_کرو sigma0(x) (ROTATE((x), 25) ^ ROTATE((x), 14) ^ ((x) >> 3))
+#اگر_ختم
+#اگر_غیر_تعریف_شدہ sigma1
+#تعریف_کرو sigma1(x) (ROTATE((x), 15) ^ ROTATE((x), 13) ^ ((x) >> 10))
+#اگر_ختم
+#اگر_غیر_تعریف_شدہ Ch
+#تعریف_کرو Ch(x, y, z) (((x) & (y)) ^ ((~(x)) & (z)))
+#اگر_ختم
+#اگر_غیر_تعریف_شدہ Maj
+#تعریف_کرو Maj(x, y, z) (((x) & (y)) ^ ((x) & (z)) ^ ((y) & (z)))
+#اگر_ختم
 
-#ifdef OPENSSL_SMALL_FOOTPRINT
+#اگر_تعریف_شدہ OPENSSL_SMALL_FOOTPRINT
 
-static void sha256_block_data_order(SHA256_CTX *ctx, const void *in,
-    size_t num)
+ساکن خالی sha256_بلاک_ڈیٹا_ترتیب(SHA256_CTX *ctx, ثابت خالی *اندر,
+    size_t عدد)
 {
-    unsigned MD32_REG_T a, b, c, d, e, f, g, h, s0, s1, T1, T2;
+    غیرعلامتی MD32_REG_T a, b, c, d, e, f, g, h, s0, s1, T1, T2;
     SHA_LONG X[16], l;
-    int i;
-    const unsigned char *data = in;
+    صحیح i;
+    ثابت غیرعلامتی حرف *ڈیٹا = اندر;
 
-    while (num--) {
+    جب (عدد--) {
 
         a = ctx->h[0];
         b = ctx->h[1];
@@ -241,8 +241,8 @@ static void sha256_block_data_order(SHA256_CTX *ctx, const void *in,
         g = ctx->h[6];
         h = ctx->h[7];
 
-        for (i = 0; i < 16; i++) {
-            (void)HOST_c2l(data, l);
+        برائے (i = 0; i < 16; i++) {
+            (خالی)HOST_c2l(ڈیٹا, l);
             T1 = X[i] = l;
             T1 += h + Sigma1(e) + Ch(e, f, g) + K256[i];
             T2 = Sigma0(a) + Maj(a, b, c);
@@ -256,7 +256,7 @@ static void sha256_block_data_order(SHA256_CTX *ctx, const void *in,
             a = T1 + T2;
         }
 
-        for (; i < 64; i++) {
+        برائے (; i < 64; i++) {
             s0 = X[(i + 1) & 0x0f];
             s0 = sigma0(s0);
             s1 = X[(i + 14) & 0x0f];
@@ -286,40 +286,40 @@ static void sha256_block_data_order(SHA256_CTX *ctx, const void *in,
     }
 }
 
-#else
+#ورنہ
 
-#define ROUND_00_15(i, a, b, c, d, e, f, g, h)       \
-    do {                                             \
+#تعریف_کرو باری_00_15(i, a, b, c, d, e, f, g, h)       \
+    کرو {                                             \
         T1 += h + Sigma1(e) + Ch(e, f, g) + K256[i]; \
         h = Sigma0(a) + Maj(a, b, c);                \
         d += T1;                                     \
         h += T1;                                     \
-    } while (0)
+    } جب (0)
 
-#define ROUND_16_63(i, a, b, c, d, e, f, g, h, X)          \
-    do {                                                   \
+#تعریف_کرو باری_16_63(i, a, b, c, d, e, f, g, h, X)          \
+    کرو {                                                   \
         s0 = X[(i + 1) & 0x0f];                            \
         s0 = sigma0(s0);                                   \
         s1 = X[(i + 14) & 0x0f];                           \
         s1 = sigma1(s1);                                   \
         T1 = X[(i) & 0x0f] += s0 + s1 + X[(i + 9) & 0x0f]; \
-        ROUND_00_15(i, a, b, c, d, e, f, g, h);            \
-    } while (0)
+        باری_00_15(i, a, b, c, d, e, f, g, h);            \
+    } جب (0)
 
-#ifdef INCLUDE_C_SHA256
-void sha256_block_data_order_c(SHA256_CTX *ctx, const void *in, size_t num)
-#else
-static void sha256_block_data_order(SHA256_CTX *ctx, const void *in,
-    size_t num)
-#endif
+#اگر_تعریف_شدہ INCLUDE_C_SHA256
+خالی sha256_بلاک_ڈیٹا_ترتیب_c(SHA256_CTX *ctx, ثابت خالی *اندر, size_t عدد)
+#ورنہ
+ساکن خالی sha256_بلاک_ڈیٹا_ترتیب(SHA256_CTX *ctx, ثابت خالی *اندر,
+    size_t عدد)
+#اگر_ختم
 {
-    unsigned MD32_REG_T a, b, c, d, e, f, g, h, s0, s1, T1;
+    غیرعلامتی MD32_REG_T a, b, c, d, e, f, g, h, s0, s1, T1;
     SHA_LONG X[16];
-    int i;
-    const unsigned char *data = in;
+    صحیح i;
+    ثابت غیرعلامتی حرف *ڈیٹا = اندر;
     DECLARE_IS_ENDIAN;
 
-    while (num--) {
+    جب (عدد--) {
 
         a = ctx->h[0];
         b = ctx->h[1];
@@ -330,106 +330,106 @@ static void sha256_block_data_order(SHA256_CTX *ctx, const void *in,
         g = ctx->h[6];
         h = ctx->h[7];
 
-        if (!IS_LITTLE_ENDIAN && sizeof(SHA_LONG) == 4
-            && ((size_t)in % 4) == 0) {
-            const SHA_LONG *W = (const SHA_LONG *)data;
+        اگر (!IS_LITTLE_ENDIAN && حجم(SHA_LONG) == 4
+            && ((size_t)اندر % 4) == 0) {
+            ثابت SHA_LONG *W = (ثابت SHA_LONG *)ڈیٹا;
 
             T1 = X[0] = W[0];
-            ROUND_00_15(0, a, b, c, d, e, f, g, h);
+            باری_00_15(0, a, b, c, d, e, f, g, h);
             T1 = X[1] = W[1];
-            ROUND_00_15(1, h, a, b, c, d, e, f, g);
+            باری_00_15(1, h, a, b, c, d, e, f, g);
             T1 = X[2] = W[2];
-            ROUND_00_15(2, g, h, a, b, c, d, e, f);
+            باری_00_15(2, g, h, a, b, c, d, e, f);
             T1 = X[3] = W[3];
-            ROUND_00_15(3, f, g, h, a, b, c, d, e);
+            باری_00_15(3, f, g, h, a, b, c, d, e);
             T1 = X[4] = W[4];
-            ROUND_00_15(4, e, f, g, h, a, b, c, d);
+            باری_00_15(4, e, f, g, h, a, b, c, d);
             T1 = X[5] = W[5];
-            ROUND_00_15(5, d, e, f, g, h, a, b, c);
+            باری_00_15(5, d, e, f, g, h, a, b, c);
             T1 = X[6] = W[6];
-            ROUND_00_15(6, c, d, e, f, g, h, a, b);
+            باری_00_15(6, c, d, e, f, g, h, a, b);
             T1 = X[7] = W[7];
-            ROUND_00_15(7, b, c, d, e, f, g, h, a);
+            باری_00_15(7, b, c, d, e, f, g, h, a);
             T1 = X[8] = W[8];
-            ROUND_00_15(8, a, b, c, d, e, f, g, h);
+            باری_00_15(8, a, b, c, d, e, f, g, h);
             T1 = X[9] = W[9];
-            ROUND_00_15(9, h, a, b, c, d, e, f, g);
+            باری_00_15(9, h, a, b, c, d, e, f, g);
             T1 = X[10] = W[10];
-            ROUND_00_15(10, g, h, a, b, c, d, e, f);
+            باری_00_15(10, g, h, a, b, c, d, e, f);
             T1 = X[11] = W[11];
-            ROUND_00_15(11, f, g, h, a, b, c, d, e);
+            باری_00_15(11, f, g, h, a, b, c, d, e);
             T1 = X[12] = W[12];
-            ROUND_00_15(12, e, f, g, h, a, b, c, d);
+            باری_00_15(12, e, f, g, h, a, b, c, d);
             T1 = X[13] = W[13];
-            ROUND_00_15(13, d, e, f, g, h, a, b, c);
+            باری_00_15(13, d, e, f, g, h, a, b, c);
             T1 = X[14] = W[14];
-            ROUND_00_15(14, c, d, e, f, g, h, a, b);
+            باری_00_15(14, c, d, e, f, g, h, a, b);
             T1 = X[15] = W[15];
-            ROUND_00_15(15, b, c, d, e, f, g, h, a);
+            باری_00_15(15, b, c, d, e, f, g, h, a);
 
-            data += SHA256_CBLOCK;
-        } else {
+            ڈیٹا += SHA256_CBLOCK;
+        } ورنہ {
             SHA_LONG l;
 
-            (void)HOST_c2l(data, l);
+            (خالی)HOST_c2l(ڈیٹا, l);
             T1 = X[0] = l;
-            ROUND_00_15(0, a, b, c, d, e, f, g, h);
-            (void)HOST_c2l(data, l);
+            باری_00_15(0, a, b, c, d, e, f, g, h);
+            (خالی)HOST_c2l(ڈیٹا, l);
             T1 = X[1] = l;
-            ROUND_00_15(1, h, a, b, c, d, e, f, g);
-            (void)HOST_c2l(data, l);
+            باری_00_15(1, h, a, b, c, d, e, f, g);
+            (خالی)HOST_c2l(ڈیٹا, l);
             T1 = X[2] = l;
-            ROUND_00_15(2, g, h, a, b, c, d, e, f);
-            (void)HOST_c2l(data, l);
+            باری_00_15(2, g, h, a, b, c, d, e, f);
+            (خالی)HOST_c2l(ڈیٹا, l);
             T1 = X[3] = l;
-            ROUND_00_15(3, f, g, h, a, b, c, d, e);
-            (void)HOST_c2l(data, l);
+            باری_00_15(3, f, g, h, a, b, c, d, e);
+            (خالی)HOST_c2l(ڈیٹا, l);
             T1 = X[4] = l;
-            ROUND_00_15(4, e, f, g, h, a, b, c, d);
-            (void)HOST_c2l(data, l);
+            باری_00_15(4, e, f, g, h, a, b, c, d);
+            (خالی)HOST_c2l(ڈیٹا, l);
             T1 = X[5] = l;
-            ROUND_00_15(5, d, e, f, g, h, a, b, c);
-            (void)HOST_c2l(data, l);
+            باری_00_15(5, d, e, f, g, h, a, b, c);
+            (خالی)HOST_c2l(ڈیٹا, l);
             T1 = X[6] = l;
-            ROUND_00_15(6, c, d, e, f, g, h, a, b);
-            (void)HOST_c2l(data, l);
+            باری_00_15(6, c, d, e, f, g, h, a, b);
+            (خالی)HOST_c2l(ڈیٹا, l);
             T1 = X[7] = l;
-            ROUND_00_15(7, b, c, d, e, f, g, h, a);
-            (void)HOST_c2l(data, l);
+            باری_00_15(7, b, c, d, e, f, g, h, a);
+            (خالی)HOST_c2l(ڈیٹا, l);
             T1 = X[8] = l;
-            ROUND_00_15(8, a, b, c, d, e, f, g, h);
-            (void)HOST_c2l(data, l);
+            باری_00_15(8, a, b, c, d, e, f, g, h);
+            (خالی)HOST_c2l(ڈیٹا, l);
             T1 = X[9] = l;
-            ROUND_00_15(9, h, a, b, c, d, e, f, g);
-            (void)HOST_c2l(data, l);
+            باری_00_15(9, h, a, b, c, d, e, f, g);
+            (خالی)HOST_c2l(ڈیٹا, l);
             T1 = X[10] = l;
-            ROUND_00_15(10, g, h, a, b, c, d, e, f);
-            (void)HOST_c2l(data, l);
+            باری_00_15(10, g, h, a, b, c, d, e, f);
+            (خالی)HOST_c2l(ڈیٹا, l);
             T1 = X[11] = l;
-            ROUND_00_15(11, f, g, h, a, b, c, d, e);
-            (void)HOST_c2l(data, l);
+            باری_00_15(11, f, g, h, a, b, c, d, e);
+            (خالی)HOST_c2l(ڈیٹا, l);
             T1 = X[12] = l;
-            ROUND_00_15(12, e, f, g, h, a, b, c, d);
-            (void)HOST_c2l(data, l);
+            باری_00_15(12, e, f, g, h, a, b, c, d);
+            (خالی)HOST_c2l(ڈیٹا, l);
             T1 = X[13] = l;
-            ROUND_00_15(13, d, e, f, g, h, a, b, c);
-            (void)HOST_c2l(data, l);
+            باری_00_15(13, d, e, f, g, h, a, b, c);
+            (خالی)HOST_c2l(ڈیٹا, l);
             T1 = X[14] = l;
-            ROUND_00_15(14, c, d, e, f, g, h, a, b);
-            (void)HOST_c2l(data, l);
+            باری_00_15(14, c, d, e, f, g, h, a, b);
+            (خالی)HOST_c2l(ڈیٹا, l);
             T1 = X[15] = l;
-            ROUND_00_15(15, b, c, d, e, f, g, h, a);
+            باری_00_15(15, b, c, d, e, f, g, h, a);
         }
 
-        for (i = 16; i < 64; i += 8) {
-            ROUND_16_63(i + 0, a, b, c, d, e, f, g, h, X);
-            ROUND_16_63(i + 1, h, a, b, c, d, e, f, g, X);
-            ROUND_16_63(i + 2, g, h, a, b, c, d, e, f, X);
-            ROUND_16_63(i + 3, f, g, h, a, b, c, d, e, X);
-            ROUND_16_63(i + 4, e, f, g, h, a, b, c, d, X);
-            ROUND_16_63(i + 5, d, e, f, g, h, a, b, c, X);
-            ROUND_16_63(i + 6, c, d, e, f, g, h, a, b, X);
-            ROUND_16_63(i + 7, b, c, d, e, f, g, h, a, X);
+        برائے (i = 16; i < 64; i += 8) {
+            باری_16_63(i + 0, a, b, c, d, e, f, g, h, X);
+            باری_16_63(i + 1, h, a, b, c, d, e, f, g, X);
+            باری_16_63(i + 2, g, h, a, b, c, d, e, f, X);
+            باری_16_63(i + 3, f, g, h, a, b, c, d, e, X);
+            باری_16_63(i + 4, e, f, g, h, a, b, c, d, X);
+            باری_16_63(i + 5, d, e, f, g, h, a, b, c, X);
+            باری_16_63(i + 6, c, d, e, f, g, h, a, b, X);
+            باری_16_63(i + 7, b, c, d, e, f, g, h, a, X);
         }
 
         ctx->h[0] += a;
@@ -443,5 +443,5 @@ static void sha256_block_data_order(SHA256_CTX *ctx, const void *in,
     }
 }
 
-#endif
-#endif /* SHA256_ASM */
+#اگر_ختم
+#اگر_ختم /* SHA256_ASM */

@@ -11,71 +11,71 @@
  * SHA-1 low level APIs are deprecated for public use, but still ok for
  * internal use.
  */
-#include "internal/deprecated.h"
+#شامل "internal/deprecated.h"
 
-#include <stdio.h>
-#include <string.h>
-#include <openssl/crypto.h>
-#include <openssl/sha.h>
-#include <openssl/evp.h>
-#include "crypto/sha.h"
+#شامل <stdio.h>
+#شامل <string.h>
+#شامل <openssl/crypto.h>
+#شامل <openssl/sha.h>
+#شامل <openssl/evp.h>
+#شامل "crypto/sha.h"
 
-unsigned char *ossl_sha1(const unsigned char *d, size_t n, unsigned char *md)
+غیرعلامتی حرف *ossl_sha1(ثابت غیرعلامتی حرف *d, size_t n, غیرعلامتی حرف *md)
 {
     SHA_CTX c;
-    static unsigned char m[SHA_DIGEST_LENGTH];
+    ساکن غیرعلامتی حرف m[SHA_DIGEST_لمبائی];
 
-    if (md == NULL)
+    اگر (md == تہی)
         md = m;
-    if (!SHA1_Init(&c))
-        return NULL;
+    اگر (!SHA1_Init(&c))
+        واپس تہی;
     SHA1_Update(&c, d, n);
     SHA1_Final(md, &c);
-    OPENSSL_cleanse(&c, sizeof(c));
-    return md;
+    OPENSSL_cleanse(&c, حجم(c));
+    واپس md;
 }
 
-unsigned char *SHA1(const unsigned char *d, size_t n, unsigned char *md)
+غیرعلامتی حرف *SHA1(ثابت غیرعلامتی حرف *d, size_t n, غیرعلامتی حرف *md)
 {
-    static unsigned char m[SHA_DIGEST_LENGTH];
+    ساکن غیرعلامتی حرف m[SHA_DIGEST_لمبائی];
 
-    if (md == NULL)
+    اگر (md == تہی)
         md = m;
-    return EVP_Q_digest(NULL, "SHA1", NULL, d, n, md, NULL) ? md : NULL;
+    واپس EVP_Q_digest(تہی, "SHA1", تہی, d, n, md, تہی) ? md : تہی;
 }
 
-unsigned char *SHA224(const unsigned char *d, size_t n, unsigned char *md)
+غیرعلامتی حرف *SHA224(ثابت غیرعلامتی حرف *d, size_t n, غیرعلامتی حرف *md)
 {
-    static unsigned char m[SHA224_DIGEST_LENGTH];
+    ساکن غیرعلامتی حرف m[SHA224_DIGEST_لمبائی];
 
-    if (md == NULL)
+    اگر (md == تہی)
         md = m;
-    return EVP_Q_digest(NULL, "SHA224", NULL, d, n, md, NULL) ? md : NULL;
+    واپس EVP_Q_digest(تہی, "SHA224", تہی, d, n, md, تہی) ? md : تہی;
 }
 
-unsigned char *SHA256(const unsigned char *d, size_t n, unsigned char *md)
+غیرعلامتی حرف *SHA256(ثابت غیرعلامتی حرف *d, size_t n, غیرعلامتی حرف *md)
 {
-    static unsigned char m[SHA256_DIGEST_LENGTH];
+    ساکن غیرعلامتی حرف m[SHA256_DIGEST_لمبائی];
 
-    if (md == NULL)
+    اگر (md == تہی)
         md = m;
-    return EVP_Q_digest(NULL, "SHA256", NULL, d, n, md, NULL) ? md : NULL;
+    واپس EVP_Q_digest(تہی, "SHA256", تہی, d, n, md, تہی) ? md : تہی;
 }
 
-unsigned char *SHA384(const unsigned char *d, size_t n, unsigned char *md)
+غیرعلامتی حرف *SHA384(ثابت غیرعلامتی حرف *d, size_t n, غیرعلامتی حرف *md)
 {
-    static unsigned char m[SHA384_DIGEST_LENGTH];
+    ساکن غیرعلامتی حرف m[SHA384_DIGEST_لمبائی];
 
-    if (md == NULL)
+    اگر (md == تہی)
         md = m;
-    return EVP_Q_digest(NULL, "SHA384", NULL, d, n, md, NULL) ? md : NULL;
+    واپس EVP_Q_digest(تہی, "SHA384", تہی, d, n, md, تہی) ? md : تہی;
 }
 
-unsigned char *SHA512(const unsigned char *d, size_t n, unsigned char *md)
+غیرعلامتی حرف *SHA512(ثابت غیرعلامتی حرف *d, size_t n, غیرعلامتی حرف *md)
 {
-    static unsigned char m[SHA512_DIGEST_LENGTH];
+    ساکن غیرعلامتی حرف m[SHA512_DIGEST_لمبائی];
 
-    if (md == NULL)
+    اگر (md == تہی)
         md = m;
-    return EVP_Q_digest(NULL, "SHA512", NULL, d, n, md, NULL) ? md : NULL;
+    واپس EVP_Q_digest(تہی, "SHA512", تہی, d, n, md, تہی) ? md : تہی;
 }
