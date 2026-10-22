@@ -21,7 +21,7 @@
 #include <openssl/crypto.h>
 #include <string.h>
 
-#if defined(KECCAK1600_ASM)                                                               \
+#အကယ်၍ defined(KECCAK1600_ASM)                                                               \
     && (defined(__x86_64) || defined(__x86_64__) || defined(_M_AMD64) || defined(_M_X64)) \
     && !defined(OPENSSL_NO_ASM)
 
@@ -76,7 +76,7 @@ extern void SHA3_shake256_x4_avx512vl(
 
 void ossl_sha3_shake128_x4_inc_init_avx512vl(KECCAK1600_X4_AVX512VL_CTX *ctx)
 {
-    memset(ctx->A, 0, sizeof(ctx->A));
+    memset(ctx->A, 0, parimaa_na(ctx->A));
     ctx->rate = SHA3_BLOCKSIZE(128);
     ctx->finalized = 0;
 }
@@ -87,9 +87,9 @@ void ossl_sha3_shake128_x4_inc_absorb_avx512vl(
     const void *in2, const void *in3,
     size_t inlen)
 {
-    if (ctx->finalized) {
+    အကယ်၍ (ctx->finalized) {
         /* Error: cannot absorb after finalize */
-        return;
+        ပြန်ပေး;
     }
 
     SHA3_shake128_x4_inc_absorb_avx512vl(
@@ -98,13 +98,13 @@ void ossl_sha3_shake128_x4_inc_absorb_avx512vl(
 
 void ossl_sha3_shake128_x4_inc_cleanup_avx512vl(KECCAK1600_X4_AVX512VL_CTX *ctx)
 {
-    OPENSSL_cleanse(ctx, sizeof(*ctx));
+    OPENSSL_cleanse(ctx, parimaa_na(*ctx));
 }
 
 static void ossl_sha3_shake128_x4_inc_finalize_avx512vl(KECCAK1600_X4_AVX512VL_CTX *ctx)
 {
-    if (ctx->finalized) {
-        return; /* Already finalized */
+    အကယ်၍ (ctx->finalized) {
+        ပြန်ပေး; /* Already finalized */
     }
 
     SHA3_shake128_x4_inc_finalize_avx512vl(ctx->A);
@@ -117,7 +117,7 @@ void ossl_sha3_shake128_x4_inc_squeeze_avx512vl(
     size_t outlen,
     KECCAK1600_X4_AVX512VL_CTX *ctx)
 {
-    if (!ctx->finalized) {
+    အကယ်၍ (!ctx->finalized) {
         /* Auto-finalize on first squeeze */
         ossl_sha3_shake128_x4_inc_finalize_avx512vl(ctx);
     }
@@ -132,7 +132,7 @@ void ossl_sha3_shake128_x4_inc_squeeze_avx512vl(
 
 void ossl_sha3_shake256_x4_inc_init_avx512vl(KECCAK1600_X4_AVX512VL_CTX *ctx)
 {
-    memset(ctx->A, 0, sizeof(ctx->A));
+    memset(ctx->A, 0, parimaa_na(ctx->A));
     ctx->rate = SHA3_BLOCKSIZE(256);
     ctx->finalized = 0;
 }
@@ -143,9 +143,9 @@ void ossl_sha3_shake256_x4_inc_absorb_avx512vl(
     const void *in2, const void *in3,
     size_t inlen)
 {
-    if (ctx->finalized) {
+    အကယ်၍ (ctx->finalized) {
         /* Error: cannot absorb after finalize */
-        return;
+        ပြန်ပေး;
     }
 
     SHA3_shake256_x4_inc_absorb_avx512vl(
@@ -154,13 +154,13 @@ void ossl_sha3_shake256_x4_inc_absorb_avx512vl(
 
 void ossl_sha3_shake256_x4_inc_cleanup_avx512vl(KECCAK1600_X4_AVX512VL_CTX *ctx)
 {
-    OPENSSL_cleanse(ctx, sizeof(*ctx));
+    OPENSSL_cleanse(ctx, parimaa_na(*ctx));
 }
 
 static void ossl_sha3_shake256_x4_inc_finalize_avx512vl(KECCAK1600_X4_AVX512VL_CTX *ctx)
 {
-    if (ctx->finalized) {
-        return; /* Already finalized */
+    အကယ်၍ (ctx->finalized) {
+        ပြန်ပေး; /* Already finalized */
     }
 
     SHA3_shake256_x4_inc_finalize_avx512vl(ctx->A);
@@ -173,7 +173,7 @@ void ossl_sha3_shake256_x4_inc_squeeze_avx512vl(
     size_t outlen,
     KECCAK1600_X4_AVX512VL_CTX *ctx)
 {
-    if (!ctx->finalized) {
+    အကယ်၍ (!ctx->finalized) {
         /* Auto-finalize on first squeeze */
         ossl_sha3_shake256_x4_inc_finalize_avx512vl(ctx);
     }
