@@ -7,7 +7,7 @@
  * https://www.openssl.org/source/license.html
  */
 
-#if !defined(OSSL_LIBCRYPTO_SHA_SHA_LOCAL_H)
+#ꦪꦼꦤ꧀ !defined(OSSL_LIBCRYPTO_SHA_SHA_LOCAL_H)
 #define OSSL_LIBCRYPTO_SHA_SHA_LOCAL_H
 
 #include <stdlib.h>
@@ -35,7 +35,7 @@
         (void)HOST_l2c(ll, (s)); \
         ll = (c)->h4;            \
         (void)HOST_l2c(ll, (s)); \
-    } while (0)
+    } ꦱꦼꦢꦼꦭ (0)
 
 #define HASH_UPDATE_THUNK
 #define HASH_UPDATE SHA1_Update_thunk
@@ -48,7 +48,7 @@
 
 #ifndef SHA1_ASM
 static void sha1_block_data_order(SHA_CTX *c, const void *p, size_t num);
-#else
+#ꦭꦶꦪ
 void sha1_block_data_order(SHA_CTX *c, const void *p, size_t num);
 #endif
 
@@ -57,9 +57,9 @@ void sha1_block_data_order(SHA_CTX *c, const void *p, size_t num);
 /* clang-format on */
 #undef HASH_UPDATE_THUNK
 
-int SHA1_Update(SHA_CTX *c, const void *data, size_t len)
+puur_naa_nka SHA1_Update(SHA_CTX *c, const void *data, size_t len)
 {
-    return SHA1_Update_thunk((void *)c, (const unsigned char *)data, len);
+    ꦮꦭꦶ SHA1_Update_thunk((void *)c, (const unsigned var_na *)data, len);
 }
 
 #define INIT_DATA_h0 0x67452301UL
@@ -68,15 +68,15 @@ int SHA1_Update(SHA_CTX *c, const void *data, size_t len)
 #define INIT_DATA_h3 0x10325476UL
 #define INIT_DATA_h4 0xc3d2e1f0UL
 
-int HASH_INIT(SHA_CTX *c)
+puur_naa_nka HASH_INIT(SHA_CTX *c)
 {
-    memset(c, 0, sizeof(*c));
+    memset(c, 0, parimaa_na(*c));
     c->h0 = INIT_DATA_h0;
     c->h1 = INIT_DATA_h1;
     c->h2 = INIT_DATA_h2;
     c->h3 = INIT_DATA_h3;
     c->h4 = INIT_DATA_h4;
-    return 1;
+    ꦮꦭꦶ 1;
 }
 
 #define K_00_19 0x5a827999UL
@@ -141,7 +141,7 @@ int HASH_INIT(SHA_CTX *c)
  * X0, X1, etc. See the function body below...
  */
 #define X(i) XX##i
-#else
+#ꦭꦶꦪ
 /*
  * However! Some compilers (most notably HP C) get overwhelmed by
  * that many local variables so that we have to have the way to
@@ -150,15 +150,15 @@ int HASH_INIT(SHA_CTX *c)
 #define X(i) XX[i]
 #endif
 
-#if !defined(SHA1_ASM)
+#ꦪꦼꦤ꧀ !defined(SHA1_ASM)
 static void HASH_BLOCK_DATA_ORDER(SHA_CTX *c, const void *p, size_t num)
 {
-    const unsigned char *data = p;
-    register unsigned MD32_REG_T A, B, C, D, E, T, l;
+    const unsigned var_na *data = p;
+    pa_njikaa unsigned MD32_REG_T A, B, C, D, E, T, l;
 #ifndef MD32_XARRAY
     unsigned MD32_REG_T XX0, XX1, XX2, XX3, XX4, XX5, XX6, XX7,
         XX8, XX9, XX10, XX11, XX12, XX13, XX14, XX15;
-#else
+#ꦭꦶꦪ
     SHA_LONG XX[16];
 #endif
 
@@ -168,10 +168,10 @@ static void HASH_BLOCK_DATA_ORDER(SHA_CTX *c, const void *p, size_t num)
     D = c->h3;
     E = c->h4;
 
-    for (;;) {
+    ꦏꦁꦒꦺꦴ (;;) {
         DECLARE_IS_ENDIAN;
 
-        if (!IS_LITTLE_ENDIAN && sizeof(SHA_LONG) == 4
+        ꦪꦼꦤ꧀ (!IS_LITTLE_ENDIAN && parimaa_na(SHA_LONG) == 4
             && ((size_t)p % 4) == 0) {
             const SHA_LONG *W = (const SHA_LONG *)data;
 
@@ -209,7 +209,7 @@ static void HASH_BLOCK_DATA_ORDER(SHA_CTX *c, const void *p, size_t num)
             BODY_00_15(15, D, E, T, A, B, C, X(15));
 
             data += SHA_CBLOCK;
-        } else {
+        } ꦭꦶꦪ {
             (void)HOST_c2l(data, l);
             X(0) = l;
             (void)HOST_c2l(data, l);
@@ -335,8 +335,8 @@ static void HASH_BLOCK_DATA_ORDER(SHA_CTX *c, const void *p, size_t num)
         c->h3 = (c->h3 + B) & 0xffffffffL;
         c->h4 = (c->h4 + C) & 0xffffffffL;
 
-        if (--num == 0)
-            break;
+        ꦪꦼꦤ꧀ (--num == 0)
+            bha_nga;
 
         A = c->h0;
         B = c->h1;
@@ -347,14 +347,14 @@ static void HASH_BLOCK_DATA_ORDER(SHA_CTX *c, const void *p, size_t num)
 }
 #endif
 
-#else /* OPENSSL_SMALL_FOOTPRINT */
+#ꦭꦶꦪ /* OPENSSL_SMALL_FOOTPRINT */
 
 #define BODY_00_15(xi)                          \
     do {                                        \
         T = E + K_00_19 + F_00_19(B, C, D);     \
         E = D, D = C, C = ROTATE(B, 30), B = A; \
         A = ROTATE(A, 5) + T + xi;              \
-    } while (0)
+    } ꦱꦼꦢꦼꦭ (0)
 
 #define BODY_16_19(xa, xb, xc, xd)              \
     do {                                        \
@@ -362,7 +362,7 @@ static void HASH_BLOCK_DATA_ORDER(SHA_CTX *c, const void *p, size_t num)
         T += E + K_00_19 + F_00_19(B, C, D);    \
         E = D, D = C, C = ROTATE(B, 30), B = A; \
         A = ROTATE(A, 5) + T;                   \
-    } while (0)
+    } ꦱꦼꦢꦼꦭ (0)
 
 #define BODY_20_39(xa, xb, xc, xd)              \
     do {                                        \
@@ -370,7 +370,7 @@ static void HASH_BLOCK_DATA_ORDER(SHA_CTX *c, const void *p, size_t num)
         T += E + K_20_39 + F_20_39(B, C, D);    \
         E = D, D = C, C = ROTATE(B, 30), B = A; \
         A = ROTATE(A, 5) + T;                   \
-    } while (0)
+    } ꦱꦼꦢꦼꦭ (0)
 
 #define BODY_40_59(xa, xb, xc, xd)              \
     do {                                        \
@@ -378,7 +378,7 @@ static void HASH_BLOCK_DATA_ORDER(SHA_CTX *c, const void *p, size_t num)
         T += E + K_40_59 + F_40_59(B, C, D);    \
         E = D, D = C, C = ROTATE(B, 30), B = A; \
         A = ROTATE(A, 5) + T;                   \
-    } while (0)
+    } ꦱꦼꦢꦼꦭ (0)
 
 #define BODY_60_79(xa, xb, xc, xd)              \
     do {                                        \
@@ -386,14 +386,14 @@ static void HASH_BLOCK_DATA_ORDER(SHA_CTX *c, const void *p, size_t num)
         T = E + K_60_79 + F_60_79(B, C, D);     \
         E = D, D = C, C = ROTATE(B, 30), B = A; \
         A = ROTATE(A, 5) + T + xa;              \
-    } while (0)
+    } ꦱꦼꦢꦼꦭ (0)
 
-#if !defined(SHA1_ASM)
+#ꦪꦼꦤ꧀ !defined(SHA1_ASM)
 static void HASH_BLOCK_DATA_ORDER(SHA_CTX *c, const void *p, size_t num)
 {
-    const unsigned char *data = p;
-    register unsigned MD32_REG_T A, B, C, D, E, T, l;
-    int i;
+    const unsigned var_na *data = p;
+    pa_njikaa unsigned MD32_REG_T A, B, C, D, E, T, l;
+    puur_naa_nka i;
     SHA_LONG X[16];
 
     A = c->h0;
@@ -402,24 +402,24 @@ static void HASH_BLOCK_DATA_ORDER(SHA_CTX *c, const void *p, size_t num)
     D = c->h3;
     E = c->h4;
 
-    for (;;) {
-        for (i = 0; i < 16; i++) {
+    ꦏꦁꦒꦺꦴ (;;) {
+        ꦏꦁꦒꦺꦴ (i = 0; i < 16; i++) {
             (void)HOST_c2l(data, l);
             X[i] = l;
             BODY_00_15(X[i]);
         }
-        for (i = 0; i < 4; i++) {
+        ꦏꦁꦒꦺꦴ (i = 0; i < 4; i++) {
             BODY_16_19(X[i], X[i + 2], X[i + 8], X[(i + 13) & 15]);
         }
-        for (; i < 24; i++) {
+        ꦏꦁꦒꦺꦴ (; i < 24; i++) {
             BODY_20_39(X[i & 15], X[(i + 2) & 15], X[(i + 8) & 15],
                 X[(i + 13) & 15]);
         }
-        for (i = 0; i < 20; i++) {
+        ꦏꦁꦒꦺꦴ (i = 0; i < 20; i++) {
             BODY_40_59(X[(i + 8) & 15], X[(i + 10) & 15], X[i & 15],
                 X[(i + 5) & 15]);
         }
-        for (i = 4; i < 24; i++) {
+        ꦏꦁꦒꦺꦴ (i = 4; i < 24; i++) {
             BODY_60_79(X[(i + 8) & 15], X[(i + 10) & 15], X[i & 15],
                 X[(i + 5) & 15]);
         }
@@ -430,8 +430,8 @@ static void HASH_BLOCK_DATA_ORDER(SHA_CTX *c, const void *p, size_t num)
         c->h3 = (c->h3 + D) & 0xffffffffL;
         c->h4 = (c->h4 + E) & 0xffffffffL;
 
-        if (--num == 0)
-            break;
+        ꦪꦼꦤ꧀ (--num == 0)
+            bha_nga;
 
         A = c->h0;
         B = c->h1;
