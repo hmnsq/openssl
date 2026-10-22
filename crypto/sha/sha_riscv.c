@@ -7,42 +7,42 @@
  * https://www.openssl.org/source/license.html
  */
 
-#include <stdlib.h>
-#include <string.h>
+#अन्तर्भाव <stdlib.h>
+#अन्तर्भाव <string.h>
 
-#include <openssl/opensslconf.h>
-#include <openssl/sha.h>
-#include "arch/riscv_arch.h"
+#अन्तर्भाव <openssl/opensslconf.h>
+#अन्तर्भाव <openssl/sha.h>
+#अन्तर्भाव "arch/riscv_arch.h"
 
-void sha256_block_data_order_zvkb_zvknha_or_zvknhb(void *ctx, const void *in,
-    size_t num);
-void sha256_block_data_order_zbb(void *ctx, const void *in, size_t num);
-void sha256_block_data_order_riscv64(void *ctx, const void *in, size_t num);
-void sha256_block_data_order(void *ctx, const void *in, size_t num);
+शून्य sha256_block_data_order_zvkb_zvknha_or_zvknhb(शून्य *ctx, ध्रुव शून्य *in,
+    माप_प्रकार अंक);
+शून्य sha256_block_data_order_zbb(शून्य *ctx, ध्रुव शून्य *in, माप_प्रकार अंक);
+शून्य sha256_block_data_order_riscv64(शून्य *ctx, ध्रुव शून्य *in, माप_प्रकार अंक);
+शून्य sha256_block_data_order(शून्य *ctx, ध्रुव शून्य *in, माप_प्रकार अंक);
 
-void sha256_block_data_order(void *ctx, const void *in, size_t num)
+शून्य sha256_block_data_order(शून्य *ctx, ध्रुव शून्य *in, माप_प्रकार अंक)
 {
-    if (RISCV_HAS_ZVKB() && (RISCV_HAS_ZVKNHA() || RISCV_HAS_ZVKNHB()) && riscv_vlen() >= 128) {
-        sha256_block_data_order_zvkb_zvknha_or_zvknhb(ctx, in, num);
-    } else if (RISCV_HAS_ZBB()) {
-        sha256_block_data_order_zbb(ctx, in, num);
-    } else {
-        sha256_block_data_order_riscv64(ctx, in, num);
+    यदि (RISCV_HAS_ZVKB() && (RISCV_HAS_ZVKNHA() || RISCV_HAS_ZVKNHB()) && riscv_vlen() >= 128) {
+        sha256_block_data_order_zvkb_zvknha_or_zvknhb(ctx, in, अंक);
+    } अन्यथा यदि (RISCV_HAS_ZBB()) {
+        sha256_block_data_order_zbb(ctx, in, अंक);
+    } अन्यथा {
+        sha256_block_data_order_riscv64(ctx, in, अंक);
     }
 }
 
-void sha512_block_data_order_zvkb_zvknhb(void *ctx, const void *in, size_t num);
-void sha512_block_data_order_zbb(void *ctx, const void *in, size_t num);
-void sha512_block_data_order_c(void *ctx, const void *in, size_t num);
-void sha512_block_data_order(void *ctx, const void *in, size_t num);
+शून्य sha512_block_data_order_zvkb_zvknhb(शून्य *ctx, ध्रुव शून्य *in, माप_प्रकार अंक);
+शून्य sha512_block_data_order_zbb(शून्य *ctx, ध्रुव शून्य *in, माप_प्रकार अंक);
+शून्य sha512_block_data_order_c(शून्य *ctx, ध्रुव शून्य *in, माप_प्रकार अंक);
+शून्य sha512_block_data_order(शून्य *ctx, ध्रुव शून्य *in, माप_प्रकार अंक);
 
-void sha512_block_data_order(void *ctx, const void *in, size_t num)
+शून्य sha512_block_data_order(शून्य *ctx, ध्रुव शून्य *in, माप_प्रकार अंक)
 {
-    if (RISCV_HAS_ZVKB_AND_ZVKNHB() && riscv_vlen() >= 128) {
-        sha512_block_data_order_zvkb_zvknhb(ctx, in, num);
-    } else if (RISCV_HAS_ZBB()) {
-        sha512_block_data_order_zbb(ctx, in, num);
-    } else {
-        sha512_block_data_order_c(ctx, in, num);
+    यदि (RISCV_HAS_ZVKB_AND_ZVKNHB() && riscv_vlen() >= 128) {
+        sha512_block_data_order_zvkb_zvknhb(ctx, in, अंक);
+    } अन्यथा यदि (RISCV_HAS_ZBB()) {
+        sha512_block_data_order_zbb(ctx, in, अंक);
+    } अन्यथा {
+        sha512_block_data_order_c(ctx, in, अंक);
     }
 }
